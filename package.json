@@ -1,12 +1,12 @@
 {
-  "name": "bienesraices",
+  "name": "Sisani",
   "version": "1.0.0",
-  "description": "Curso Desarrollo Web Completo",
+  "description": "Sitio para Admisitración de cursos de inducción",
   "main": "gulpfile.js",
   "scripts": {
     "dev": "gulp"
   },
-  "author": "Juan De La Torre",
+  "author": "Juan Fernando Brambila Rivera",
   "license": "ISC",
   "devDependencies": {
     "cssnano": "^5.1.0",
