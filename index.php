@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/build/css/app.css">
-    <title>Sisani</title>
+    <title>Siseni</title>
 </head>
 <body class="inicio">
     <main>
@@ -20,7 +20,7 @@
                     <label for="pass">Contraseña</label>
                     <input type="text" name="pass" id="pass" placeholder="Contraseña">
                 </div>
-                <a href="/">Olvido Contraseña</a>
+                <a href="/">Olvidaste Contraseña?</a>
                 <div class="iniciar">
                     <button>
                         <ion-icon name="enter-outline" class="size3"></ion-icon>

@@ -1,0 +1,19 @@
+footer{
+    margin-top: 2rem;
+    background-color: $azulMarino;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-around;
+    p{
+        margin-right: 2rem;
+    }
+    .direccion{
+        margin-left: -10rem;
+        span{
+            font-weight: $bold;
+        }
+        p{
+            margin: 0;
+        }
+    }
+}
