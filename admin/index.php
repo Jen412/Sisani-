@@ -7,7 +7,7 @@
     <section class="w80">
         <h1>Bienvenido a Admin</h1>
         <div class="botones">
-            <a href="">
+            <a href="/admin/Importar Datos/ImportarDatos.php">
                 <ion-icon name="cloud-upload-outline"></ion-icon>
                 Importar Datos
             </a>

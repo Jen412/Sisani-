@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es-Es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,14 +21,14 @@
 <div class="header">
     <ul class="nav">
         <li><a href="/admin/index.php">Inicio</a></li>
-        <li><a href="">Importar Datos</a>
+        <li><a href="/admin//Importar Datos/ImportarDatos.php">Importar Datos</a>
             <ul>
-                <li><a href="">Importar Datos de Aspirantes</a></li>
-                <li><a href="">Imporatr Registros Sustentables</a></li>
-                <li><a href="">Importar Datos del Ceneval</a></li>
+                <li><a href="/admin/Importar Datos/Aspirantes.php">Importar Datos de Aspirantes</a></li>
+                <li><a href="/admin/Importar Datos/Registrados.php">Imporatr Registros Sustentables</a></li>
+                <li><a href="/admin/Importar Datos/Ceneval.php">Importar Datos del Ceneval</a></li>
             </ul>
         </li>
-        <li><a href="">Gestionar Grupos</a>
+        <li><a href="/admin/Gestionar Grupos/GestionarGrupos.php">Gestionar Grupos</a>
             <ul>
                 <li><a href="">Generar Grupos Automaticamente</a></li>
                 <li><a href="">Asignar Maestros para el curso de Introducción</a></li>
