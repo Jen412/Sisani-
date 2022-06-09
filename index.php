@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/build/css/app.css">
     <title>Siseni</title>
 </head>
-<body class="inicio">
+<body class="bg-Azul">
     <main>
         <section>
             <h1>Iniciar Sesión</h1>
