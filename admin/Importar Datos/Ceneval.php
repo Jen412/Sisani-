@@ -9,16 +9,16 @@
 	<br>
 	<p>Importar Archivo: </p>
 	<div class="funciones">
-		
-		<label for="importA">Selecciona el archivo</label>
+		<label for="importA">Seleccionar archivo</label>
 		<input class = "archivo" type="file" name = "importA" id="importA">
 		<h4 id="nombre"></h4>
-		<br>
-		<br>
-		<button id="btnImport">Importar datos</button>
+
+		<div>
+			<button id="btnImport">Importar datos</button>
+		</div>
 	</div>
-	
 </div>
+
 <?php //Metódo de footer
     inlcuirTemplate('footer');
 ?>
