@@ -59,10 +59,14 @@
                 <li><a href="">Modificar configuración </a></li>
             </ul>
         </li>
-        <li><a href="">Funciones Secundarias</a>
+        <li><a href="">Gestionar Materias</a>
             <ul>
                 <li><a href="">Registrar una nueva Materia</a></li>
                 <li><a href="">Modificar materia</a></li>
+            </ul>
+        </li>
+        <li><a href="">Funciones Secundarias</a>
+            <ul>
                 <li><a href="">Modificar promedio de examen Ceneval</a></li>
                 <li><a href="">Modificar promedio del aspirante</a></li>
                 <li><a href="">Modificar promedios a partir de un archivo </a></li>
