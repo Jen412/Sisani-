@@ -15,9 +15,9 @@
                 <ion-icon name="people-outline"></ion-icon>
                 Gestionar Grupos
             </a>
-            <a href="">
+            <a href="/admin/Generar Listas/GenerarListas.php">
                 <ion-icon name="document-text-outline"></ion-icon>
-                Gestionar Listas
+                Generar Listas
             </a>
             <a href="">
                 <ion-icon name="clipboard-outline"></ion-icon>

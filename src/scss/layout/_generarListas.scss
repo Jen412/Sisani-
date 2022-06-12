@@ -1,0 +1,97 @@
+.lista{
+    margin-top: 2rem;
+}
+.buttLista{
+    @include menu(4, 25rem);
+}
+
+.g_listas{
+    display: block;
+    text-align: center;
+    margin-top: 3rem;
+    
+}
+
+.tipoLista{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5rem;
+    #btnChose{
+        width: 10%;
+        background-color: $azulMarino;
+        color: $blanco;
+        border-radius: 0.8rem;
+    }
+
+    #btnAll{
+        width: 10%;
+        background-color: $verde;
+        color: $blanco;
+        border-radius: 0.8rem;
+    }
+    #btnMateria{
+        width: 15%;
+        background-color: $verde;
+        color: $blanco;
+        border-radius: 0.8rem;
+    }
+}
+
+#ocultar{
+    display: none;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+    gap: 5rem;
+    label{
+        width: 20%;
+    }
+    select{
+        margin-left: -10rem;
+        width: 20%;
+        border: .1rem solid $azulMarino;
+        border-radius: 0.8rem;
+        height: 3rem;
+    }
+    input{
+        width: 10%;
+        background-color: $azulVariante;
+        color: $blanco;
+        border-radius: 0.8rem;
+    }
+    #btnGenerar{
+        width: 10%;
+        background-color: $verdeVariante;
+        color: $blanco;
+        border-radius: 0.8rem;
+    }
+
+}
+
+
+#especifica{
+    display: none;
+    margin-top: 2rem;
+    justify-content: center;
+    align-items: center;
+    gap: 5rem;
+    .carrera, .materia, .grupo{
+        label{
+            width: 30rem;
+        }
+        select{
+            width: 30rem;
+            border: .1rem solid $azulMarino;
+            border-radius: 0.8rem;
+            height: 3rem;
+        }
+    }
+    input{
+        width: 10%;
+        margin-top: 3rem;
+        background-color: $azulVariante;
+        color: $blanco;
+        border-radius: 0.8rem;
+    }
+}
