@@ -36,7 +36,7 @@
                 <li><a href="/admin/Gestionar Grupos/VerGrupos.php">Ver grupos por carrera </a></li>
             </ul>
         </li>
-        <li><a href="">Generar Listas</a>
+        <li><a href="/admin/Generar Listas/GenerarListas.php">Generar Listas</a>
             <ul>
                 <li><a href="">Listas de examen Ceneval</a></li>
                 <li><a href="">Listas del curso de introducción </a></li>
@@ -59,10 +59,10 @@
                 <li><a href="">Modificar configuración </a></li>
             </ul>
         </li>
-        <li><a href="">Gestionar Materias</a>
+        <li><a href="/admin/Gestionar Materias/GestionarMat.php">Gestionar Materias</a>
             <ul>
-                <li><a href="">Registrar una nueva Materia</a></li>
-                <li><a href="">Modificar materia</a></li>
+                <li><a href="/admin/Gestionar Materias/RegistrarMat.php">Registrar una nueva Materia</a></li>
+                <li><a href="/admin/Gestionar Materias/ModificarMat.php">Modificar materia</a></li>
             </ul>
         </li>
         <li><a href="">Funciones Secundarias</a>
