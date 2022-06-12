@@ -30,10 +30,10 @@
         </li>
         <li><a href="/admin/Gestionar Grupos/GestionarGrupos.php">Gestionar Grupos</a>
             <ul>
-                <li><a href="">Generar Grupos Automaticamente</a></li>
-                <li><a href="">Asignar Maestros para el curso de Introducción</a></li>
-                <li><a href="">Modificar la asignación de maestros para el curso de introducción </a></li>
-                <li><a href="">Ver grupos por carrera </a></li>
+                <li><a href="/admin/Gestionar Grupos/GenerarGrupos.php">Generar Grupos Automaticamente</a></li>
+                <li><a href="/admin/Gestionar Grupos/AsignarMaestros.php">Asignar Maestros para el curso de Introducción</a></li>
+                <li><a href="/admin/Gestionar Grupos/ModificarMaestros.php">Modificar la asignación de maestros para el curso de introducción </a></li>
+                <li><a href="/admin/Gestionar Grupos/VerGrupos.php">Ver grupos por carrera </a></li>
             </ul>
         </li>
         <li><a href="">Generar Listas</a>
@@ -45,11 +45,11 @@
                 <li><a href="">Asignar Aulas</a></li>
             </ul>
         </li>
-        <li><a href="">Gestionar Calificaciones</a>
+        <li><a href="/admin/Gestionar Calificaciones/GestionarCal.php">Gestionar Calificaciones</a>
             <ul>
-                <li><a href="">Registrar calificaciones</a></li>
-                <li><a href="">Ver calificaciones </a></li>
-                <li><a href="">Modificar calificaciones </a></li>
+                <li><a href="/admin/Gestionar Calificaciones/RegistrarCal.php">Registrar calificaciones</a></li>
+                <li><a href="/admin/Gestionar Calificaciones/VerCalificaciones.php">Ver calificaciones </a></li>
+                <li><a href="/admin/Gestionar Calificaciones/ModificarCal.php">Modificar calificaciones </a></li>
             </ul>
         </li>
         <li><a href="">Gestionar Configuraciones</a>

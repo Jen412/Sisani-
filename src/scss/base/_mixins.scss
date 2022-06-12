@@ -21,3 +21,20 @@
     gap: $espaciado;
     grid-template-columns: repeat($columnas, 1fr);
 }
+
+@mixin menu($columnas, $width){
+    @include grid($columnas, 1fr);
+    a{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        width: $width;
+        margin: 2rem;
+        color: $azulMarino;
+        text-align: center;
+        ion-icon{
+            font-size: 12rem;
+        }
+    }
+}

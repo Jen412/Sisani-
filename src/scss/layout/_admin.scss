@@ -2,18 +2,5 @@
     margin-top: 2rem;
 }
 .botones{
-    @include grid(4, 1fr);
-    a{
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        align-items: center;
-        width: 20rem;
-        margin: 2rem;
-        color: $azulMarino;
-        ion-icon{
-            font-size: 10rem;
-        }
-    }
-    
+    @include menu(4, 20rem);
 }
