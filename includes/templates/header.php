@@ -64,14 +64,14 @@
                 <li><a href="/admin/Gestionar Materias/ModificarMat.php">Modificar materia</a></li>
             </ul>
         </li>
-        <li><a href="">Funciones Secundarias</a>
+        <li><a href="/admin/Funciones Secundarias/FuncionesSec.php">Funciones Secundarias</a>
             <ul>
-                <li><a href="">Modificar promedio de examen Ceneval</a></li>
-                <li><a href="">Modificar promedio del aspirante</a></li>
-                <li><a href="">Modificar promedios a partir de un archivo </a></li>
-                <li><a href="">Crear respaldo de la Base de Datos</a></li>
-                <li><a href="">Nuevo proceso</a></li>
-                <li><a href="">Registrar un nuevo usuario</a></li>
+                <li><a href="/admin/Funciones Secundarias/ModifcarPromCeneval.php">Modificar promedio de examen Ceneval</a></li>
+                <li><a href="/admin/Funciones Secundarias/ModificarPromAlum.php">Modificar promedio del aspirante</a></li>
+                <li><a href="/admin//Funciones Secundarias/ModificarPromArchivo.php">Modificar promedios a partir de un archivo </a></li>
+                <li><a href="/admin/Funciones Secundarias/RespaldoBDD.php">Crear respaldo de la Base de Datos</a></li>
+                <li><a href="/admin/Funciones Secundarias/NuevoProceso.php">Nuevo proceso</a></li>
+                <li><a href="/admin/Funciones Secundarias/RegistrarNewUser.php">Registrar un nuevo usuario</a></li>
             </ul>
         </li>
         <li><a href="">Opciones</a>
