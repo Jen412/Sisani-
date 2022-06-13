@@ -36,13 +36,12 @@
                 <li><a href="/admin/Gestionar Grupos/VerGrupos.php">Ver grupos por carrera </a></li>
             </ul>
         </li>
-        <li><a href="">Generar Listas</a>
+        <li><a href="/admin/Generar Listas/GenerarListas.php">Generar Listas</a>
             <ul>
-                <li><a href="">Listas de examen Ceneval</a></li>
-                <li><a href="">Listas del curso de introducción </a></li>
-                <li><a href="">Lista cuyo promedio de bachillerato es menor a 60 </a></li>
-                <li><a href="">Listas de aceptados </a></li>
-                <li><a href="">Asignar Aulas</a></li>
+                <li><a href="/admin/Generar Listas/ListaExamen.php">Listas de examen Ceneval</a></li>
+                <li><a href="/admin/Generar Listas/ListaCursoIntro.php">Listas del curso de introducción </a></li>
+                <li><a href="/admin/Generar Listas/ListaPromMen.php">Lista cuyo promedio de bachillerato es menor a 60 </a></li>
+                <li><a href="/admin/Generar Listas/ListaAceptados.php">Listas de aceptados </a></li>
             </ul>
         </li>
         <li><a href="/admin/Gestionar Calificaciones/GestionarCal.php">Gestionar Calificaciones</a>

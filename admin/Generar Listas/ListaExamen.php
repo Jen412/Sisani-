@@ -5,16 +5,16 @@
 <main class="g_listas">
     <h1>Listas Examen Ceneval</h1>
     <form action="">
-        <div class="tipoLista">
-            <input type="button" value="Generar todas las listas" id="btnAll">
-            <input type="button" onclick="mostrarContenido();" value="Especificar lista" id="btnChose" >
+        <div class="btnsLista">
+            <input type="button" value="Generar todas las listas" class="btnAllV">
+            <input type="button" onclick="mostrarContenido();" value="Especificar lista" class="btnChoseA" >
         </div>
-        <div id="ocultar">
-            <label>Seleccionar Materia</label>
+        <div id="todas">
+            <label>Seleccionar una Carrera</label>
             <select name="" id="">
-                <option value="" disabled selected>--Seleccione Materia--</option>
+                <option value="" disabled selected>--INGENIERÍA ELECTRÓNICA--</option>
             </select>
-            <input type="button" value="Especificar lista">
+            <input type="button" value="Generar Lista">
         </div>
     </form>
 </main>

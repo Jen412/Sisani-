@@ -1,90 +1,56 @@
-.lista{
-    margin-top: 2rem;
-}
-.buttLista{
-    @include menu(4, 25rem);
-}
-
-.g_listas{
-    display: block;
-    text-align: center;
-    margin-top: 3rem;
-    
-}
-
-.tipoLista{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5rem;
-    #btnChose{
-        width: 10%;
-        background-color: $azulMarino;
-        color: $blanco;
-        border-radius: 0.8rem;
-    }
-
-    #btnAll{
-        width: 10%;
-        background-color: $verde;
-        color: $blanco;
-        border-radius: 0.8rem;
-    }
-    #btnMateria{
-        width: 15%;
-        background-color: $verde;
-        color: $blanco;
-        border-radius: 0.8rem;
-    }
-}
-
-#ocultar{
+#todas{/*Es utilizado para las listas generadas por materia en las clases listaExamen y ListaCursoIntro */
     display: none;
     align-items: center;
     justify-content: center;
     margin-top: 2rem;
     gap: 5rem;
-    label{
+    label{/*Esta en ambas clases*/
         width: 20%;
+        text-align: center;
     }
-    select{
+    select{/*Esta en ambas clases*/
         margin-left: -10rem;
         width: 20%;
         border: .1rem solid $azulMarino;
         border-radius: 0.8rem;
         height: 3rem;
+        cursor: pointer;
+        text-align: center;
     }
-    input{
+    input{/*Pertenece al input del boton en la clase ListaExamen*/
         width: 10%;
         background-color: $azulVariante;
         color: $blanco;
         border-radius: 0.8rem;
+        cursor: pointer;
     }
-    #btnGenerar{
+    .btnGenerar{/*pertenece al input del boton en la clase ListaCursoIntro*/
         width: 10%;
         background-color: $verdeVariante;
         color: $blanco;
         border-radius: 0.8rem;
+        cursor: pointer;
     }
-
 }
 
-
-#especifica{
+#especifica{/*Pertenece a la clase ListaPromMen*/
     display: none;
     margin-top: 2rem;
     justify-content: center;
     align-items: center;
     gap: 5rem;
-    .carrera, .materia, .grupo{
+    .carrera, .materia, .grupo{/*Muestra en pantalla los elementos ocultos contenidos en las clases*/
         label{
             width: 30rem;
+            text-align: center;
         }
         select{
             width: 30rem;
             border: .1rem solid $azulMarino;
             border-radius: 0.8rem;
             height: 3rem;
+            cursor: pointer;
+            text-align: center;
         }
     }
     input{
@@ -93,5 +59,6 @@
         background-color: $azulVariante;
         color: $blanco;
         border-radius: 0.8rem;
+        cursor: pointer;
     }
 }

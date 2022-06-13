@@ -14,6 +14,14 @@
                 <ion-icon name="document-text-outline"></ion-icon>
                 Listas del Curso de Introducción
             </a>
+            <a href="/admin/Generar Listas/ListaPromMen.php">
+                <ion-icon name="document-text-outline"></ion-icon>
+                Lista de Aspirantes cuyo promedio de Bachillerato es menor a 60
+            </a>
+            <a href="/admin/Generar Listas/ListaAceptados.php">
+                <ion-icon name="document-text-outline"></ion-icon>
+                Listas de Aceptados
+            </a>
         </div>
     </section>
 </main>

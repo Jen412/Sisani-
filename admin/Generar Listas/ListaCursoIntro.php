@@ -3,42 +3,42 @@
     inlcuirTemplate('header');
 ?>
 <main class="g_listas">
-    <h1>Listas Examen Ceneval</h1>
+    <h1>Listas del Curso de Introducción</h1>
     <form action="">
-        <div class="tipoLista">
-            <input type="button" onclick="mostrarContenido();" value="Generar todas las listas por materia" id="btnMateria">
-            <input type="button" onclick="mostrarContenido2();" value="Especificar lista" id="btnChose" >
+        <div class="btnsLista">
+            <input type="button" onclick="mostrarContenido();" value="Generar todas las listas por materia" class="btnChoseV">
+            <input type="button" onclick="mostrarContenido2();" value="Especificar lista" class="btnChoseA" >
         </div>
-        <div id="ocultar">
-            <label>Seleccione una Materia</label>
+        <div id="todas">
+            <label>Selecciona una Materia</label>
             <select name="" id="">
-                <option value="" disabled selected>--Seleccione Materia--</option>
+                <option value="" disabled selected>--MATEMÁTICAS--</option>
             </select>
-            <input type="button" value="Generar" id="btnGenerar">
+            <input type="button" value="Generar" class="btnGenerar">
         </div>
 
 
         <div id="especifica">
-                <div class="carrera">
-                    <label for="">Selecciona Carrera</label>
-                    <select>
-                        <option value="" disabled selected>--Seleccione Carrera--</option>    
-                    </select>
-                </div>
-                <div class="materia">
-                    <label for="">Selecciona Materia</label>
-                    <select>
-                        <option value="" disabled selected>--Seleccione Materia--</option>    
-                    </select>
-                </div>
-                <div class="grupo">
-                    <label for="">Grupo</label>
-                    <select>
-                        <option value="" disabled selected>--Seleccione Grupo--</option>    
-                    </select>
-                </div>
-                <input type="button" value="Generar">
+            <div class="carrera">
+                <label for="">Selecciona una Carrera</label>
+                <select>
+                    <option value="" disabled selected>--INGENIERÍA ELECTRÓNICA--</option>    
+                </select>
             </div>
+            <div class="materia">
+                <label for="">Selecciona una Materia</label>
+                <select>
+                    <option value="" disabled selected>--MATEMÁTICAS--</option>    
+                </select>
+            </div>
+            <div class="grupo">
+                <label for="">Letra Grupo</label>
+                <select>
+                    <option value="" disabled selected>--A--</option>    
+                </select>
+            </div>
+            <input type="button" value="Generar">
+        </div>
     </form>
 </main>
 <?php 

@@ -14,7 +14,10 @@
 @import 'layout/verGrupos';
 @import 'layout/gestionarCalMenu';
 @import 'layout/calificaciones';
-@import 'layout/generarListas';
+@import 'layout/Listas/listaContenidoOculto';//Listas
+@import 'layout/Listas//listaMenu_Y_Botones';
+@import 'layout/Listas/listaAceptados';
+@import 'layout/Listas/listaModal';
 //Internas
 @import 'internas/footer';
 @import 'internas/header';
