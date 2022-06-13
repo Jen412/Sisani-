@@ -14,10 +14,13 @@
 @import 'layout/verGrupos';
 @import 'layout/gestionarCalMenu';
 @import 'layout/calificaciones';
-@import 'layout/Listas/listaContenidoOculto';//Listas
-@import 'layout/Listas//listaMenu_Y_Botones';
-@import 'layout/Listas/listaAceptados';
-@import 'layout/Listas/listaModal';
+@import 'layout/Listas/listaContenidoOculto.scss';//Listas
+@import 'layout/Listas//listaMenu_Y_Botones.scss';
+@import 'layout/Listas/listaAceptados.scss';
+@import 'layout/Listas/listaModal.scss';
+@import 'layout/gestionarMat';
+@import 'layout/registrarMat';
+@import 'layout/modificarMat';
 //Internas
 @import 'internas/footer';
 @import 'internas/header';

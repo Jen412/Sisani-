@@ -58,10 +58,10 @@
                 <li><a href="">Modificar configuración </a></li>
             </ul>
         </li>
-        <li><a href="">Gestionar Materias</a>
+        <li><a href="/admin/Gestionar Materias/GestionarMat.php">Gestionar Materias</a>
             <ul>
-                <li><a href="">Registrar una nueva Materia</a></li>
-                <li><a href="">Modificar materia</a></li>
+                <li><a href="/admin/Gestionar Materias/RegistrarMat.php">Registrar una nueva Materia</a></li>
+                <li><a href="/admin/Gestionar Materias/ModificarMat.php">Modificar materia</a></li>
             </ul>
         </li>
         <li><a href="">Funciones Secundarias</a>
