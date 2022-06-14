@@ -51,11 +51,11 @@
                 <li><a href="/admin/Gestionar Calificaciones/ModificarCal.php">Modificar calificaciones </a></li>
             </ul>
         </li>
-        <li><a href="">Gestionar Configuraciones</a>
+        <li><a href="/admin/Gestionar Configuraciones/GestionarConfiguraciones.php">Gestionar Configuraciones</a>
             <ul>
-                <li><a href="">Registrar configuración </a></li>
-                <li><a href="">Ver configuraciones </a></li>
-                <li><a href="">Modificar configuración </a></li>
+                <li><a href="/admin/Gestionar Configuraciones/RegistrarConfig.php">Registrar configuración </a></li>
+                <li><a href="/admin/Gestionar Configuraciones/VerConfig.php">Ver configuraciones </a></li>
+                <li><a href="/admin/Gestionar Configuraciones/ModificarConfig.php">Modificar configuración </a></li>
             </ul>
         </li>
         <li><a href="/admin/Gestionar Materias/GestionarMat.php">Gestionar Materias</a>

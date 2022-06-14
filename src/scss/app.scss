@@ -6,23 +6,26 @@
 //Layout
 @import 'layout/login';
 @import 'layout/admin';
-@import 'layout/importar';
-@import 'layout/importarDatos';
-@import 'layout/gestionarMenu';
+@import 'layout/Importar/importar';//Importar Datos
+@import 'layout/Importar/importarDatos';
+@import 'layout/gestionarMenu';//Gestionar Grupos
 @import 'layout/generarGrupos';
 @import 'layout/asignarMaestros';
 @import 'layout/verGrupos';
-@import 'layout/gestionarCalMenu';
+@import 'layout/Listas/listaContenidoOculto';//Generar Listas
+@import 'layout/Listas//listaMenu_Y_Botones';
+@import 'layout/Listas/listaAceptados';
+@import 'layout/Listas/listaModal';
+@import 'layout/gestionarCalMenu';//Gestionar Calificaciones
 @import 'layout/calificaciones';
-@import 'layout/Listas/listaContenidoOculto.scss';//Listas
-@import 'layout/Listas//listaMenu_Y_Botones.scss';
-@import 'layout/Listas/listaAceptados.scss';
-@import 'layout/Listas/listaModal.scss';
-@import 'layout/gestionarMat';
+@import 'layout/Configuraciones/RConfiguraciones';//Gestionar Configuraciones
+@import 'layout/Configuraciones/ModificarConfig';
+@import 'layout/Configuraciones/VerConfig';
+@import 'layout/gestionarMat';//Gestionar Materias
 @import 'layout/registrarMat';
 @import 'layout/modificarMat';
 @import 'layout/ModPromCen';
-@import 'layout/funcionesSecMenu';
+@import 'layout/funcionesSecMenu';//Fuciones Secundarias
 @import 'layout/respaldoBDD';
 @import 'layout/nuevoProceso';
 @import 'layout/RegistroNuevoUsuario';
