@@ -28,13 +28,7 @@
     <img class="tecnm" src="/build/img/tecnm.webp" alt="Logo Tecnm">
 </header>
 <?php 
-    $db=   mysqli_connect('localhost', 'root', '', 'sigacitc_siseni');
-
-    $user =$_SESSION['usuario'];   
-    $query ="SELECT role FROM users WHERE email = '{$user}';";
-    $resultado = mysqli_query($db, $query);
-    $role = mysqli_fetch_assoc($resultado);
-    $rol = $role['role'];
+    $rol = $_SESSION['role'];
 ?>
 <div class="header">
     <ul class="nav">

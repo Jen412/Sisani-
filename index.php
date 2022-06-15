@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD']=== 'POST') {
                     //llenar arreglo de sesion
                     $_SESSION['usuario'] = $usuario['email'];
                     $_SESSION['login'] = true;
+                    $_SESSION['role'] = $usuario['role'];
                     header('location: /admin');
                 }
                 else {
