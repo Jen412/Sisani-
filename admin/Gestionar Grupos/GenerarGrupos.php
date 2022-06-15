@@ -8,7 +8,7 @@
 <main class="c_grupos">
     <h1>Crear Grupos</h1>
     <button>
-        Automaticamente
+        Automáticamente
     </button>
 </main>
 <?php 

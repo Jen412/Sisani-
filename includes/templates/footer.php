@@ -4,8 +4,8 @@
             <img class="tecnm" src="/build/img/tecnm.webp" alt="Logo Tecnm">
             <div class="datos">
                 <div class="direccion">
-                    <p class="black">Instituto Tecnológico de Ciudad Guzman</p>
-                    <p>Av Tecnologico #100</p>
+                    <p class="black">Instituto Tecnológico de Ciudad Guzmán</p>
+                    <p>Av Tecnoloógico #100</p>
                     <p><span>Tel:</span> 341 575 2050</p>
                 </div>
                 <p class="derechos">Todos los Derechos Reservados &copy;</p>

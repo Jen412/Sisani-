@@ -39,7 +39,7 @@
         </li>
         <li><a href="/admin/Gestionar Grupos/GestionarGrupos.php">Gestionar Grupos</a>
             <ul>
-                <li><a href="/admin/Gestionar Grupos/GenerarGrupos.php">Generar Grupos Automaticamente</a></li>
+                <li><a href="/admin/Gestionar Grupos/GenerarGrupos.php">Generar Grupos Automáticamente</a></li>
                 <li><a href="/admin/Gestionar Grupos/AsignarMaestros.php">Asignar Maestros para el curso de Introducción</a></li>
                 <li><a href="/admin/Gestionar Grupos/ModificarMaestros.php">Modificar la asignación de maestros para el curso de introducción </a></li>
                 <li><a href="/admin/Gestionar Grupos/VerGrupos.php">Ver grupos por carrera </a></li>
