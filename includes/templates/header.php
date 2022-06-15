@@ -1,3 +1,12 @@
+<?php 
+    if (!isset($_SESSION)) {
+        session_start();
+    }
+
+    $auth = $_SESSION['login'] ?? false;
+?>
+
+
 <!DOCTYPE html>
 <html lang="es-Es">
 <head>
@@ -76,10 +85,10 @@
         </li>
         <li><a href="">Opciones</a>
             <ul>
-                <li><a href="">Submenu1</a></li>
-                <li><a href="">Submenu2</a></li>
-                <li><a href="">Submenu3</a></li>
-                <li><a href="">Submenu4</a></li>
+                <li><?php if ($auth): ?>
+                            <a href="/cerrar-sesion.php">Cerrar Sesión</a>
+                    <?php endif;?>
+                </li>
             </ul>
         </li>
     </ul>

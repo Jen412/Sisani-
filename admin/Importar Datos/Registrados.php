@@ -1,5 +1,8 @@
 <?php //Metódo de header  
-    require "../../includes/funciones.php";
+    require "../../includes/funciones.php";  $auth = estaAutenticado();
+    if (!$auth) {
+        header('location: /');
+    }
     inlcuirTemplate('header');
 ?>
 <div class="contenedor">
