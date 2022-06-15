@@ -27,8 +27,18 @@
     <img class="itcg" src="/build/img/itcg.webp" alt="Logo ITCG">
     <img class="tecnm" src="/build/img/tecnm.webp" alt="Logo Tecnm">
 </header>
+<?php 
+    $db=   mysqli_connect('localhost', 'root', '', 'sigacitc_siseni');
+
+    $user =$_SESSION['usuario'];   
+    $query ="SELECT role FROM users WHERE email = '{$user}';";
+    $resultado = mysqli_query($db, $query);
+    $role = mysqli_fetch_assoc($resultado);
+    $rol = $role['role'];
+?>
 <div class="header">
     <ul class="nav">
+        <?php if($rol==="admin"):?>
         <li><a href="/admin/index.php">Inicio</a></li>
         <li><a href="/admin//Importar Datos/ImportarDatos.php">Importar Datos</a>
             <ul>
@@ -37,6 +47,8 @@
                 <li><a href="/admin/Importar Datos/Ceneval.php">Importar Datos del Ceneval</a></li>
             </ul>
         </li>
+        <?php endif;?>
+        <?php if($rol==="admin"):?>
         <li><a href="/admin/Gestionar Grupos/GestionarGrupos.php">Gestionar Grupos</a>
             <ul>
                 <li><a href="/admin/Gestionar Grupos/GenerarGrupos.php">Generar Grupos Automáticamente</a></li>
@@ -45,6 +57,7 @@
                 <li><a href="/admin/Gestionar Grupos/VerGrupos.php">Ver grupos por carrera </a></li>
             </ul>
         </li>
+        <?php endif;?>
         <li><a href="/admin/Generar Listas/GenerarListas.php">Generar Listas</a>
             <ul>
                 <li><a href="/admin/Generar Listas/ListaExamen.php">Listas de examen Ceneval</a></li>
@@ -60,6 +73,7 @@
                 <li><a href="/admin/Gestionar Calificaciones/ModificarCal.php">Modificar calificaciones </a></li>
             </ul>
         </li>
+        <?php if($rol==="admin"):?>
         <li><a href="/admin/Gestionar Configuraciones/GestionarConfiguraciones.php">Gestionar Configuraciones</a>
             <ul>
                 <li><a href="/admin/Gestionar Configuraciones/RegistrarConfig.php">Registrar configuración </a></li>
@@ -83,6 +97,7 @@
                 <li><a href="/admin/Funciones Secundarias/RegistrarNewUser.php">Registrar un nuevo usuario</a></li>
             </ul>
         </li>
+        <?php endif;?>
         <li><a href="">Opciones</a>
             <ul>
                 <li><?php if ($auth): ?>

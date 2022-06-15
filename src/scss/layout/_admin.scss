@@ -4,3 +4,6 @@
 .botones{
     @include menu(4, 20rem);
 }
+.botonesMaes{
+    @include menu(2, 50rem);
+}

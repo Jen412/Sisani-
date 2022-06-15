@@ -11,7 +11,6 @@ if ($_SERVER['REQUEST_METHOD']=== 'POST') {
     if (!$email) {
         $errores[] = "El Correo  es obligatorio o no es valido";
     }
-
     if (!$password) {
         $errores[] = "La contraseña es obligatoria";
     }
@@ -22,24 +21,21 @@ if ($_SERVER['REQUEST_METHOD']=== 'POST') {
         $resultado = mysqli_query($db, $query);
         if ($resultado->num_rows) {
             //revisar el password
-            $usuario = mysqli_fetch_assoc($resultado);   
+            while($usuario = mysqli_fetch_assoc($resultado)){
             //var_dump($usuario); 
-
             //verificar si el password es correcto o no 
-            $auth = password_verify($password, $usuario['password']);
-            echo $usuario['password'];
-            //var_dump($auth);
-            if ($auth) {
-                //Usuario Autentificado
-                session_start();
-                //llenar arreglo de sesion
-                $_SESSION['usuario'] = $usuario['email'];
-                $_SESSION['login'] = true;
-
-                header('location: /admin');
-            }
-            else {
-                $errores[] = 'La contraseña es incorrecta';
+                $auth = password_verify($password, $usuario['password']);
+                if ($auth) {
+                    //Usuario Autentificado
+                    session_start();
+                    //llenar arreglo de sesion
+                    $_SESSION['usuario'] = $usuario['email'];
+                    $_SESSION['login'] = true;
+                    header('location: /admin');
+                }
+                else {
+                    $errores[] = 'La contraseña es incorrecta';
+                }
             }
         }
         else {
@@ -65,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD']=== 'POST') {
             <form method="POST">
                 <div class="email">
                     <label for="email">Email</label>
-                    <input type="email" name="email" id="email" placeholder="Email">
+                    <input type="email" name="email" id="email" placeholder="Ema">
                 </div>
                 <div class="pass">
                     <label for="pass">Contraseña</label>
