@@ -5,20 +5,31 @@
         header('location: /');
     }
     inlcuirTemplate('header');
+    $rol = $_SESSION['role'];
+    if($rol==="admin"){
+        $clase = "botones";
+    }
+    else{
+        $clase = "botonesMaes";
+    }
 ?>
 <main class="admin">
     
     <section class="w80">
         <h1>Bienvenido a Admin</h1>
-        <div class="botones">
+        <div class="<?php echo $clase?>">
+            <?php if($rol==="admin"):?>
             <a href="/admin/Importar Datos/ImportarDatos.php">
                 <ion-icon name="cloud-upload-outline"></ion-icon>
                 Importar Datos
             </a>
+            <?php endif;?>
+            <?php if($rol==="admin"):?>
             <a href="/admin/Gestionar Grupos/GestionarGrupos.php">
                 <ion-icon name="people-outline"></ion-icon>
                 Gestionar Grupos
             </a>
+            <?php endif;?>
             <a href="/admin/Generar Listas/GenerarListas.php">
                 <ion-icon name="document-text-outline"></ion-icon>
                 Generar Listas
@@ -27,6 +38,7 @@
                 <ion-icon name="clipboard-outline"></ion-icon>
                 Gestionar Calificaciones
             </a>
+            <?php if($rol==="admin"):?>
             <a href="/admin/Gestionar Configuraciones/GestionarConfiguraciones.php">
                 <ion-icon name="cog"></ion-icon>
                 Gestionar Configuraciones
@@ -35,6 +47,7 @@
                 <ion-icon name="layers"></ion-icon>
                 Funciones Secundarias
             </a>
+            <?php endif;?>
         </div>
     </section>
 </main>
