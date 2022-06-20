@@ -86,8 +86,14 @@
         $resultado = mysqli_query($db, $queryCar);
         $nomCarrera= mysqli_fetch_assoc($resultado)['nombcar'];
         excel($nomCarrera, $db, $idCarrera);
-        $fileName = basename($nomCarrera.".xlsx");
-        $filePath = '../../Excel/ListasCeneval/'.$fileName;
+        $zip = new ZipArchive();
+        $archivo ='../../Excel/'.$nomCarrera.'.zip';
+        if ($zip->open($archivo, ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
+            $zip->addFile('../../Excel/ListasCeneval/'.$nomCarrera.".xlsx");
+            $zip->close();
+        }
+        $fileName = basename($nomCarrera.".zip");
+        $filePath = '../../Excel/'.$fileName;
         if(!empty($fileName) && file_exists($filePath)){
             // Define headers
             header("Cache-Control: public");

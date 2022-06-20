@@ -93,8 +93,14 @@
         $nomCarrera= mysqli_fetch_assoc($resultado)['nombcar'];
         $nomArc = $nomMat."_".$nomCarrera."_Grupo".$grupo;
         excel($nomArc,$db,$carrera, $materia, $grupo);
-        $fileName = basename($nomArc.".xlsx");
-        $filePath = '../../Excel/ListasCursosInduccion/'.$fileName;
+        $zip = new ZipArchive();
+        $archivo ='../../Excel/'.$nomArc.'.zip';
+        if ($zip->open($archivo, ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
+            $zip->addFile("../../Excel/ListasCursosInduccion/".$nomArc.".xlsx");
+            $zip->close();
+        }
+        $fileName = basename($nomArc.".zip");
+        $filePath = '../../Excel/'.$fileName;
         if(!empty($fileName) && file_exists($filePath)){
             // Define headers
             header("Cache-Control: public");
