@@ -5,7 +5,8 @@
         justify-content: center;
         align-items: center;
         gap: 5rem;
-        .carrera, .materia, .grupo{
+        text-align: center;
+        .materia, .grupo{
             label{
                 width: 30rem;
             }
@@ -14,6 +15,7 @@
                 border: .1rem solid $azulMarino;
                 border-radius: 0.8rem;
                 height: 3rem;
+                text-align: center;
             }
         }
         input{
@@ -23,5 +25,79 @@
             color: $blanco;
             border-radius: 0.8rem;
         }
+
+        .carrera{
+            label{
+                width: 45rem;
+            }
+            select{
+                width: 45rem;
+                border: .1rem solid $azulMarino;
+                border-radius: 0.8rem;
+                height: 3rem;
+                text-align: center;
+            }
+        }
+
     }
+
+    .container-table{
+        position: absolute;
+        top: 48rem;
+        left: 17.5%;
+        width: 65%;
+        background: white;
+        margin: 5rem auto;
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: 5rem;
+        box-shadow: 0 0 2rem #333;
+    
+        .table__title{
+            grid-column-start: 1;
+            grid-column-end: 4;
+            background: rgba(40, 65, 120, 1);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.9em;
+    
+            
+        }
+        .table__header, .table__item{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .table__header{
+            font-weight: bold;
+            font-size: 3rem;
+        }
+        .table__item{
+            font-size: 1.5rem;
+            transition: all .5s;
+            border-bottom: solid .1rem rgb(223, 214, 214);
+            &:hover {
+                background-color: $azulMarino;
+                transition: all .5s;
+                color: white;
+                --transform: scale(1.1);
+                cursor: pointer;
+            }
+        }
+        .btnMC{/*Botón en color averde para -Generar todas las listas-*/
+            width: 20rem;
+            background-color: $verde;
+            color: $blanco;
+            border-radius: 0.8rem;
+            cursor: pointer;
+        }
+    }
+
 }
+
