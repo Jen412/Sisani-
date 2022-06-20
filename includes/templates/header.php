@@ -4,6 +4,7 @@
     }
 
     $auth = $_SESSION['login'] ?? false;
+    ob_start();
 ?>
 
 

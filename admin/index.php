@@ -2,7 +2,7 @@
     require "../includes/funciones.php";
     $auth = estaAutenticado();
     if (!$auth) {
-        header('location: /');
+       header('location: /'); die();
     }
     inlcuirTemplate('header');
     $rol = $_SESSION['role'];
