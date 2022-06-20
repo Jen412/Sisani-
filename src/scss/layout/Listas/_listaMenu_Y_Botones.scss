@@ -9,7 +9,6 @@
     display: block;
     text-align: center;
     margin-top: 3rem;
-    
 }
 
 .btnsLista{/*Referencia al div que contiene los botones en las páginas */
@@ -17,9 +16,8 @@
     align-items: center;
     justify-content: center;
     gap: 5rem;
-    
     .btnAllV{/*Botón en color averde para -Generar todas las listas-*/
-        width: 15%;
+        width: 100%;
         background-color: $verde;
         color: $blanco;
         border-radius: 0.8rem;
@@ -27,6 +25,7 @@
     }
     .btnChoseA{/*Botón para en color azul para -Especificar Lista-*/
         width: 10%;
+        padding: 1rem;
         background-color: $azulMarino;
         color: $blanco;
         border-radius: 0.8rem;
