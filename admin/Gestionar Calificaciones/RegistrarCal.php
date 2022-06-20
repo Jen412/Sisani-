@@ -21,11 +21,17 @@
     $resultadoMat =mysqli_query($db, $queryMat);//en forma de un query sql para interactuar con la db
     $resultadoGru =mysqli_query($db, $queryGru);
 
+    if ($_SERVER['REQUEST_METHOD']==="POST" && $_POST['tipoForm'] === "calificaciones") {
+        echo "<pre>";
+        var_dump($_POST);
+        echo "</pre>";
+    }
 ?>
 <main class="registrarCal">
     <section>
         <h1>Registrar Calificaciones</h1>
         <form method="POST"><!-- Se debe de poner el metodo post como si fuese un formulario-->
+            <input type="hidden" name="tipoForm" value="seleccion">
             <div class="linea">
                 <div class="carrera">
                     <label for="">Selecciona Carrera</label>
@@ -64,21 +70,26 @@
                 <input type="submit" value="Buscar" name="btnRC" id="btnRC">
                    
             </div>
-
-            $insert = "INSERT INTO calificaciones calif = '$aux'";
-
+        </form>
+            <!-- $insert = "INSERT INTO calificaciones calif = '$aux'"; -->
+        <form method="post">
+            <input type="hidden" name="tipoForm" value="calificaciones">
             <div class = "container-table">
-                    <div class="table__title">Registrar Calificaciones</div>
-                    <div class="table__header">Ficha</div>
-                    <div class="table__header">Nombre</div>
-                    <div class="table__header">Calificación</div>
+                <div class="table__title">Registrar Calificaciones</div>
+                <div class="table__header">Ficha</div>
+                <div class="table__header">Nombre</div>
+                <div class="table__header">Calificación</div>
                     <?php  
-                        if ($_SERVER['REQUEST_METHOD']=="POST") {//$_SERVER es una variable para determinar si en el formulario se ha enviado algo
+                        $materia="";//Aquí identificamos la accion pulsada del formulario en base al id de la funcionalidad con la que se interctua
+                        $carrera="";//Dependeindo del select se mostrara un resultado u otro
+                        $grupo = "";
+                        $btn = "";
+                        if ($_SERVER['REQUEST_METHOD']=="POST" && $_POST['tipoForm'] === "seleccion") {//$_SERVER es una variable para determinar si en el formulario se ha enviado algo
                             $materia=$_POST['materiaS'];//Aquí identificamos la accion pulsada del formulario en base al id de la funcionalidad con la que se interctua
                             $carrera=$_POST['carreraS'];//Dependeindo del select se mostrara un resultado u otro
                             $grupo = $_POST['GrupoS'];
                             $btn = $_POST['btnRC'];
-                    
+                        
                             $queryBtn = ("SELECT d.alufic, d.alunom, d.aluapp, d.aluapm, cl.calif 
                             FROM dficha as d
                             INNER JOIN calificaciones as cl
@@ -100,10 +111,10 @@
                             while($btnRC = mysqli_fetch_assoc($resultadoBtn)) : ?>
                                 <div class="table__item"><?php echo $btnRC["alufic"] ;?></div>
                                 <div class="table__item"><?php echo $btnRC["alunom"];echo "  "; echo $btnRC["aluapp"]; echo "  ";echo $btnRC["aluapm"];?></div>
-                                <div class="table__item"><?php echo $btnRC["calif"]."<input type=\"number\">";?></div>
-                    <?php endwhile; }?> 
-                </div>  
-              
+                                <div class="table__item"><?php echo ('<input name="'.$btnRC["alufic"].'" type="number" required>');?></div>
+                    <?php endwhile; }?>
+                    <input type="submit" value="Registrar Calificaciones">
+            </div>  
         </form>
     </section>
 </main>
