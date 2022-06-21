@@ -110,16 +110,18 @@
 ?>
 <main class="g_listas">
     <h1>Listas Examen Ceneval</h1>
-        <div class="btnsLista">
-            <form method="POST">
+
+            <form method="POST" class="btnsLista">
                 <input type="hidden" name="tipoLista" value="General">
-                <input type="submit" clas value="Generar todas las listas" class="btnAllV" >
+                <input type="submit" clas value="Generar todas las listas" class="btnAllVL" >
+                <input type="button" onclick="mostrarContenido();" value="Especificar lista" class="btnChoseA" >
             </form>
-            <input type="button" onclick="mostrarContenido();" value="Especificar lista" class="btnChoseA" >
+            
+
             <form method="POST" id="todas">
                 <label>Seleccionar una Carrera</label>
                 <input type="hidden" name="tipoLista" value="Especifica">
-                <select name="carrera" id="carrera">
+                <select name="carrera" id="carrera" >
                     <option value="" disabled selected>--Seleccione Carrera--</option>
                     <?php while($materia = mysqli_fetch_assoc($resultadoMat)):?>
                         <option value="<?php echo $materia['idCar'];?>"><?php echo $materia['nombcar'];?></option>
@@ -127,7 +129,6 @@
                 </select>
                 <input type="submit" value="Generar Lista">
             </form>
-        </div>
 </main>
 <?php 
     inlcuirTemplate('footer');

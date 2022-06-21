@@ -17,7 +17,14 @@
     justify-content: center;
     gap: 5rem;
     .btnAllV{/*Botón en color averde para -Generar todas las listas-*/
-        width: 100%;
+        width: 10%;
+        background-color: $verde;
+        color: $blanco;
+        border-radius: 0.8rem;
+        cursor: pointer;
+    }
+    .btnAllVL{/*Botón en color averde para -Generar todas las listas-*/
+        width: 15%;
         background-color: $verde;
         color: $blanco;
         border-radius: 0.8rem;
@@ -33,6 +40,7 @@
     }
     .btnChoseV{/*Botón en color verde para -Generar todas las listas por materia-*/
         width: 20%;
+        padding: 1rem;
         background-color: $verde;
         color: $blanco;
         border-radius: 0.8rem;
