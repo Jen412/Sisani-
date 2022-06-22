@@ -23,11 +23,9 @@
 <main class="modPromCen">
     <section class="w80">
         <h1>Modificar Promedio Examen Cenval</h1>
-        <form>
         <form method="POST">
             <div class="numFicha">
                 <label for="numFicha">Número de Ficha: </label>
-                <input type="number" name="numFicha" id="numFicha">
                 <datalist id="solicitudes">
                     <?php while($alumno = mysqli_fetch_assoc($resultado)):?>
                         <option value="<?php echo $alumno['alufic']?>"><?php echo $alumno['alufic']?></option>        
@@ -47,8 +45,15 @@
                 <input type="text" name="nomAlumno" id="nomAlumno" disabled>
             </div>
             <div class="prom">
-                <label for="prom">Promedio: </label>
                 <label for="prom">Promedio Ceneval: </label>
                 <input type="number" name="prom" id="prom">
             </div>
             <div class="but">
+                <input type="submit" value="Enviar">
+            </div>
+        </form>
+    </section>
+</main>
+<?php 
+    inlcuirTemplate('footer');
+?>
