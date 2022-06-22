@@ -7,11 +7,10 @@
     require "../../includes/config/database.php";//Dirección relativa donde se encuentra la conexion a la db
     $db =conectarDB();//Funcion dentro que permite la conexión
    
-
     $materia="";//variables de tipo cadena
     $carrera="";
     $grupo="";
-    $btnRC="";
+    $btn="";
   
     $queryCar ="SELECT * FROM carreras";//Las variables empiezan por $ y pueden almacenar instrucciones SQL
     $queryMat ="SELECT * FROM materias";
@@ -53,55 +52,42 @@
                 <div class="grupo">
                     <label for="">Grupo</label>
                     <select name="GrupoS" id="GrupoS">
-                        <option value="">--Seleccione Grupo--</option>
-                        <?php while($grupo = mysqli_fetch_assoc($resultadoGru)):?>
-                            <option value="<?php echo $grupo['letraGrupo'];?>">
-                                <?php echo $grupo['letraGrupo'];?>
-                            </option>
-                        <?php endwhile;?>  
-                    </select><!--Se envia el id de del select desde el formulario conteniendo el valor del id de la letra del grupo sleccionada-->
+                        <option value="" disabled selected>--Seleccione Grupo--</option>    
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <?php 
+                            while($grupo = mysqli_fetch_assoc($resultadoGru)){
+                                if ($grupo['letraGrupo']=='C') {
+                                    echo '<option value="C">C</option>';
+                                }
+                                if ($grupo['letraGrupo']=='D') {
+                                    echo '<option value="D">D</option>';
+                                }
+                            }
+                        ?>
+                    </select>
                 </div>
-                <input type="submit" value="Buscar" name="btnRC" id="btnRC">
-                   
+                <input type="submit" value="Buscar" name="btnRC" id="btnRC">  
             </div>
-
-
             <div class = "container-table">
-                    <div class="table__title">Registrar Calificaciones</div>
-                    <div class="table__header">Ficha</div>
-                    <div class="table__header">Nombre</div>
-                    <div class="table__header">Calificación</div>
-                    <?php  
-                        if ($_SERVER['REQUEST_METHOD']=="POST") {//$_SERVER es una variable para determinar si en el formulario se ha enviado algo
-                            $materia=$_POST['materiaS'];//Aquí identificamos la accion pulsada del formulario en base al id de la funcionalidad con la que se interctua
-                            $carrera=$_POST['carreraS'];//Dependeindo del select se mostrara un resultado u otro
-                            $grupo = $_POST['GrupoS'];
-                            $btn = $_POST['btnRC'];
-                    
-                            $queryBtn = ("SELECT d.alufic, d.alunom, d.aluapp, d.aluapm, cl.calif 
-                            FROM dficha as d
-                            INNER JOIN calificaciones as cl
-                            ON cl.alufic = d.alufic
-                            INNER JOIN grupos as g
-                            ON d.alufic = g.alufic
-                            WHERE g.letraGrupo = '$grupo'AND cl.id_MateriaG
-                                IN (SELECT mg.id_MateriaG 
-                                FROM calificaciones as cl 
-                                INNER JOIN materia_grupo as mg 
-                                ON cl.id_MateriaG = mg.id_MateriaG
-                                WHERE mg.idMateria = $materia AND d.alufic
-                                        IN (SELECT d.alufic 
-                                        FROM carreras as c 
-                                        INNER JOIN dficha as d 
-                                        ON c.idCar = d.carcve1 
-                                        WHERE d.carcve1 = $carrera));");                       
-                            $resultadoBtn =mysqli_query($db, $queryBtn);
-                            while($btnRC = mysqli_fetch_assoc($resultadoBtn)) : ?>
-                                <div class="table__item"><?php echo $btnRC["alufic"] ;?></div>
-                                <div class="table__item"><?php echo $btnRC["alunom"];echo "  "; echo $btnRC["aluapp"]; echo "  ";echo $btnRC["aluapm"];?></div>
-                                <div class="table__item"><?php echo $btnRC["calif"] ;?></div>
-                    <?php endwhile; }?> 
-                </div>  
+                <div class="table__header">Ficha</div>
+                <div class="table__header">Nombre</div>
+                <div class="table__header">Calificación</div>
+                <?php  
+                    if ($_SERVER['REQUEST_METHOD']=="POST") {//se reciben los datos del formulario con el imput hidden seleccion 
+                        $materia=$_POST['materiaS'];
+                        $carrera=$_POST['carreraS'];
+                        $grupo = $_POST['GrupoS'];
+                        $btn = $_POST['btnRC'];
+                        $queryBtn = ("SELECT d.alufic, d.alunom, d.aluapp, d.aluapm, cl.calif FROM dficha as d INNER JOIN calificaciones as cl ON cl.alufic = d.alufic INNER JOIN grupos as g ON d.alufic = g.alufic WHERE g.letraGrupo = '$grupo'AND cl.id_MateriaG IN (SELECT mg.id_MateriaG FROM calificaciones as cl INNER JOIN materia_grupo as mg ON cl.id_MateriaG = mg.id_MateriaG WHERE mg.idMateria = $materia AND d.alufic IN (SELECT d.alufic FROM carreras as c INNER JOIN dficha as d ON c.idCar = d.carcve1 WHERE d.carcve1 = $carrera));");                       
+                        $resultadoBtn =mysqli_query($db, $queryBtn);
+                        while($btnRC = mysqli_fetch_assoc($resultadoBtn)): 
+                ?>
+                            <div class="table__item"><?php echo $btnRC["alufic"] ;?></div>
+                            <div class="table__item"><?php echo $btnRC["alunom"];echo "  "; echo $btnRC["aluapp"]; echo "  ";echo $btnRC["aluapm"];?></div>
+                            <div class="table__item"><?php echo $btnRC["calif"] ;?></div>
+                    <?php endwhile; }?>
+            </div> 
         </form>
     </section>
 </main>
