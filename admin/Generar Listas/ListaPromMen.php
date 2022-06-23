@@ -3,7 +3,7 @@
     require "../../includes/config/database.php";
     require "../../vendor/autoload.php";
 
-    use PhpOffice\PhpSpreadsheet\{Spreadsheet, IOFactory};
+    use PhpOffice\PhpSpreadsheet\{Spreadsheet, IOFactory, Style\Alignment};
     use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
     if (!$auth) {
@@ -12,29 +12,65 @@
     inlcuirTemplate('header');
 
     function excel($nom,$db){
+        $borderArray =[
+            'borders' => [
+                'outline' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['rgb' => '000'],
+                ],
+            ],
+        ];
         $spreadsheet = new Spreadsheet();
         $spreadsheet->getProperties()->setTitle($nom);
         $hoja = $spreadsheet->getActiveSheet();
+        $hoja->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $hoja->mergeCells("A1:G1");
+        $hoja->getStyle("A1")->getFont()->setSize(15);
+        $hoja->getStyle("A1")->getFont()->setBold(true);
+        $hoja->setCellValue("A1","INSTITUTO TECNOLOGICO DE CIUDAD GUZMAN  ");
+        $hoja->mergeCells("A2:B2");
+        $hoja->getStyle("A2")->getFont()->setSize(13);
+        $hoja->getStyle("A2:B2")->getFont()->setBold(true);
+        $hoja->setCellValue("A2","Lista Promedio Menor 60");
+        $hoja->getStyle("A2:E2")->applyFromArray($borderArray);
+        $hoja->getStyle("A3")->applyFromArray($borderArray);
+        $hoja->getStyle("B3")->applyFromArray($borderArray);
+        $hoja->getStyle("C3")->applyFromArray($borderArray);
+        $hoja->getStyle("D3")->applyFromArray($borderArray);
+        $hoja->getStyle("E3")->applyFromArray($borderArray);
+        $hoja->getStyle("A3:E3")->getFont()->setBold(true);
+        $hoja->getStyle("A2:E2")->getFont()->setSize(12);
+
         $hoja->getColumnDimension('A')->setWidth(15);
-        $hoja->setCellValue('A2', "Ficha");
+        $hoja->setCellValue('A3', "Ficha");
         $hoja->getColumnDimension('B')->setWidth(20);
-        $hoja->setCellValue('B2', "Nombre");
-        $hoja->getColumnDimension('C')->setWidth(25);
-        $hoja->setCellValue('C2', "Apellido Paterno");
-        $hoja->getColumnDimension('D')->setWidth(25);
-        $hoja->setCellValue('D2', "Apellido Materno");
-        $hoja->getColumnDimension('E')->setWidth(25);
-        $hoja->setCellValue('E2', "Promedio Bachillerato");
-    
+        $hoja->setCellValue('B3', "Nombre");
+        $hoja->getColumnDimension('C')->setWidth(20);
+        $hoja->setCellValue('C3', "Apellido Paterno");
+        $hoja->getColumnDimension('D')->setWidth(20);
+        $hoja->setCellValue('D3', "Apellido Materno");
+        $hoja->getColumnDimension('E')->setWidth(20);
+        $hoja->setCellValue('E3', "Promedio Bachillerato");
+
         $queryAlu = "SELECT alufic , alunom, aluapp, aluapm, alupro FROM dficha WHERE alupro <=60;";
         $resultado = mysqli_query($db, $queryAlu);
         $fila = 3;
         while($alumno = mysqli_fetch_assoc($resultado)){
             $hoja->setCellValue('A'.$fila, $alumno['alufic']);
+            $hoja->getStyle('A'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+            $hoja->getStyle("A".$fila)->applyFromArray($borderArray);
             $hoja->setCellValue('B'.$fila, $alumno['alunom']);
+            $hoja->getStyle("B".$fila)->applyFromArray($borderArray);
+            $hoja->getStyle('B'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
             $hoja->setCellValue('C'.$fila, $alumno['aluapp']);
+            $hoja->getStyle("C".$fila)->applyFromArray($borderArray);
+            $hoja->getStyle('C'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
             $hoja->setCellValue('D'.$fila, $alumno['aluapm']);
+            $hoja->getStyle("D".$fila)->applyFromArray($borderArray);
+            $hoja->getStyle('D'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
             $hoja->setCellValue('E'.$fila, $alumno['alupro']);
+            $hoja->getStyle("E".$fila)->applyFromArray($borderArray);
+            $hoja->getStyle('E'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
             $fila++;
         }
         $writer = new Xlsx($spreadsheet);        
@@ -64,9 +100,16 @@
             header("Content-Transfer-Encoding: binary");
             // Read the file
             readfile($filePath);
-            exit;
+            
         }else{
             echo 'No existe el archivo';
+        }
+        $dir =scandir('../../Excel/ListasAlumnos60/',1);
+        foreach($dir as $arc){
+            if ('../../Excel/ListasAlumnos60/'.$arc != "../../Excel/ListasAlumnos60/.." && '../../Excel/ListasAlumnos60/'.$arc != "../../Excel/ListasAlumnos60/.") {
+                echo ('../../Excel/ListasAlumnos60/'.$arc. "<br>");
+                unlink('../../Excel/ListasAlumnos60/'.$arc);
+            }
         }
     }
 ?>

@@ -16,7 +16,7 @@ function mostrarContenido2(){
 	document.getElementById('todas').style.display ='none';
 }
 
-+function checkLetters(e) {
+function checkLetters(e) {
     tecla = (document.all) ? e.keyCode : e.which;
 	//Tecla de retroceso para borrar, siempre la permite
     if (tecla == 8) {
@@ -35,13 +35,48 @@ function checkNumber(e) {
         return true;
     }
     // Patron de entrada, en este caso solo acepta numeros y letras
-    patron = /[A-Za-z0-9]/;
+    patron = /^\d/;
     tecla_final = String.fromCharCode(tecla);
+    console.log(patron.test(tecla_final));
     return patron.test(tecla_final); 
 }
 
 function buscarAlumno(e){
     let solicitud = document.querySelector("#numFicha").value;
+    $.ajax({
+        url: '../../ajaxPHP/buscar.php',
+        type: 'POST',
+        data: {solicitud},
+        success: function(respuesta){
+            let datos = JSON.parse(respuesta);
+            let nombre ="";
+            let prom = "";
+            const promedio = document.querySelector("#prom");
+            const nombreAlumno = document.querySelector("#nomAlumno");
+            datos.forEach(alumno => {
+                nombre =alumno['nom'];
+                prom = alumno['prom'];
+            });
+            promedio.value = prom;
+            nombreAlumno.value= nombre;
+        }
+    });
+}
+
+function buscarAlumno2(e){
+    let solicitud = document.querySelector("#numFicha").value; 
+    $("#numFicha").autocomplete({
+        source : items, 
+        select : function (event, item){
+            let params = {
+                alumno: item.item.value
+            };
+            $.post('../../ajaxPHP/buscar.php', params, function (respuesta) {
+                console.log(respuesta);
+            });
+        }
+    })
+    
     $.ajax({
         url: '../../ajaxPHP/buscar.php',
         type: 'POST',

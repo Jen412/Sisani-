@@ -8,7 +8,6 @@
     $db = conectarDB();
     $query = "SELECT * FROM dficha";
     $resultado = mysqli_query($db, $query);
-
     if ($_SERVER['REQUEST_METHOD']==="POST") {
         $ficha =$_POST['numFicha'];
         $calificacion=$_POST['prom'];
@@ -26,18 +25,12 @@
         <form method="POST">
             <div class="numFicha">
                 <label for="numFicha">Número de Ficha: </label>
-                <datalist id="solicitudes">
-                    <?php while($alumno = mysqli_fetch_assoc($resultado)):?>
-                        <option value="<?php echo $alumno['alufic']?>"><?php echo $alumno['alufic']?></option>        
-                    <?php endwhile; ?>
-                    </option>
-                </datalist>
-                <input type="number" list="solicitudes"  name="numFicha" id="numFicha" onchange="buscarAlumno(event);">
+                <input type="text" name="numFicha" id="numFicha" onchange="buscarAlumno2(event);">
                 <!-- <select name="numFicha" id="numFicha" onchange="buscarAlumno(event);">
                     <option value="" disabled selected>--Seleccione Ficha--</option>
-                    <?php while($alumno = mysqli_fetch_assoc($resultado)):?>
-                        <option value="<?php echo $alumno['alufic']?>"><?php echo $alumno['alufic']?></option>        
-                    <?php endwhile; ?>
+                    <?php #while($alumno = mysqli_fetch_assoc($resultado)):?>
+                        <option value="<?php #echo $alumno['alufic']?>"><?php #echo $alumno['alufic']?></option>        
+                    <?php #endwhile; ?>
                 </select> -->
             </div>
             <div class="nomAlumno">
@@ -49,7 +42,7 @@
                 <input type="number" name="prom" id="prom">
             </div>
             <div class="but">
-                <input type="submit" value="Enviar">
+                <input type="submit" value="Modificar">
             </div>
         </form>
     </section>
