@@ -12,7 +12,6 @@
     $grupo="";
     $btnRC="";
 
-  
     $queryCar ="SELECT * FROM carreras";//Las variables empiezan por $ y pueden almacenar instrucciones SQL
     $queryMat ="SELECT * FROM materias";
     $queryGru ="SELECT * FROM grupos";
@@ -21,7 +20,34 @@
     $resultadoMat =mysqli_query($db, $queryMat);//en forma de un query sql para interactuar con la db
     $resultadoGru =mysqli_query($db, $queryGru);
 
-    
+    if ($_SERVER['REQUEST_METHOD']=="POST" && $_POST['tipoForm'] === "calificaciones") {
+        $carrera = $_GET['carreraS']?? null;
+        $materia = $_GET['materiaS']?? null;
+        $grupo = $_GET['GrupoS']?? null;   
+
+        $calificaciones = [];//Se declara un array 
+        foreach($_POST as $key => $value){
+            if (is_int($key)) {
+                $calificaciones[$key] = $value;//Dentro de la posisicon del array se guarda la ficha y el valor es igual a la calificación
+            }    
+        }
+
+        foreach($calificaciones as $key => $value){ //Se obtiene el array con las claves y las calificaciones
+            $queryGrupo = "SELECT idGrupo FROM grupos WHERE alufic = '{$key}' AND letraGrupo = '{$grupo}'";//Seleccionamos el idGrupo cuando la ficha es igual a la llave y la letra es igua a la letra elegida
+            $resultadoGrupo  = mysqli_query($db, $queryGrupo);
+            $idGrupo = mysqli_fetch_assoc($resultadoGrupo)['idGrupo'];//el id sellecionado lo buscamos en la db
+            $queryMateriaG = "SELECT id_MateriaG FROM materia_grupo WHERE idMateria = '{$materia}' AND idGrupo = '{$idGrupo}'";
+            $resultadoMateriaGrupo = mysqli_query($db, $queryMateriaG);
+            $materiaG= mysqli_fetch_assoc($resultadoMateriaGrupo)['id_MateriaG'];
+            if ($materiaG) {
+                $queryinsert = "INSERT INTO calificaciones(id_MateriaG, alufic, calif) VALUES ('{$materiaG}','{$key}','{$value}')"; 
+                $resultado = mysqli_query($db, $queryinsert);
+                if ($resultado) {
+                    header("location: /admin/index.php");
+                }
+            }
+        }
+    }
 ?>
 <main class="registrarCal">
     <section>
@@ -81,12 +107,11 @@
                 <div class="table__header">Calificación</div>
                 <?php  
                     if ($_SERVER['REQUEST_METHOD']=="GET") {//se reciben los datos del formulario con el imput hidden seleccion 
-                    
                         $carrera=$_GET['carreraS']?? null;
                         $materia=$_GET['materiaS'] ?? null;
                         $grupo = $_GET['GrupoS']?? null;
                         if ($carrera!=null) {
-                            $queryBtn = ("SELECT d.alufic, d.alunom, d.aluapp, d.aluapm, cl.calif FROM dficha as d INNER JOIN calificaciones as cl ON cl.alufic = d.alufic INNER JOIN grupos as g ON d.alufic = g.alufic WHERE g.letraGrupo = '$grupo'AND cl.id_MateriaG IN (SELECT mg.id_MateriaG FROM calificaciones as cl INNER JOIN materia_grupo as mg ON cl.id_MateriaG = mg.id_MateriaG WHERE mg.idMateria = $materia AND d.alufic IN (SELECT d.alufic FROM carreras as c INNER JOIN dficha as d ON c.idCar = d.carcve1 WHERE d.carcve1 = $carrera));");                       
+                            $queryBtn = ("SELECT d.alufic, d.alunom, d.aluapp, d.aluapm FROM dficha as d INNER JOIN grupos as g ON d.alufic = g.alufic INNER JOIN materia_grupo as mg ON g.idGrupo = mg.idGrupo WHERE g.letraGrupo = '$grupo'AND mg.id_MateriaG IN (SELECT mg.id_MateriaG FROM materia_grupo as mg WHERE mg.idMateria = $materia AND d.alufic IN (SELECT d.alufic FROM carreras as c INNER JOIN dficha as d ON c.idCar = d.carcve1 WHERE d.carcve1 = $carrera));");                       
                             $resultadoBtn =mysqli_query($db, $queryBtn);
                             while($btnRC = mysqli_fetch_assoc($resultadoBtn)): 
                 ?>
@@ -99,66 +124,8 @@
                 <input type="submit" value="Registrar Calificaciones" class="btnRCT">
             </div>  
         </form>
-        <?php 
-            if ($_SERVER['REQUEST_METHOD']=="POST" && $_POST['tipoForm'] === "calificaciones") {
-                $carrera = $_GET['carreraS']?? null;
-                $materia = $_GET['materiaS']?? null;
-                $grupo = $_GET['GrupoS']?? null;   
-
-                
-
-                $calificaciones = [];
-                foreach($_POST as $key => $value){
-                    if (is_int($key)) {
-                        $calificaciones[$key] = $value;
-                    }    
-                }
-                foreach($calificaciones as $key => $value){
-                    $queryGrupo = "SELECT idGrupo FROM grupos WHERE alufic = '{$key}' AND letraGrupo = '{$grupo}'";
-                    $resultadoGrupo  = mysqli_query($db, $queryGrupo);
-                    $idGrupo = mysqli_fetch_assoc($resultadoGrupo)['idGrupo'];
-                    $queryMateriaG = "SELECT id_MateriaG FROM materia_grupo WHERE idMateria = {$materia} AND idGrupo = {$idGrupo}";
-                    $resultadoMateriaGrupo = mysqli_query($db, $queryMateriaG);
-                    $materiaG= mysqli_fetch_assoc($resultadoMateriaGrupo)['id_MateriaG'];
-                    if ($materiaG) {
-                        $queryinsert = "INSERT INTO calificaciones(id_MateriaG, alufic, calif) VALUES ({$materiaG},{$key},{$value})"; 
-                        $resultado = mysqli_query($db, $queryinsert);
-                        if ($resultado) {
-                            header("location: /admin/index.php");
-                        }
-                    }
-                }
-                
-                
-                // $queryBtn = ("INSERT INTO calificaciones(calif)
-                // SELECT 80 
-                // FROM calificaciones as cl
-                // WHERE cl.alufic = 150001 AND cl.alufic = dficha.alufic IN(
-                // SELECT d.alufic
-                // FROM dficha as d
-                // INNER JOIN calificaciones as cl
-                // ON cl.alufic = d.alufic
-                // INNER JOIN grupos as g
-                // ON d.alufic = g.alufic
-                // WHERE g.letraGrupo = 'A'AND cl.id_MateriaG
-                //     IN (SELECT mg.id_MateriaG 
-                //     FROM calificaciones as cl 
-                //     INNER JOIN materia_grupo as mg 
-                //     ON cl.id_MateriaG = mg.id_MateriaG
-                //     WHERE mg.idMateria = 1 AND d.alufic
-                //             IN (SELECT d.alufic 
-                //             FROM carreras as c 
-                //             INNER JOIN dficha as d 
-                //             ON c.idCar = d.carcve1 
-                //             WHERE d.carcve1 = 15)))");                       
-                
-                
-
-            }
-        ?>
     </section>
 </main>
 <?php 
-    inlcuirTemplate('footer');//INSERT INTO calificaciones values calif where alufic = $
+    inlcuirTemplate('footer');
 ?>           
-
