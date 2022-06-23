@@ -63,6 +63,40 @@ function buscarAlumno(e){
     });
 }
 
+function buscarAlumno2(e){
+    let solicitud = document.querySelector("#numFicha").value; 
+    $("#numFicha").autocomplete({
+        source : items, 
+        select : function (event, item){
+            let params = {
+                alumno: item.item.value
+            };
+            $.post('../../ajaxPHP/buscar.php', params, function (respuesta) {
+                console.log(respuesta);
+            });
+        }
+    })
+    
+    $.ajax({
+        url: '../../ajaxPHP/buscar.php',
+        type: 'POST',
+        data: {solicitud},
+        success: function(respuesta){
+            let datos = JSON.parse(respuesta);
+            let nombre ="";
+            let prom = "";
+            const promedio = document.querySelector("#prom");
+            const nombreAlumno = document.querySelector("#nomAlumno");
+            datos.forEach(alumno => {
+                nombre =alumno['nom'];
+                prom = alumno['prom'];
+            });
+            promedio.value = prom;
+            nombreAlumno.value= nombre;
+        }
+    });
+}
+
 function buscarAlumnoProm(e){
     let solicitud = document.querySelector("#numFicha").value;
     $.ajax({

@@ -59,7 +59,11 @@
         $hoja->getStyle("A3:D3")->getFont()->setBold(true);
         $hoja->getStyle("A2:D2")->getFont()->setSize(12);
     
-        $queryGrupEs = "SELECT dficha.alufic, alunom, aluapp, aluapm FROM dficha, grupos,materia_grupo WHERE dficha.alufic = grupos.alufic AND grupos.letraGrupo = '{$grupo}' AND carcve1 = {$carrera} AND grupos.idGrupo=materia_grupo.idGrupo AND materia_grupo.idMateria = {$materia};";
+        $queryGrupEs = "SELECT dficha.alufic, alunom, aluapp, aluapm FROM dficha, grupos, materia_grupo 
+        WHERE dficha.alufic = grupos.alufic AND grupos.letraGrupo = '{$grupo}' 
+        AND carcve1 = {$carrera} AND grupos.idGrupo=materia_grupo.idGrupo 
+        AND materia_grupo.idMateria = {$materia};";
+
         $resultado = mysqli_query($db, $queryGrupEs);
         $fila = 4;
         while($alumno = mysqli_fetch_assoc($resultado)){

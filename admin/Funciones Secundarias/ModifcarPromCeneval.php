@@ -25,12 +25,13 @@
         <form method="POST">
             <div class="numFicha">
                 <label for="numFicha">Número de Ficha: </label>
-                <select name="numFicha" id="numFicha" onchange="buscarAlumno(event);">
+                <input type="text" name="numFicha" id="numFicha" onchange="buscarAlumno2(event);">
+                <!-- <select name="numFicha" id="numFicha" onchange="buscarAlumno(event);">
                     <option value="" disabled selected>--Seleccione Ficha--</option>
-                    <?php while($alumno = mysqli_fetch_assoc($resultado)):?>
-                        <option value="<?php echo $alumno['alufic']?>"><?php echo $alumno['alufic']?></option>        
-                    <?php endwhile; ?>
-                </select>
+                    <?php #while($alumno = mysqli_fetch_assoc($resultado)):?>
+                        <option value="<?php #echo $alumno['alufic']?>"><?php #echo $alumno['alufic']?></option>        
+                    <?php #endwhile; ?>
+                </select> -->
             </div>
             <div class="nomAlumno">
                 <label for="nomAlumno">Nombre: </label>
