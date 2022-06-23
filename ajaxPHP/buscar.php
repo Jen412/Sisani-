@@ -1,7 +1,4 @@
-@ -0,0 +1,23 @@
 <?php
-
-
 require "../includes/config/database.php";
 $solicitud = $_POST['solicitud'];
 $db = conectarDB();

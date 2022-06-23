@@ -15,7 +15,8 @@
         $query ="UPDATE dficha SET alupro={$calificacion} WHERE alufic = {$ficha};";
         $resultado = mysqli_query($db, $query);
         if ($resultado) {
-            header('location: /');
+            header('location: /admin/Funciones Secundarias/FuncionesSec.php'); 
+            die();
         }
     }
 ?>
@@ -41,7 +42,7 @@
                 <input type="number" name="prom" id="prom">
             </div>
             <div class="but">
-                <input type="submit" value="Enviar">
+                <input type="submit" value="Modificar">
             </div>
         </form>
     </section>

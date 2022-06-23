@@ -16,7 +16,7 @@ function mostrarContenido2(){
 	document.getElementById('todas').style.display ='none';
 }
 
-+function checkLetters(e) {
+function checkLetters(e) {
     tecla = (document.all) ? e.keyCode : e.which;
 	//Tecla de retroceso para borrar, siempre la permite
     if (tecla == 8) {
@@ -35,8 +35,9 @@ function checkNumber(e) {
         return true;
     }
     // Patron de entrada, en este caso solo acepta numeros y letras
-    patron = /[A-Za-z0-9]/;
+    patron = /^\d/;
     tecla_final = String.fromCharCode(tecla);
+    console.log(patron.test(tecla_final));
     return patron.test(tecla_final); 
 }
 
