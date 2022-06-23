@@ -8,6 +8,13 @@
     $db = conectarDB();
     $query = "SELECT * FROM dficha";
     $resultado = mysqli_query($db, $query);
+    $array = array();
+    if ($resultado) {
+        while ($row = mysqli_fetch_array($resultado)) {
+            array_push($array, $row['alufic']);
+        }
+    }
+
     if ($_SERVER['REQUEST_METHOD']==="POST") {
         $ficha =$_POST['numFicha'];
         $calificacion=$_POST['prom'];
@@ -25,13 +32,8 @@
         <form method="POST">
             <div class="numFicha">
                 <label for="numFicha">Número de Ficha: </label>
-                <input type="text" name="numFicha" id="numFicha" onchange="buscarAlumno2(event);">
-                <!-- <select name="numFicha" id="numFicha" onchange="buscarAlumno(event);">
-                    <option value="" disabled selected>--Seleccione Ficha--</option>
-                    <?php #while($alumno = mysqli_fetch_assoc($resultado)):?>
-                        <option value="<?php #echo $alumno['alufic']?>"><?php #echo $alumno['alufic']?></option>        
-                    <?php #endwhile; ?>
-                </select> -->
+                <input type="text" name="numFicha" id="numFicha"  onchange="buscarAlumnoProm(event);">
+                
             </div>
             <div class="nomAlumno">
                 <label for="nomAlumno">Nombre: </label>
@@ -47,6 +49,16 @@
         </form>
     </section>
 </main>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    let items = <?= json_encode($array);?>; 
+    $("#numFicha").autocomplete({
+        source : items 
+    });
+});
+
+</script>
 <?php 
     inlcuirTemplate('footer');
 ?>
