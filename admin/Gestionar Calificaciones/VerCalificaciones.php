@@ -78,7 +78,7 @@
                         $materia=$_POST['materiaS'];
                         $carrera=$_POST['carreraS'];
                         $grupo = $_POST['GrupoS'];
-                        $btn = $_POST['btnRC'];
+                        
                         $queryBtn = ("SELECT d.alufic, d.alunom, d.aluapp, d.aluapm, cl.calif FROM dficha as d INNER JOIN calificaciones as cl ON cl.alufic = d.alufic INNER JOIN grupos as g ON d.alufic = g.alufic WHERE g.letraGrupo = '$grupo'AND cl.id_MateriaG IN (SELECT mg.id_MateriaG FROM calificaciones as cl INNER JOIN materia_grupo as mg ON cl.id_MateriaG = mg.id_MateriaG WHERE mg.idMateria = $materia AND d.alufic IN (SELECT d.alufic FROM carreras as c INNER JOIN dficha as d ON c.idCar = d.carcve1 WHERE d.carcve1 = $carrera));");                       
                         $resultadoBtn =mysqli_query($db, $queryBtn);
                         while($btnRC = mysqli_fetch_assoc($resultadoBtn)): 
