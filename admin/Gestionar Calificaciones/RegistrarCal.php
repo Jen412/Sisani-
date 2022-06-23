@@ -103,41 +103,56 @@
             if ($_SERVER['REQUEST_METHOD']=="POST" && $_POST['tipoForm'] === "calificaciones") {
                 $carrera = $_GET['carreraS']?? null;
                 $materia = $_GET['materiaS']?? null;
-                $grupo = $_GET['GrupoS']?? null;
+                $grupo = $_GET['GrupoS']?? null;   
 
-                $queryBtn = ("SELECT d.alufic, d.alunom, d.aluapp, d.aluapm, cl.calif FROM dficha as d INNER JOIN calificaciones as cl ON cl.alufic = d.alufic INNER JOIN grupos as g ON d.alufic = g.alufic WHERE g.letraGrupo = '$grupo'AND cl.id_MateriaG IN (SELECT mg.id_MateriaG FROM calificaciones as cl INNER JOIN materia_grupo as mg ON cl.id_MateriaG = mg.id_MateriaG WHERE mg.idMateria = $materia AND d.alufic IN (SELECT d.alufic FROM carreras as c INNER JOIN dficha as d ON c.idCar = d.carcve1 WHERE d.carcve1 = $carrera));");                       
-                $resultadoBtn =mysqli_query($db, $queryBtn);
                 
+
+                $calificaciones = [];
                 foreach($_POST as $key => $value){
-                    echo $key .$value. "<br>";
-                    
+                    if (is_int($key)) {
+                        $calificaciones[$key] = $value;
+                    }    
                 }
-                $queryBtn = ("INSERT INTO calificaciones(calif)
-                SELECT 80 
-                FROM calificaciones as cl
-                WHERE cl.alufic = 150001 AND cl.alufic = dficha.alufic IN(
-                SELECT d.alufic
-                FROM dficha as d
-                INNER JOIN calificaciones as cl
-                ON cl.alufic = d.alufic
-                INNER JOIN grupos as g
-                ON d.alufic = g.alufic
-                WHERE g.letraGrupo = 'A'AND cl.id_MateriaG
-                    IN (SELECT mg.id_MateriaG 
-                    FROM calificaciones as cl 
-                    INNER JOIN materia_grupo as mg 
-                    ON cl.id_MateriaG = mg.id_MateriaG
-                    WHERE mg.idMateria = 1 AND d.alufic
-                            IN (SELECT d.alufic 
-                            FROM carreras as c 
-                            INNER JOIN dficha as d 
-                            ON c.idCar = d.carcve1 
-                            WHERE d.carcve1 = 15)))");                       
+                foreach($calificaciones as $key => $value){
+                    $queryGrupo = "SELECT idGrupo FROM grupos WHERE alufic = '{$key}' AND letraGrupo = '{$grupo}'";
+                    $resultadoGrupo  = mysqli_query($db, $queryGrupo);
+                    $idGrupo = mysqli_fetch_assoc($resultadoGrupo)['idGrupo'];
+                    $queryMateriaG = "SELECT id_MateriaG FROM materia_grupo WHERE idMateria = {$materia} AND idGrupo = {$idGrupo}";
+                    $resultadoMateriaGrupo = mysqli_query($db, $queryMateriaG);
+                    $materiaG= mysqli_fetch_assoc($resultadoMateriaGrupo)['id_MateriaG'];
+                    if ($materiaG) {
+                        $queryinsert = "INSERT INTO calificaciones(id_MateriaG, alufic, calif) VALUES ({$materiaG},{$key},{$value})"; 
+                        $resultado = mysqli_query($db, $queryinsert);
+                        if ($resultado) {
+                            header("location: /admin/index.php");
+                        }
+                    }
+                }
                 
                 
-                var_dump($carrera);
-                var_dump($materia);
-                var_dump($grupo);
+                // $queryBtn = ("INSERT INTO calificaciones(calif)
+                // SELECT 80 
+                // FROM calificaciones as cl
+                // WHERE cl.alufic = 150001 AND cl.alufic = dficha.alufic IN(
+                // SELECT d.alufic
+                // FROM dficha as d
+                // INNER JOIN calificaciones as cl
+                // ON cl.alufic = d.alufic
+                // INNER JOIN grupos as g
+                // ON d.alufic = g.alufic
+                // WHERE g.letraGrupo = 'A'AND cl.id_MateriaG
+                //     IN (SELECT mg.id_MateriaG 
+                //     FROM calificaciones as cl 
+                //     INNER JOIN materia_grupo as mg 
+                //     ON cl.id_MateriaG = mg.id_MateriaG
+                //     WHERE mg.idMateria = 1 AND d.alufic
+                //             IN (SELECT d.alufic 
+                //             FROM carreras as c 
+                //             INNER JOIN dficha as d 
+                //             ON c.idCar = d.carcve1 
+                //             WHERE d.carcve1 = 15)))");                       
+                
+                
 
             }
         ?>
