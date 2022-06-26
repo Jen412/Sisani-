@@ -3,8 +3,6 @@
 	require "../../vendor/autoload.php";
 	require "../../includes/config/database.php";
 	use PhpOffice\PhpSpreadsheet\{Spreadsheet, IOFactory, Style\Alignment};
-    use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-    use PhpOffice\PhpSpreadsheet\Style\Style;
 
     if (!$auth) {
        header('location: /'); die();
@@ -82,6 +80,7 @@
 			}
 		}
 		if ($ban) {
+			unlink("../../Excel/importar/".$doc['name']);
 			header("location: /admin/Importar Datos/importarDatos.php");
 			die();
 		}
