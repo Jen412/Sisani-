@@ -96,12 +96,12 @@
                         ?>
                     </select>
                 </div>
-                <input type="submit" value="Buscar" name="btnRC" id="btnRC">
+                <input type="submit" value="Buscar" name="btnRC" id="btnRC" onclick="mostrarTabla();">
             </div>
         </form>
         <form method="POST">
             <input type="hidden" name="tipoForm" value="calificaciones">
-            <div class = "container-table">
+            <div class= "container-table">
                 <div class="table__header">Ficha</div>
                 <div class="table__header">Nombre</div>
                 <div class="table__header">Calificación</div>
@@ -117,7 +117,7 @@
                 ?>
                                 <div class="table__item"><?php echo ($btnRC["alufic"]);?></div>
                                 <div class="table__item"><?php echo ($btnRC["alunom"]);echo ("  "); echo ($btnRC["aluapp"]); echo ("  ");echo ($btnRC["aluapm"]);?></div>
-                                <div class="table__item"><?php echo ('<input name="'.$btnRC["alufic"].'" value = "'.$btnRC["calif"].'" type="number" required>');?></div> 
+                                <div class="table__item"><?php echo ('<input name="'.$btnRC["alufic"].'" value = "'.$btnRC["calif"].'" align="right" style="text-align:right;" required min="0" max="100"> ');?></div> 
                             <?php endwhile;
                         }    
                 }?>

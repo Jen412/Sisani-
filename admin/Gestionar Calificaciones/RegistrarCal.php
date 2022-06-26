@@ -36,9 +36,11 @@
             $queryGrupo = "SELECT idGrupo FROM grupos WHERE alufic = '{$key}' AND letraGrupo = '{$grupo}'";//Seleccionamos el idGrupo cuando la ficha es igual a la llave y la letra es igua a la letra elegida
             $resultadoGrupo  = mysqli_query($db, $queryGrupo);
             $idGrupo = mysqli_fetch_assoc($resultadoGrupo)['idGrupo'];//el id sellecionado lo buscamos en la db
+
             $queryMateriaG = "SELECT id_MateriaG FROM materia_grupo WHERE idMateria = '{$materia}' AND idGrupo = '{$idGrupo}'";
             $resultadoMateriaGrupo = mysqli_query($db, $queryMateriaG);
             $materiaG= mysqli_fetch_assoc($resultadoMateriaGrupo)['id_MateriaG'];
+            
             if ($materiaG) {
                 $queryinsert = "INSERT INTO calificaciones(id_MateriaG, alufic, calif) VALUES ('{$materiaG}','{$key}','{$value}')"; 
                 $resultado = mysqli_query($db, $queryinsert);
@@ -96,7 +98,7 @@
                         ?>
                     </select>
                 </div>
-                <input type="submit" value="Buscar" name="btnRC" id="btnRC">
+                <input type="submit" value="Buscar" name="btnRC" id="btnRC" >
             </div>
         </form>
         <form method="POST">
@@ -117,7 +119,7 @@
                 ?>
                                 <div class="table__item"><?php echo ($btnRC["alufic"]);?></div>
                                 <div class="table__item"><?php echo ($btnRC["alunom"]);echo ("  "); echo ($btnRC["aluapp"]); echo ("  ");echo ($btnRC["aluapm"]);?></div>
-                                <div class="table__item"><?php echo ('<input name="'.$btnRC["alufic"].'" type="number" required>');?></div>
+                                <div class="table__item"><?php echo ('<input name="'.$btnRC["alufic"].'" type="number" align="right" style="text-align:right;" required min="0" max="100" placeholder="Ingresa una calificación menor o igual a 100">');?></div>
                             <?php endwhile;
                         }    
                 }?>

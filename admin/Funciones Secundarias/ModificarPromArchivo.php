@@ -11,15 +11,16 @@
     </div>
 	<br>
 	<p>Importar Archivo: </p>
-	<div class="funciones">
+	<form class="funciones">
 		<label for="importA">Seleccionar archivo</label>
 		<input class = "archivo" type="file" name = "importA" id="importA">
 		<h4 id="nombre"></h4>
-
 		<div>
-			<button id="btnImport">Importar datos</button>
+			<button>Importar datos
+				<input type="submit" value="" id="btnImport">
+			</button>
 		</div>
-	</div>
+	</form>
 </div>
 
 <?php //Metódo de footer

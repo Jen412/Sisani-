@@ -17,14 +17,14 @@
 	}
 }
 .enunciado {
-	max-width: 80rem;
+	max-width: 100%;
 	border-radius: 0rem;
 	padding: .1rem .5rem 0rem .5rem;
 	height: 4rem;
 	text-align:center;
 	font-size: 2rem;
-	margin-bottom: .5rem;
 	background-color: $azulMarino;
+	
 	p {
 		color: $blanco;
 		font-weight: bold;
@@ -66,19 +66,20 @@
 		margin-bottom: 0rem;
 		padding: 0rem;
 		position: relative;
-		font-size: 1.6em;
+		font-size: 1.6rem;
 		left: 20rem;
 	}
 
 	div {
 		position: absolute;
 		bottom: 3rem;
-		left: 1rem;
+		left: 2rem;
 		input {
 			display: none;
 		}
 		button {
-			font-size: 1.6em;	
+			font-size: 1.6rem;
+			font-weight: bold;	
 			padding: 1rem 2rem;
 			border: none;
 			cursor: pointer;

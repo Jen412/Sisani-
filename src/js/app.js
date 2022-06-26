@@ -1,10 +1,10 @@
-const { task } = require("gulp");
-const { Value } = require("sass");
-
-let archivo = document.querySelector('#importA');
+let archivo = document.querySelector('#importA');//Se utiliza en tiempo real a la hora de seleccionar el archivo aparace su nombre
 	archivo.addEventListener('change', () => {
 	document.querySelector('#nombre').innerText =
 	archivo.files[0].name;});
+
+const { task } = require("gulp");
+const { Value } = require("sass");
 
 function mostrarContenido(){
 	document.getElementById('todas').style.display ='flex';
@@ -15,6 +15,12 @@ function mostrarContenido2(){
 	document.getElementById('especifica').style.display ='flex';
 	document.getElementById('todas').style.display ='none';
 }
+
+function mostrarTabla(){
+	document.getElementsByClassName('container-table').style.display ='grid';
+}
+
+
 
 function checkLetters(e) {
     tecla = (document.all) ? e.keyCode : e.which;

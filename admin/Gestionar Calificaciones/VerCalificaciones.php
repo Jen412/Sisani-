@@ -67,7 +67,7 @@
                         ?>
                     </select>
                 </div>
-                <input type="submit" value="Buscar" name="btnRC" id="btnRC">  
+                <input type="submit" value="Buscar" name="btnRC" id="btnRC" onclick="mostrarTabla();">
             </div>
             <div class = "container-table">
                 <div class="table__header">Ficha</div>

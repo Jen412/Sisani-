@@ -93,19 +93,16 @@
    	</div>
 	<br>
 	<p>Importar Archivo: </p>
-	<div class="">
-		<form method="POST" class="funciones" enctype="multipart/form-data">
-			<label for="importA">Seleccionar archivo</label>
-			<input  type="file" class ="archivo" name="importA" id="importA"  accept=".xlsx"  >
-			<h4 id="nombre"></h4>
-
-			<div>
-				<button>Importar datos
-					<input type="submit" value="" id="btnImport">
-				</button>
-			</div>
-		</form>
-	</div>
+	<form method="POST" class="funciones" enctype="multipart/form-data">
+		<label for="importA">Seleccionar archivo</label>
+		<input  type="file" class ="archivo" name="importA" id="importA"  accept=".xlsx"  >
+		<h4 id="nombre"></h4>
+		<div>
+			<button>Importar datos
+				<input type="submit" value="" id="btnImport">
+			</button>
+		</div>
+	</form>
 </div>
 
 <?php //Metódo de footer
