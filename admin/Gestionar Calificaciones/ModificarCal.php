@@ -117,7 +117,7 @@
                 ?>
                                 <div class="table__item"><?php echo ($btnRC["alufic"]);?></div>
                                 <div class="table__item"><?php echo ($btnRC["alunom"]);echo ("  "); echo ($btnRC["aluapp"]); echo ("  ");echo ($btnRC["aluapm"]);?></div>
-                                <div class="table__item"><?php echo ('<input name="'.$btnRC["alufic"].'" value = "'.$btnRC["calif"].'" align="right" style="text-align:right;" required min="0" max="100"> ');?></div> 
+                                <div class="table__item"><?php echo ('<input name="'.$btnRC["alufic"].'" value = "'.$btnRC["calif"].'" align="right" style="text-align:right;" required min="0" max="100" placeholder="Ingresa una calificación menor o igual a 100"> ');?></div> 
                             <?php endwhile;
                         }    
                 }?>
