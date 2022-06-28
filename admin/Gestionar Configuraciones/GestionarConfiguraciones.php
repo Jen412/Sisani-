@@ -4,6 +4,7 @@
        header('location: /'); die();
     }
     inlcuirTemplate('header');
+    
 ?>
 <main class="config">
     <section class="w80">
