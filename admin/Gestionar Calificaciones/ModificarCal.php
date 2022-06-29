@@ -7,11 +7,6 @@
     require "../../includes/config/database.php";//Dirección relativa donde se encuentra la conexion a la db
     $db =conectarDB();//Funcion dentro que permite la conexión
 
-    $materia="";//variables de tipo cadena
-    $carrera="";
-    $grupo="";
-    $btnRC="";
-
     $queryCar ="SELECT * FROM carreras";//Las variables empiezan por $ y pueden almacenar instrucciones SQL
     $queryMat ="SELECT * FROM materias";
     $queryGru ="SELECT * FROM grupos";
@@ -58,7 +53,7 @@
                 <div class="carrera">
                     <label for="">Selecciona Carrera</label>
                     <select name="carreraS" id="carreraS">
-                        <option value="">--Seleccione Carrera--</option>  
+                        <option value=""disabled selected>--Seleccione Carrera--</option>  
                         <?php while($carrera = mysqli_fetch_assoc($resultadoCar)):?><!--como es son varias carreras se guarda la seleccionada en una variable -->
                             <option value="<?php echo $carrera['idCar'];?>"><!--la variable contiene referenciando a la db y el query que se esta realizando-->
                                 <?php echo $carrera['nombcar'];?><!---para mostrar el resultado en pantalla se muestra en una etiqueta del mismo tipo-->
@@ -70,7 +65,7 @@
                 <div class="materia">
                     <label for="">Selecciona Materia</label>
                     <select name="materiaS" id="materiaS">
-                        <option value="">--Seleccione Materia--</option>    
+                        <option value=""disabled selected>--Seleccione Materia--</option>    
                         <?php while($materia = mysqli_fetch_assoc($resultadoMat)):?>
                             <option value="<?php echo $materia['idMateria'];?>"><!---El valor contiene el id de la materia que seleccionemos-->
                                 <?php echo $materia['nombre_Mat'];?><!--Se imprime lo que se eligio-->
@@ -102,26 +97,26 @@
         <form method="POST">
             <input type="hidden" name="tipoForm" value="calificaciones">
             <div class= "container-table">
-                <div class="table__header">Ficha</div>
-                <div class="table__header">Nombre</div>
-                <div class="table__header">Calificación</div>
                 <?php  
                     if ($_SERVER['REQUEST_METHOD']=="GET") {//se reciben los datos del formulario con el imput hidden seleccion 
                         $carrera=$_GET['carreraS']?? null;
                         $materia=$_GET['materiaS'] ?? null;
                         $grupo = $_GET['GrupoS']?? null;
                         if ($carrera!=null) {
-                            $queryBtn = ("SELECT d.alufic, d.alunom, d.aluapp, d.aluapm, cl.calif FROM dficha as d INNER JOIN calificaciones as cl ON cl.alufic = d.alufic INNER JOIN grupos as g ON d.alufic = g.alufic WHERE g.letraGrupo = '$grupo'AND cl.id_MateriaG IN (SELECT mg.id_MateriaG FROM calificaciones as cl INNER JOIN materia_grupo as mg ON cl.id_MateriaG = mg.id_MateriaG WHERE mg.idMateria = $materia AND d.alufic IN (SELECT d.alufic FROM carreras as c INNER JOIN dficha as d ON c.idCar = d.carcve1 WHERE d.carcve1 = $carrera));");                                              
-                            $resultadoBtn =mysqli_query($db, $queryBtn);
-                            while($btnRC = mysqli_fetch_assoc($resultadoBtn)): 
+                            echo ('<div class="table__header">Ficha</div>');
+                            echo ('<div class="table__header">Nombre</div>');
+                            echo ('<div class="table__header">Calificación</div>');
+                            $queryMC = ("SELECT d.alufic, d.alunom, d.aluapp, d.aluapm, cl.calif FROM dficha as d INNER JOIN calificaciones as cl ON cl.alufic = d.alufic INNER JOIN grupos as g ON d.alufic = g.alufic WHERE g.letraGrupo = '$grupo'AND cl.id_MateriaG IN (SELECT mg.id_MateriaG FROM calificaciones as cl INNER JOIN materia_grupo as mg ON cl.id_MateriaG = mg.id_MateriaG WHERE mg.idMateria = $materia AND d.alufic IN (SELECT d.alufic FROM carreras as c INNER JOIN dficha as d ON c.idCar = d.carcve1 WHERE d.carcve1 = $carrera));");                                              
+                            $resultadoMC =mysqli_query($db, $queryMC);
+                            while($row = mysqli_fetch_assoc($resultadoMC)): 
                 ?>
-                                <div class="table__item"><?php echo ($btnRC["alufic"]);?></div>
-                                <div class="table__item"><?php echo ($btnRC["alunom"]);echo ("  "); echo ($btnRC["aluapp"]); echo ("  ");echo ($btnRC["aluapm"]);?></div>
-                                <div class="table__item"><?php echo ('<input name="'.$btnRC["alufic"].'" value = "'.$btnRC["calif"].'" align="right" style="text-align:right;" required min="0" max="100" placeholder="Ingresa una calificación menor o igual a 100"> ');?></div> 
+                                <div class="table__item"><?php echo ($row["alufic"]);?></div>
+                                <div class="table__item"><?php echo ($row["alunom"]);echo ("  "); echo ($row["aluapp"]); echo ("  ");echo ($row["aluapm"]);?></div>
+                                <div class="table__item"><?php echo ('<input name="'.$row["alufic"].'" value = "'.$row["calif"].'" type="number" align="right" style="text-align:right;" required min="0" max="100" placeholder="Ingresa una calificación menor o igual a 100"> ');?></div> 
                             <?php endwhile;
+                            echo ('<input type="submit" value="Modificar Calificaciones" class="btnRCT">');
                         }    
                 }?>
-                <input type="submit" value="Modificar Calificaciones" class="btnRCT">
             </div>  
         </form>
     </section>
