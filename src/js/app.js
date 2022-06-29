@@ -6,20 +6,15 @@ let archivo = document.querySelector('#importA');//Se utiliza en tiempo real a l
 const { task } = require("gulp");
 const { Value } = require("sass");
 
-function mostrarContenido(){
+function mostrarContenido(){//Muestra el menú de selección para generar todas las listas 
 	document.getElementById('todas').style.display ='flex';
 	document.getElementById('especifica').style.display ='none';
 }
 
-function mostrarContenido2(){
+function mostrarContenido2(){//Muestra el menú de selección para generar las listas especificas
 	document.getElementById('especifica').style.display ='flex';
 	document.getElementById('todas').style.display ='none';
 }
-
-function mostrarTabla(){
-	document.getElementsByClassName('container-table').style.display ='grid';
-}
-
 
 
 function checkLetters(e) {
