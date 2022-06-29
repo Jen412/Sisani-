@@ -38,7 +38,7 @@
 					$valorE = 5;
 					break;
 				case 'INGENIERÍA ELÉCTRICA':
-					$valorE = 5;
+					$valorE = 6;
 					break;
 				case 'INGENIERÍA EN SISTEMAS COMPUTACIONALES':
 					$valorE = 15;
