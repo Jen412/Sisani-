@@ -5,6 +5,7 @@
 
     use PhpOffice\PhpSpreadsheet\{Spreadsheet, IOFactory, Style\Alignment};
     use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+    use PhpOffice\PhpSpreadsheet\Worksheet\AutoFilter;
 
 
     if (!$auth) {
@@ -15,6 +16,12 @@
     $query = "SELECT * FROM carreras";
     $resultado = mysqli_query($db, $query);
 
+    function comparar($a, $b){
+        if ((int) $a[9] == (int) $b[9]) {
+            return 0;
+        }
+        return ((int) $a[9] > (int) $b[9]) ? -1 : 1;
+    }
     function excel($nom,$db, $id){
         $borderArray =[
             'borders' => [
@@ -36,6 +43,9 @@
         $query ="SELECT * FROM materias WHERE idMateria = {$materia3}";
         $resultMat3 = mysqli_query($db, $query);
         $nombreMat3=mysqli_fetch_assoc($resultMat3)['nombre_Mat'];
+        $calMat1=0;
+        $calMat2=0;
+        $calMat3=0;
 
         $spreadsheet = new Spreadsheet();
         $spreadsheet->getProperties()->setTitle($nom);
@@ -88,23 +98,8 @@
         $queryAlu = "SELECT alufic, aluapp, aluapm, alunom, alupro, calificacionCeneval from dficha WHERE carcve1 = {$id};";
         $resultadoAlu = mysqli_query($db, $queryAlu);
         $fila = 4;
+        $array = Array();
         while($alumno = mysqli_fetch_assoc($resultadoAlu)){
-            $hoja->setCellValue('A'.$fila, $alumno['alufic']);
-            $hoja->getStyle('A'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-            $hoja->getStyle("A".$fila)->applyFromArray($borderArray);
-            $hoja->setCellValue('B'.$fila, $alumno['alunom']);
-            $hoja->getStyle("B".$fila)->applyFromArray($borderArray);
-            $hoja->getStyle('B'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-            $hoja->setCellValue('C'.$fila, $alumno['aluapp']);
-            $hoja->getStyle("C".$fila)->applyFromArray($borderArray);
-            $hoja->getStyle('C'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-            $hoja->setCellValue('D'.$fila, $alumno['aluapm']);
-            $hoja->getStyle("D".$fila)->applyFromArray($borderArray);
-            $hoja->getStyle('D'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-            $hoja->setCellValue('E'.$fila, $alumno['alupro']);
-            $hoja->getStyle('E'.$fila)->applyFromArray($borderArray);
-            $hoja->getStyle('E'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-
             $queryMatG = "SELECT id_MateriaG, calif FROM calificaciones WHERE alufic = '{$alumno['alufic']}'";
             $resultadoMatG = mysqli_query($db, $queryMatG);
             while ($matG=mysqli_fetch_assoc($resultadoMatG)) {
@@ -113,29 +108,60 @@
                 $mateG = mysqli_fetch_assoc($resulMat);
                 $calif = $matG['calif'];
                 if ($materia1 == $mateG['idMateria']) {
-                    $hoja->setCellValue('F'.$fila, $calif);
-                    $hoja->getStyle('F'.$fila)->applyFromArray($borderArray);
-                    $hoja->getStyle('F'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                    $calMat1 =$calif;
                 }
                 else if($materia2 == $mateG['idMateria']){
-                    $hoja->setCellValue('G'.$fila, $calif);
-                    $hoja->getStyle('G'.$fila)->applyFromArray($borderArray);
-                    $hoja->getStyle('G'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                    $calMat2 =$calif;
                 }
                 else if($materia3 == $mateG['idMateria']){
-                    $hoja->setCellValue('H'.$fila, $calif);
-                    $hoja->getStyle('H'.$fila)->applyFromArray($borderArray);
-                    $hoja->getStyle('H'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                    $calMat3 =$calif;
                 }
             }
-            $hoja->setCellValue('I'.$fila, $alumno['calificacionCeneval']);
-            $hoja->getStyle('I'.$fila)->applyFromArray($borderArray);
-            $hoja->getStyle('I'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-            $formula = "=(((E{$fila}*30%)+(F{$fila}*10%)+(G{$fila}*10%)+(H{$fila}*10%)+(((I{$fila}-700)/6)*40%))*6)+700";
-            $hoja->setCellValue('J'.$fila, $formula);
-            $hoja->getStyle('J'.$fila)->applyFromArray($borderArray);
-            $hoja->getStyle('J'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-            $fila++;
+            #$formula = "=(((E{$fila}*30%)+(F{$fila}*10%)+(G{$fila}*10%)+(H{$fila}*10%)+(((I{$fila}-700)/6)*40%))*6)+700";
+            $promFin = ((($alumno['alupro']*0.30)+($calMat1*0.10)+($calMat2*0.10)+($calMat3*0.10)+((($alumno['calificacionCeneval']-700)/6)*0.40))*6)+700;
+            $arr =[$alumno['alufic'], $alumno['alunom'], $alumno['aluapp'], $alumno['aluapm'], $alumno['alupro'], $calMat1, $calMat2, $calMat3, $alumno['calificacionCeneval'], $promFin];
+            array_push($array,$arr);
+        }
+        usort($array, 'comparar');
+        $queryCanG ="SELECT * FROM detalles_config WHERE idCar={$id} AND idConfig=1";
+        $resultadoG = mysqli_query($db, $queryCanG);
+        $detalles = mysqli_fetch_assoc($resultadoG);
+        $cantGrup = $detalles['cant_Grupos'];
+        $cantXGrup = $detalles['cant_Elem_Grupo'];
+        for ($i=0; $i <count($array); $i++) { 
+            if ($i< $cantXGrup) {
+                $hoja->setCellValue('A'.$fila, $array[$i][0]);
+                $hoja->getStyle('A'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $hoja->getStyle("A".$fila)->applyFromArray($borderArray);
+                $hoja->setCellValue('B'.$fila, $array[$i][1]);
+                $hoja->getStyle("B".$fila)->applyFromArray($borderArray);
+                $hoja->getStyle('B'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $hoja->setCellValue('C'.$fila, $array[$i][2]);
+                $hoja->getStyle("C".$fila)->applyFromArray($borderArray);
+                $hoja->getStyle('C'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $hoja->setCellValue('D'.$fila, $array[$i][3]);
+                $hoja->getStyle("D".$fila)->applyFromArray($borderArray);
+                $hoja->getStyle('D'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $hoja->setCellValue('E'.$fila, $array[$i][4]);
+                $hoja->getStyle('E'.$fila)->applyFromArray($borderArray);
+                $hoja->getStyle('E'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $hoja->setCellValue('F'.$fila, $array[$i][5]);
+                $hoja->getStyle('F'.$fila)->applyFromArray($borderArray);
+                $hoja->getStyle('F'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $hoja->setCellValue('G'.$fila, $array[$i][6]);
+                $hoja->getStyle('G'.$fila)->applyFromArray($borderArray);
+                $hoja->getStyle('G'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $hoja->setCellValue('H'.$fila, $array[$i][7]);
+                $hoja->getStyle('H'.$fila)->applyFromArray($borderArray);
+                $hoja->getStyle('H'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $hoja->setCellValue('I'.$fila, $array[$i][8]);
+                $hoja->getStyle('I'.$fila)->applyFromArray($borderArray);
+                $hoja->getStyle('I'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $hoja->setCellValue('J'.$fila, $array[$i][9]);
+                $hoja->getStyle('J'.$fila)->applyFromArray($borderArray);
+                $hoja->getStyle('J'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $fila++;
+            }
         }
         $writer = new Xlsx($spreadsheet);        
         $writer =IOFactory::createWriter($spreadsheet, 'Xlsx');
@@ -148,7 +174,8 @@
         $queryCar = "SELECT nombcar FROM carreras WHERE idCar = {$carrera};";
         $resultado = mysqli_query($db, $queryCar);
         $nomCarrera= mysqli_fetch_assoc($resultado)['nombcar'];
-        excel($nomCarrera, $db, $carrera);$zip = new ZipArchive();
+        excel($nomCarrera, $db, $carrera);
+        $zip = new ZipArchive();
         $archivo ='../../Excel/'.$nomCarrera."Aceptados".'.zip';
         if ($zip->open($archivo, ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
             $zip->addFile('../../Excel/ListasAceptados/'.$nomCarrera.".xlsx");
