@@ -27,7 +27,7 @@
                     <th><?php echo $row['idConfig']?></th>
                     <th><?php echo $row['nombre']?></th>
                     <th><?php echo $row['descripcion']?></th>
-                    <th><input type="submit" value="Vizualizar"></th>
+                    <th><input type="submit" value="Visualizar"></th>
                 </tr>
             </form>
         <?php }?>

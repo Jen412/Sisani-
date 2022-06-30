@@ -48,11 +48,11 @@
         <div class="parametros">
             <div class="cantidadG">
                 <label>Cantidad Grupos </label>
-                <input type="number" name="cantidadGrupo" id="cantidadGrupo" required>
+                <input type="number" name="cantidadGrupo" id="cantidadGrupo" min="1" max="5" required>
             </div>
             <div class="cantidadXG">
                 <label>Cantidad por Grupo</label>
-                <input type="number" name="cantidadxG" id="cantidadxG"required>
+                <input type="number" name="cantidadxG" id="cantidadxG" min="1" max="45"required>
             </div>
             <div class="btnAgregar">
                 <input type="submit" value="Agregar">

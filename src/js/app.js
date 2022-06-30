@@ -16,6 +16,21 @@ function mostrarContenido2(){//Muestra el menú de selección para generar las l
 	document.getElementById('todas').style.display ='none';
 }
 
+function confirmarEliminacion (formulario){
+    const result = Swal.fire({
+        title: 'Esta seguro de Eliminar',
+        text: "No se puede revertir esta accion",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: 'Si Eliminar'
+    }).then((result) => {
+        if(result.isConfirmed){
+            const form = document.querySelector(formulario);
+            console.log(form);
+            form.submit();
+        }});
+}
 
 function checkLetters(e) {
     tecla = (document.all) ? e.keyCode : e.which;
