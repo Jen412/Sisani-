@@ -2,15 +2,17 @@
     display: block;
     text-align: center;
     margin-top: 3rem;
-    button{
+    input{
         background-color: $azulMarino;
         padding: 1rem;
         border-radius: 0.8rem;
         border-color: $azulOscuro;
         margin-bottom: 5rem;
         color: $blanco;
+        width: 15%;
     }
-    button:hover{
+    input:hover{
         cursor: pointer;
+        background-color: $azulOscuro;
     }
 }
