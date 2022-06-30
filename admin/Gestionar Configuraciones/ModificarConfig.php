@@ -107,8 +107,8 @@
                     while($row = mysqli_fetch_assoc($resultadoCon)):?>
                         <input type="hidden" name="<?php echo $row ["idConfig"] ;?>" value="ID">
                         <div class="table__item"><?php echo $row ["nombcar"] ;?></div>
-                        <div class="table__item"><?php echo ('<input name="'.$row ["idCar"].'x"  value = "'.$row ["cant_Grupos"].'" type="number" align="right" style="text-align:right;" required min="0" max="100" required placeholder="Ingresa la cantidad de grupos">');?></div>
-                        <div class="table__item"><?php echo ('<input name=" '.$row ["idCar"].'" value = "'.$row ["cant_Elem_Grupo"].'" type="number" align="right" style="text-align:right;" required min="0" max="100" required placeholder="Ingresa la cantidad de elementos por grupo">');?></div>
+                        <div class="table__item"><?php echo ('<input name="'.$row ["idCar"].'x"  value = "'.$row ["cant_Grupos"].'" type="number" align="right" style="text-align:right;" required min="1" max="5" required placeholder="Ingresa la cantidad de grupos">');?></div>
+                        <div class="table__item"><?php echo ('<input name=" '.$row ["idCar"].'" value = "'.$row ["cant_Elem_Grupo"].'" type="number" align="right" style="text-align:right;" required min="1" max="45" required placeholder="Ingresa la cantidad de elementos por grupo">');?></div>
                     <?php endwhile;
                     echo ('<input type="submit" value="Modificar Configuración" class="btnRCT">');
                     echo ('
