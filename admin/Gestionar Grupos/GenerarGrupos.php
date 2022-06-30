@@ -27,8 +27,8 @@
 ?>
 <main class="c_grupos">
     <h1>Crear Grupos</h1>
-    <form  method="post">
-        <input type="submit" value="Automáticamente">
+    <form id="x" method="post">
+        <input type="button" value="Automáticamente" onclick="confirmarEliminacion('#x')">
     </form>
 </main>
 <?php 

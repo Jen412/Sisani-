@@ -32,8 +32,7 @@
         <form method="POST">
             <div class="numFicha">
                 <label for="numFicha">Número de Ficha: </label>
-                <input type="text" name="numFicha" id="numFicha"  onchange="buscarAlumnoProm(event);">
-                
+                <input type="text" name="numFicha" id="numFicha"  onchange="buscarAlumno(event);">
             </div>
             <div class="nomAlumno">
                 <label for="nomAlumno">Nombre: </label>

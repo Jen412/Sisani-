@@ -15,7 +15,7 @@
             </a>
             <a href="/admin/Generar Listas/ListaCursoIntro.php">
                 <ion-icon name="document-text-outline"></ion-icon>
-                Listas del Curso de Introducción
+                Listas del Curso de Inducción
             </a>
             <a href="/admin/Generar Listas/ListaPromMen.php">
                 <ion-icon name="document-text-outline"></ion-icon>

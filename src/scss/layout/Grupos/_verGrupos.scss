@@ -31,6 +31,8 @@
         grid-template-columns: repeat(5,1fr);
         grid-auto-rows: 5rem;
     
+        overflow-y: scroll;
+        height: auto;
         .table__title{
             grid-column-start: 1;
             grid-column-end: 4;

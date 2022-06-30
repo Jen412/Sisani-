@@ -245,7 +245,7 @@
     }
 ?>
 <main class="g_listas">
-    <h1>Listas del Curso de Introducción</h1>
+    <h1>Listas del Curso de Inducción</h1>
         <div class="btnsLista">
             <input type="button" onclick="mostrarContenido();" value="Generar todas las listas por materia" class="btnChoseV">
             <input type="button" onclick="mostrarContenido2();" value="Especificar lista" class="btnChoseA" >

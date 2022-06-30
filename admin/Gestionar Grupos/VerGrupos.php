@@ -37,11 +37,11 @@
                 echo ('<div class="table__header">Apellido Materno</div>');
                 echo ('<div class="table__header">Grupo</div>');
                 while($row = mysqli_fetch_assoc($resultadoRC)): ?>
-                <div class="table__item"><?php echo $row['alufic'];?></div>
-                <div class="table__item"><?php echo $row['alunom'];?></div>
-                <div class="table__item"><?php echo $row['aluapp'];?></div>
-                <div class="table__item"><?php echo $row['aluapm'];?></div>
-                <div class="table__item"><?php echo $row['letraGrupo'];?></div>
+                    <div class="table__item"><?php echo $row['alufic'];?></div>
+                    <div class="table__item"><?php echo $row['alunom'];?></div>
+                    <div class="table__item"><?php echo $row['aluapp'];?></div>
+                    <div class="table__item"><?php echo $row['aluapm'];?></div>
+                    <div class="table__item"><?php echo $row['letraGrupo'];?></div>
                 <?php endwhile;
             }    
         }?>
