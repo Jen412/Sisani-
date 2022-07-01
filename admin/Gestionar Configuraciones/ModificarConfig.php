@@ -46,14 +46,15 @@
                 $resultado = mysqli_query($db, $queryUpdateD);
             }
             foreach($elemGrupo as $key => $value){
-                $queryUpdateE = "UPDATE detalles_config SET cant_Elem_Grupo  = '{$value}' WHERE idConfig = '{$keyId}'  AND idCar = '{$key}' ";
+                $queryUpdateE = "UPDATE detalles_config SET num_Alumnos  = '{$value}' WHERE idConfig = '{$keyId}'  AND idCarrera = '{$key}' ";
                 $resultado = mysqli_query($db, $queryUpdateE);
             }
             foreach($grupo as $key => $value){
-                $queryUpdate = "UPDATE detalles_config SET cant_Grupos = '{$value}' WHERE idConfig = '{$keyId}'  AND idCar = '{$key}' "; 
+                $queryUpdate = "UPDATE detalles_config SET cantidadGrupos = '{$value}' WHERE idConfig = '{$keyId}'  AND idCarrera = '{$key}' "; 
                 $resultado = mysqli_query($db, $queryUpdate);
             }
         }
+        
     }  
 ?>
 <main class="g_config">
@@ -92,7 +93,7 @@
                         </div>
                         <div class="des">
                             <label>Descripción</label>
-                            <?php echo ('<textarea name="'.$row["idConfig"].'d" placeholder="'.$row["descripcion"].'"name="" id="" cols="48" rows="5" required ></textarea>');?>
+                            <?php echo ('<input type = "text" name="'.$row["idConfig"].'d" maxlength = "280"value="'.$row["descripcion"].'"name="" id="" cols="48" rows="5" required >');?>                        
                         </div>
                     </div>
                     
@@ -102,7 +103,7 @@
                             <div class="table__header">Cantidad de grupos</div>
                             <div class="table__header">Cantidad por Grupo</div>
                 <?php  endwhile;   
-                    $queryConfig = ("SELECT * FROM detalles_config as dc INNER JOIN carreras as c ON dc.idCarrera = c.idCarrera WHERE dc.idConfig = $config AND c.idCarrera != 18 AND c.idCarrera !=25");                       
+                    $queryConfig = ("SELECT * FROM detalles_config as dc INNER JOIN carreras as c ON dc.idCarrera = c.idCarrera WHERE dc.idConfig = $config");                       
                     $resultadoCon =mysqli_query($db, $queryConfig);
                     while($row = mysqli_fetch_assoc($resultadoCon)):?>
                         <input type="hidden" name="<?php echo $row ["idConfig"] ;?>" value="ID">
@@ -110,12 +111,13 @@
                         <div class="table__item"><?php echo ('<input name="'.$row ["idCarrera"].'x"  value = "'.$row ["cantidadGrupos"].'" type="number" align="right" style="text-align:right;" required min="1" max="5" required placeholder="Ingresa la cantidad de grupos">');?></div>
                         <div class="table__item"><?php echo ('<input name=" '.$row ["idCarrera"].'" value = "'.$row ["num_Alumnos"].'" type="number" align="right" style="text-align:right;" required min="1" max="45" required placeholder="Ingresa la cantidad de elementos por grupo">');?></div>
                     <?php endwhile;
-                    echo ('<input type="submit" value="Modificar Configuración" class="btnRCT">');
+                    echo ('<input type="submit" value="Modificar Configuración" class="btnRCT" >');
+
                     echo ('
                         </div> 
                     </div>');
             }  
-        }?>              
+        }?>          
     </form>
 </main>
 <?php 

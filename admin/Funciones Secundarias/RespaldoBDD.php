@@ -13,7 +13,7 @@
         $arrayDbConf['host'] = 'localhost';
         $arrayDbConf['user'] = 'root';
         $arrayDbConf['pass'] = '';
-        $arrayDbConf['name'] = 'sigacitc_siseni';
+        $arrayDbConf['name'] = 'siseni';
         try {
             $bck = new MySqlBackupLite($arrayDbConf);
             $bck->backUp();
