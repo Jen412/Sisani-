@@ -14,7 +14,7 @@
 		// echo "<pre>";
 		// var_dump($_FILES);
 		// echo "</pre>";
-		$db = new mysqli("localhost","root", "", "siseni");
+		$db = conectarDB();
 		move_uploaded_file($doc['tmp_name'],"../../Excel/importar/".$doc['name']);
 		$archivo = "../../Excel/importar/".$doc['name'];
 		$document = IOFactory::load($archivo);
@@ -70,7 +70,7 @@
 			}
 			$query ="INSERT INTO alumnos(solicitud, alu_nombre, alu_prom, alu_apeP, alu_apeM, idCarrera) VALUES ('{$valorA}','{$valorB}',{$valorF},'{$valorC}','{$valorD}',{$valorE});";
 			//echo $query . "<br>";
-			$resultado =$db->query($query);
+			$resultado =mysqli_query($db,$query);
 			$resultados []= $resultado;
 		}
 		$ban = false;

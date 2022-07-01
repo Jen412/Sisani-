@@ -41,13 +41,13 @@
                     echo ('<div class="table__header">Cantidad de grupos</div>');
                     echo ('<div class="table__header">Cantidad por Grupo</div>');
                     foreach($_POST as $key => $value){//Obtengo el id de la configuración que se selecciono en un foreach de una vuelta 
-                    $queryConfig = ("SELECT c.nombcar, dc.cant_Grupos, dc.cant_Elem_Grupo FROM detalles_config as dc INNER JOIN carreras as c ON dc.idCar = c.idCar WHERE dc.idConfig = $key AND c.idCar != 18 AND c.idCar !=25");                       
+                    $queryConfig = ("SELECT c.nomCarrera, dc.cantidadGrupos, dc.num_Alumnos FROM detalles_config as dc INNER JOIN carreras as c ON dc.idCarrera = c.idCarrera WHERE dc.idConfig = $key AND c.idCarrera != 18 AND c.idCarrera !=25");                       
                     $resultadoCon =mysqli_query($db, $queryConfig);
                     while($row = mysqli_fetch_assoc($resultadoCon)): 
             ?>
-                        <div class="table__item"><?php echo $row["nombcar"] ;?></div>
-                        <div class="table__item"><?php echo $row["cant_Grupos"];?></div>
-                        <div class="table__item"><?php echo $row["cant_Elem_Grupo"] ;?></div>
+                        <div class="table__item"><?php echo $row["nomCarrera"] ;?></div>
+                        <div class="table__item"><?php echo $row["cantidadGrupos"];?></div>
+                        <div class="table__item"><?php echo $row["num_Alumnos"] ;?></div>
                 <?php endwhile; }}?>
         </div> 
     </div>

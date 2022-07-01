@@ -28,7 +28,7 @@
                 <select name="materia" id="materia">
                     <option value="" disabled selected>--Selecione Materia--</option>
                     <?php while ($materia = mysqli_fetch_array($resultado)): ?>
-                        <option value="<?php echo $materia['idMateria'];?>"><?php echo $materia['nombre_Mat'];?></option>
+                        <option value="<?php echo $materia['idMateria'];?>"><?php echo $materia['nombreMateria'];?></option>
                     <?php endwhile;?>
                 </select>
             </div>

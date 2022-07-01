@@ -26,8 +26,8 @@
                     <select name="carreraS" id="carreraS">
                         <option value=""disabled selected>--Seleccione Carrera--</option>  
                         <?php while($carrera = mysqli_fetch_assoc($resultadoCar)):?><!--como es son varias carreras se guarda la seleccionada en una variable -->
-                            <option value="<?php echo $carrera['idCar'];?>"><!--la variable contiene referenciando a la db y el query que se esta realizando-->
-                                <?php echo $carrera['nombcar'];?><!---para mostrar el resultado en pantalla se muestra en una etiqueta del mismo tipo-->
+                            <option value="<?php echo $carrera['idCarrera'];?>"><!--la variable contiene referenciando a la db y el query que se esta realizando-->
+                                <?php echo $carrera['nomCarrera'];?><!---para mostrar el resultado en pantalla se muestra en una etiqueta del mismo tipo-->
                             </option><!--con la impresion de la variable de la carrera dentro del while mediante el nombre del campo de la tabla-->
                             <!--cuando se selecciona una opcion se presenta el nombre en base a su id, primero se acede al id y despues al nombre-->
                         <?php endwhile;?>  
@@ -39,7 +39,7 @@
                         <option value=""disabled selected>--Seleccione Materia--</option>    
                         <?php while($materia = mysqli_fetch_assoc($resultadoMat)):?>
                             <option value="<?php echo $materia['idMateria'];?>"><!---El valor contiene el id de la materia que seleccionemos-->
-                                <?php echo $materia['nombre_Mat'];?><!--Se imprime lo que se eligio-->
+                                <?php echo $materia['nombreMateria'];?><!--Se imprime lo que se eligio-->
                             </option>
                         <?php endwhile;?>
                     </select><!--Se envia el id del select desde el formulario conteniendo el valor del id de la materia seleccionada--->
@@ -49,9 +49,11 @@
                     <select name="GrupoS" id="GrupoS">
                         <option value="" disabled selected>--Seleccione Grupo--</option>    
                         <option value="A">A</option>
-                        <option value="B">B</option>
                         <?php 
                             while($grupo = mysqli_fetch_assoc($resultadoGru)){
+                                if ($grupo['letraGrupo']=='B') {
+                                    echo '<option value="B">B</option>';
+                                }
                                 if ($grupo['letraGrupo']=='C') {
                                     echo '<option value="C">C</option>';
                                 }
@@ -73,12 +75,12 @@
                         echo ('<div class="table__header">Ficha</div>');
                         echo ('<div class="table__header">Nombre</div>');
                         echo ('<div class="table__header">Calificación</div>');
-                        $queryBtn = ("SELECT d.alufic, d.alunom, d.aluapp, d.aluapm, cl.calif FROM dficha as d INNER JOIN calificaciones as cl ON cl.alufic = d.alufic INNER JOIN grupos as g ON d.alufic = g.alufic WHERE g.letraGrupo = '$grupo'AND cl.id_MateriaG IN (SELECT mg.id_MateriaG FROM calificaciones as cl INNER JOIN materia_grupo as mg ON cl.id_MateriaG = mg.id_MateriaG WHERE mg.idMateria = $materia AND d.alufic IN (SELECT d.alufic FROM carreras as c INNER JOIN dficha as d ON c.idCar = d.carcve1 WHERE d.carcve1 = $carrera));");                       
+                        $queryBtn = ("SELECT d.solicitud, d.alu_nombre, d.alu_apeP, d.alu_apeM, cl.calif FROM alumnos as d INNER JOIN calificaciones as cl ON cl.solicitud = d.solicitud INNER JOIN grupos as g ON d.solicitud = g.solicitud WHERE g.letraGrupo = '$grupo'AND cl.idMateriaGrupo IN (SELECT mg.idMateriaGrupo FROM calificaciones as cl INNER JOIN materiagrupo as mg ON cl.idMateriaGrupo = mg.idMateriaGrupo WHERE mg.idMateria = $materia AND d.solicitud IN (SELECT d.solicitud FROM carreras as c INNER JOIN alumnos as d ON c.idCarrera = d.idCarrera WHERE d.idCarrera = $carrera));");                       
                         $resultadoBtn =mysqli_query($db, $queryBtn);
                         while($btnRC = mysqli_fetch_assoc($resultadoBtn)): 
                 ?>
-                            <div class="table__item"><?php echo $btnRC["alufic"] ;?></div>
-                            <div class="table__item"><?php echo $btnRC["alunom"];echo "  "; echo $btnRC["aluapp"]; echo "  ";echo $btnRC["aluapm"];?></div>
+                            <div class="table__item"><?php echo $btnRC["solicitud"] ;?></div>
+                            <div class="table__item"><?php echo $btnRC["alu_nombre"];echo "  "; echo $btnRC["alu_apeP"]; echo "  ";echo $btnRC["alu_apeM"];?></div>
                             <div class="table__item"><?php echo $btnRC["calif"] ;?></div>
                     <?php endwhile; }?>
             </div> 

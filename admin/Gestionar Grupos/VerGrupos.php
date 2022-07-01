@@ -17,7 +17,7 @@
             <select name="carrera" id="carrera">
                 <option value="" disabled selected>--Seleccione Carrera--</option>
                 <?php while($carreras = mysqli_fetch_assoc($resultado)):?>
-                <option value="<?php echo $carreras['idCar']?>"><?php echo $carreras['nombcar']?></option>
+                <option value="<?php echo $carreras['idCarrera']?>"><?php echo $carreras['nomCarrera']?></option>
                 <?php endwhile;?>
             </select>
             <input type="submit" value="Buscar">
@@ -29,7 +29,7 @@
         if ($_SERVER['REQUEST_METHOD']=="GET") {//se reciben los datos del formulario con el imput hidden seleccion 
             $carrera=$_GET['carrera'] ?? null;
             if ($carrera!=null) {
-                $queryRC = "SELECT dficha.alufic, alunom, aluapp, aluapm, grupos.letraGrupo FROM dficha, grupos WHERE dficha.alufic = grupos.alufic AND carcve1= {$carrera};";                       
+                $queryRC = "SELECT alumnos.solicitud, alu_nombre, alu_apeP, alu_apeM, grupos.letraGrupo FROM alumnos, grupos WHERE alumnos.solicitud = grupos.solicitud AND idCarrera= {$carrera};";                       
                 $resultadoRC =mysqli_query($db, $queryRC);
                 echo ('<div class="table__header">Solicitud</div>');
                 echo ('<div class="table__header">Nombre</div>');
@@ -37,10 +37,10 @@
                 echo ('<div class="table__header">Apellido Materno</div>');
                 echo ('<div class="table__header">Grupo</div>');
                 while($row = mysqli_fetch_assoc($resultadoRC)): ?>
-                    <div class="table__item"><?php echo $row['alufic'];?></div>
-                    <div class="table__item"><?php echo $row['alunom'];?></div>
-                    <div class="table__item"><?php echo $row['aluapp'];?></div>
-                    <div class="table__item"><?php echo $row['aluapm'];?></div>
+                    <div class="table__item"><?php echo $row['solicitud'];?></div>
+                    <div class="table__item"><?php echo $row['alu_nombre'];?></div>
+                    <div class="table__item"><?php echo $row['alu_apeP'];?></div>
+                    <div class="table__item"><?php echo $row['alu_apeM'];?></div>
                     <div class="table__item"><?php echo $row['letraGrupo'];?></div>
                 <?php endwhile;
             }    

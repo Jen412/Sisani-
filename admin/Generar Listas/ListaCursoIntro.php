@@ -59,24 +59,24 @@
         $hoja->getStyle("A3:D3")->getFont()->setBold(true);
         $hoja->getStyle("A2:D2")->getFont()->setSize(12);
     
-        $queryGrupEs = "SELECT dficha.alufic, alunom, aluapp, aluapm FROM dficha, grupos, materia_grupo 
-        WHERE dficha.alufic = grupos.alufic AND grupos.letraGrupo = '{$grupo}' 
-        AND carcve1 = {$carrera} AND grupos.idGrupo=materia_grupo.idGrupo 
-        AND materia_grupo.idMateria = {$materia};";
+        $queryGrupEs = "SELECT alumnos.solicitud, alu_nombre, alu_apeP, alu_apeM FROM alumnos, grupos, materiagrupo 
+        WHERE alumnos.solicitud = grupos.solicitud AND grupos.letraGrupo = '{$grupo}' 
+        AND idCarrera = {$carrera} AND grupos.idGrupo=materiagrupo.idGrupo 
+        AND materiagrupo.idMateria = {$materia};";
 
         $resultado = mysqli_query($db, $queryGrupEs);
         $fila = 4;
         while($alumno = mysqli_fetch_assoc($resultado)){
-            $hoja->setCellValue('A'.$fila, $alumno['alufic']);
+            $hoja->setCellValue('A'.$fila, $alumno['solicitud']);
             $hoja->getStyle('A'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
             $hoja->getStyle("A".$fila)->applyFromArray($borderArray);
-            $hoja->setCellValue('B'.$fila, $alumno['alunom']);
+            $hoja->setCellValue('B'.$fila, $alumno['alu_nombre']);
             $hoja->getStyle("B".$fila)->applyFromArray($borderArray);
             $hoja->getStyle('B'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-            $hoja->setCellValue('C'.$fila, $alumno['aluapp']);
+            $hoja->setCellValue('C'.$fila, $alumno['alu_apeP']);
             $hoja->getStyle("C".$fila)->applyFromArray($borderArray);
             $hoja->getStyle('C'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-            $hoja->setCellValue('D'.$fila, $alumno['aluapm']);
+            $hoja->setCellValue('D'.$fila, $alumno['alu_apeM']);
             $hoja->getStyle("D".$fila)->applyFromArray($borderArray);
             $hoja->getStyle('D'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
             $fila++;
@@ -129,20 +129,20 @@
         $hoja->getStyle("A3:E3")->getFont()->setBold(true);
         $hoja->getStyle("A2:E2")->getFont()->setSize(12);
     
-        $queryGrupEs = "SELECT dficha.alufic, alunom, aluapp, aluapm, grupos.letraGrupo FROM dficha, grupos,materia_grupo WHERE dficha.alufic = grupos.alufic AND carcve1 = {$carrera} AND grupos.idGrupo=materia_grupo.idGrupo AND materia_grupo.idMateria = {$materia};";
+        $queryGrupEs = "SELECT alumnos.solicitud, alu_nombre, alu_apeP, alu_apeM, grupos.letraGrupo FROM alumnos, grupos,materiagrupo WHERE alumnos.solicitud = grupos.solicitud AND idCarrera = {$carrera} AND grupos.idGrupo=materiagrupo.idGrupo AND materiagrupo.idMateria = {$materia};";
         $resultado = mysqli_query($db, $queryGrupEs);
         $fila = 4;
         while($alumno = mysqli_fetch_assoc($resultado)){
-            $hoja->setCellValue('A'.$fila, $alumno['alufic']);
+            $hoja->setCellValue('A'.$fila, $alumno['solicitud']);
             $hoja->getStyle('A'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
             $hoja->getStyle("A".$fila)->applyFromArray($borderArray);
-            $hoja->setCellValue('B'.$fila, $alumno['alunom']);
+            $hoja->setCellValue('B'.$fila, $alumno['alu_nombre']);
             $hoja->getStyle("B".$fila)->applyFromArray($borderArray);
             $hoja->getStyle('B'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-            $hoja->setCellValue('C'.$fila, $alumno['aluapp']);
+            $hoja->setCellValue('C'.$fila, $alumno['alu_apeP']);
             $hoja->getStyle("C".$fila)->applyFromArray($borderArray);
             $hoja->getStyle('C'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-            $hoja->setCellValue('D'.$fila, $alumno['aluapm']);
+            $hoja->setCellValue('D'.$fila, $alumno['alu_apeM']);
             $hoja->getStyle("D".$fila)->applyFromArray($borderArray);
             $hoja->getStyle('D'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
             $hoja->setCellValue('E'.$fila, $alumno['letraGrupo']);
@@ -160,12 +160,12 @@
         $carrera = $_POST['carrera'];
         $materia = $_POST['materia'];
         $grupo = $_POST['grupo'];
-        $queryMate = "SELECT nombre_Mat FROM materias WHERE idMateria = {$materia};";
+        $queryMate = "SELECT nombreMateria FROM materias WHERE idMateria = {$materia};";
         $resultado = mysqli_query($db, $queryMate);
-        $nomMat= mysqli_fetch_assoc($resultado)['nombre_Mat'];
-        $queryCar = "SELECT nombcar FROM carreras WHERE idCar = {$carrera};";
+        $nomMat= mysqli_fetch_assoc($resultado)['nombreMateria'];
+        $queryCar = "SELECT nomCarrera FROM carreras WHERE idCarrera = {$carrera};";
         $resultado = mysqli_query($db, $queryCar);
-        $nomCarrera= mysqli_fetch_assoc($resultado)['nombcar'];
+        $nomCarrera= mysqli_fetch_assoc($resultado)['nomCarrera'];
         $nomArc = $nomMat."_".$nomCarrera."_Grupo".$grupo;
         excel($nomArc,$db,$carrera, $materia, $grupo, $nomCarrera);
         $zip = new ZipArchive();
@@ -198,14 +198,14 @@
     }
     if ($_SERVER['REQUEST_METHOD']==="POST" && $_POST['tipoLista']=="Todas") {
         $materia = $_POST['materia'];
-        $queryMate = "SELECT nombre_Mat FROM materias WHERE idMateria = {$materia};";
+        $queryMate = "SELECT nombreMateria FROM materias WHERE idMateria = {$materia};";
         $resultado = mysqli_query($db, $queryMate);
-        $nomMat= mysqli_fetch_assoc($resultado)['nombre_Mat'];
+        $nomMat= mysqli_fetch_assoc($resultado)['nombreMateria'];
         $queryCars = "SELECT * FROM carreras";
         $resultado = mysqli_query($db, $queryCars);
         while ($carrera = mysqli_fetch_assoc($resultado)) {
-            $nomArc = $nomMat."_".$carrera['nombcar'];
-            excel2($nomArc,$db, $carrera['idCar'], $materia, $carrera['nombcar']);
+            $nomArc = $nomMat."_".$carrera['nomCarrera'];
+            excel2($nomArc,$db, $carrera['idCarrera'], $materia, $carrera['nomCarrera']);
         }
         $zip = new ZipArchive();
         $archivo = '../../Excel/ListasCursos.zip';
@@ -257,7 +257,7 @@
                 <select name="materia" id="materia">
                     <option value="" disabled selected>--Seleccione Materia--</option>
                     <?php while($materia = mysqli_fetch_assoc($resulMat)):?>
-                    <option value="<?php echo $materia['idMateria'];?>"><?php echo $materia['nombre_Mat'];?></option>
+                    <option value="<?php echo $materia['idMateria'];?>"><?php echo $materia['nombreMateria'];?></option>
                     <?php endwhile;?>
                 </select>
                 <input type="submit" value="Generar" class="btnGenerar">
@@ -272,7 +272,7 @@
                     <select class="carrera" id="carrera" name="carrera">
                         <option value="" disabled selected>--Seleccione Carrera--</option>
                         <?php while($carrera = mysqli_fetch_assoc($resulCarr)):?>
-                        <option value="<?php echo $carrera['idCar'];?>"><?php echo $carrera['nombcar'];?></option>
+                        <option value="<?php echo $carrera['idCarrera'];?>"><?php echo $carrera['nomCarrera'];?></option>
                         <?php endwhile;?>    
                     </select>
                 </div>
@@ -283,7 +283,7 @@
                         <?php
                         $resulMat = mysqli_query($db, $queryMat);
                         while($materia = mysqli_fetch_assoc($resulMat)):?>
-                        <option value="<?php echo $materia['idMateria'];?>"><?php echo $materia['nombre_Mat'];?></option>
+                        <option value="<?php echo $materia['idMateria'];?>"><?php echo $materia['nombreMateria'];?></option>
                         <?php endwhile;?>
                     </select>
                 </div>
@@ -292,9 +292,11 @@
                     <select name="grupo" id="grupo">
                         <option value="" disabled selected>--Seleccione Grupo--</option>    
                         <option value="A">A</option>
-                        <option value="B">B</option>
                         <?php 
                             while($grupo = mysqli_fetch_assoc($resulGrup)){
+                                if ($grupo['letraGrupo']=='B') {
+                                    echo '<option value="B">B</option>';
+                                }
                                 if ($grupo['letraGrupo']=='C') {
                                     echo '<option value="C">C</option>';
                                 }

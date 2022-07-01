@@ -57,23 +57,23 @@
         $hoja->getColumnDimension('E')->setWidth(20);
         $hoja->setCellValue('E3', "Promedio Examen");
     
-        $queryAlu = "SELECT alufic, aluapp, aluapm, alunom, calificacionCeneval from dficha WHERE carcve1 = {$id};";
+        $queryAlu = "SELECT solicitud, alu_apeP, alu_apeM, alu_nombre, cal_ceneval from alumnos WHERE idCarrera = {$id};";
         $resultado = mysqli_query($db, $queryAlu);
         $fila = 4;
         while($alumno = mysqli_fetch_assoc($resultado)){
-            $hoja->setCellValue('A'.$fila, $alumno['alufic']);
+            $hoja->setCellValue('A'.$fila, $alumno['solicitud']);
             $hoja->getStyle('A'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
             $hoja->getStyle("A".$fila)->applyFromArray($borderArray);
-            $hoja->setCellValue('B'.$fila, $alumno['alunom']);
+            $hoja->setCellValue('B'.$fila, $alumno['alu_nombre']);
             $hoja->getStyle("B".$fila)->applyFromArray($borderArray);
             $hoja->getStyle('B'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-            $hoja->setCellValue('C'.$fila, $alumno['aluapp']);
+            $hoja->setCellValue('C'.$fila, $alumno['alu_apeP']);
             $hoja->getStyle("C".$fila)->applyFromArray($borderArray);
             $hoja->getStyle('C'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-            $hoja->setCellValue('D'.$fila, $alumno['aluapm']);
+            $hoja->setCellValue('D'.$fila, $alumno['alu_apeM']);
             $hoja->getStyle("D".$fila)->applyFromArray($borderArray);
             $hoja->getStyle('D'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-            $hoja->setCellValue('E'.$fila, $alumno['calificacionCeneval']);
+            $hoja->setCellValue('E'.$fila, $alumno['cal_ceneval']);
             $hoja->getStyle("E".$fila)->applyFromArray($borderArray);
             $hoja->getStyle('E'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
             $fila++;
@@ -89,7 +89,7 @@
         $queryCars = "SELECT * FROM carreras";
         $resultado = mysqli_query($db, $queryCars);
         while ($carrera = mysqli_fetch_assoc($resultado)) {
-            excel($carrera['nombcar'],$db, $carrera['idCar']);
+            excel($carrera['nomCarrera'],$db, $carrera['idCarrera']);
         }
         $zip = new ZipArchive();
         $archivo ='../../Excel/ListasExamenCeneval.zip';
@@ -126,9 +126,9 @@
     }
     if ($_SERVER['REQUEST_METHOD']==="POST" && $_POST['tipoLista']=="Especifica") {
         $idCarrera = $_POST['carrera'];
-        $queryCar = "SELECT nombcar FROM carreras WHERE idCar = {$idCarrera};";
+        $queryCar = "SELECT nomCarrera FROM carreras WHERE idCarrera = {$idCarrera};";
         $resultado = mysqli_query($db, $queryCar);
-        $nomCarrera= mysqli_fetch_assoc($resultado)['nombcar'];
+        $nomCarrera= mysqli_fetch_assoc($resultado)['nomCarrera'];
         excel($nomCarrera, $db, $idCarrera);
         $zip = new ZipArchive();
         $archivo ='../../Excel/'.$nomCarrera.'.zip';
@@ -175,7 +175,7 @@
                 <select name="carrera" id="carrera" >
                     <option value="" disabled selected>--Seleccione Carrera--</option>
                     <?php while($materia = mysqli_fetch_assoc($resultadoMat)):?>
-                        <option value="<?php echo $materia['idCar'];?>"><?php echo $materia['nombcar'];?></option>
+                        <option value="<?php echo $materia['idCarrera'];?>"><?php echo $materia['nomCarrera'];?></option>
                     <?php endwhile;?>
                 </select>
                 <input type="submit" value="Generar Lista">

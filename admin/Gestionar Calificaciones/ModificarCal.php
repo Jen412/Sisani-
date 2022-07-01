@@ -27,15 +27,15 @@
             }    
         }
         foreach($calificaciones as $key => $value){
-            $queryGrupo = "SELECT idGrupo FROM grupos WHERE alufic = '{$key}' AND letraGrupo = '{$grupo}'";
+            $queryGrupo = "SELECT idGrupo FROM grupos WHERE solicitud = '{$key}' AND letraGrupo = '{$grupo}'";
             $resultadoGrupo  = mysqli_query($db, $queryGrupo);
             $idGrupo = mysqli_fetch_assoc($resultadoGrupo)['idGrupo'];
-            $queryMateriaG = "SELECT id_MateriaG FROM materia_grupo WHERE idMateria = '{$materia}' AND idGrupo = '{$idGrupo}'";
+            $queryMateriaG = "SELECT idMateriaGrupo FROM materiagrupo WHERE idMateria = '{$materia}' AND idGrupo = '{$idGrupo}'";
             $resultadoMateriaGrupo = mysqli_query($db, $queryMateriaG);
 
-            $materiaG= mysqli_fetch_assoc($resultadoMateriaGrupo)['id_MateriaG'];
+            $materiaG= mysqli_fetch_assoc($resultadoMateriaGrupo)['idMateriaGrupo'];
             if ($materiaG) {
-                $queryinsert = "UPDATE calificaciones set calif ='{$value}' WHERE alufic = '{$key}' AND id_MateriaG = '{$materiaG}'"; 
+                $queryinsert = "UPDATE calificaciones set calif ='{$value}' WHERE solicitud = '{$key}' AND idMateriaGrupo = '{$materiaG}'"; 
                 $resultado = mysqli_query($db, $queryinsert);
                 if ($resultado) {
                     header("location: /admin/index.php");
@@ -55,8 +55,8 @@
                     <select name="carreraS" id="carreraS">
                         <option value=""disabled selected>--Seleccione Carrera--</option>  
                         <?php while($carrera = mysqli_fetch_assoc($resultadoCar)):?><!--como es son varias carreras se guarda la seleccionada en una variable -->
-                            <option value="<?php echo $carrera['idCar'];?>"><!--la variable contiene referenciando a la db y el query que se esta realizando-->
-                                <?php echo $carrera['nombcar'];?><!---para mostrar el resultado en pantalla se muestra en una etiqueta del mismo tipo-->
+                            <option value="<?php echo $carrera['idCarrera'];?>"><!--la variable contiene referenciando a la db y el query que se esta realizando-->
+                                <?php echo $carrera['nomCarrera'];?><!---para mostrar el resultado en pantalla se muestra en una etiqueta del mismo tipo-->
                             </option><!--con la impresion de la variable de la carrera dentro del while mediante el nombre del campo de la tabla-->
                             <!--cuando se selecciona una opcion se presenta el nombre en base a su id, primero se acede al id y despues al nombre-->
                         <?php endwhile;?>  
@@ -68,7 +68,7 @@
                         <option value=""disabled selected>--Seleccione Materia--</option>    
                         <?php while($materia = mysqli_fetch_assoc($resultadoMat)):?>
                             <option value="<?php echo $materia['idMateria'];?>"><!---El valor contiene el id de la materia que seleccionemos-->
-                                <?php echo $materia['nombre_Mat'];?><!--Se imprime lo que se eligio-->
+                                <?php echo $materia['nombreMateria'];?><!--Se imprime lo que se eligio-->
                             </option>
                         <?php endwhile;?>
                     </select><!--Se envia el id del select desde el formulario conteniendo el valor del id de la materia seleccionada--->
@@ -78,9 +78,11 @@
                     <select name="GrupoS" id="GrupoS">
                         <option value="" disabled selected>--Seleccione Grupo--</option>    
                         <option value="A">A</option>
-                        <option value="B">B</option>
                         <?php 
                             while($grupo = mysqli_fetch_assoc($resultadoGru)){
+                                if ($grupo['letraGrupo']=='B') {
+                                    echo '<option value="B">B</option>';
+                                }
                                 if ($grupo['letraGrupo']=='C') {
                                     echo '<option value="C">C</option>';
                                 }
@@ -106,13 +108,12 @@
                             echo ('<div class="table__header">Ficha</div>');
                             echo ('<div class="table__header">Nombre</div>');
                             echo ('<div class="table__header">Calificación</div>');
-                            $queryMC = ("SELECT d.alufic, d.alunom, d.aluapp, d.aluapm, cl.calif FROM dficha as d INNER JOIN calificaciones as cl ON cl.alufic = d.alufic INNER JOIN grupos as g ON d.alufic = g.alufic WHERE g.letraGrupo = '$grupo'AND cl.id_MateriaG IN (SELECT mg.id_MateriaG FROM calificaciones as cl INNER JOIN materia_grupo as mg ON cl.id_MateriaG = mg.id_MateriaG WHERE mg.idMateria = $materia AND d.alufic IN (SELECT d.alufic FROM carreras as c INNER JOIN dficha as d ON c.idCar = d.carcve1 WHERE d.carcve1 = $carrera));");                                              
+                            $queryMC = ("SELECT d.solicitud, d.alu_nombre, d.alu_apeP, d.alu_apeM, cl.calif FROM alumnos as d INNER JOIN calificaciones as cl ON cl.solicitud = d.solicitud INNER JOIN grupos as g ON d.solicitud = g.solicitud WHERE g.letraGrupo = '$grupo'AND cl.idMateriaGrupo IN (SELECT mg.idMateriaGrupo FROM calificaciones as cl INNER JOIN materiagrupo as mg ON cl.idMateriaGrupo = mg.idMateriaGrupo WHERE mg.idMateria = $materia AND d.solicitud IN (SELECT d.solicitud FROM carreras as c INNER JOIN alumnos as d ON c.idCarrera = d.idCarrera WHERE d.idCarrera = $carrera));");                                              
                             $resultadoMC =mysqli_query($db, $queryMC);
-                            while($row = mysqli_fetch_assoc($resultadoMC)): 
-                ?>
-                                <div class="table__item"><?php echo ($row["alufic"]);?></div>
-                                <div class="table__item"><?php echo ($row["alunom"]);echo ("  "); echo ($row["aluapp"]); echo ("  ");echo ($row["aluapm"]);?></div>
-                                <div class="table__item"><?php echo ('<input name="'.$row["alufic"].'" value = "'.$row["calif"].'" type="number" align="right" style="text-align:right;" required min="0" max="100" placeholder="Ingresa una calificación menor o igual a 100"> ');?></div> 
+                            while($row = mysqli_fetch_assoc($resultadoMC)): ?>
+                                <div class="table__item"><?php echo ($row["solicitud"]);?></div>
+                                <div class="table__item"><?php echo ($row["alu_nombre"]);echo ("  "); echo ($row["alu_apeP"]); echo ("  ");echo ($row["alu_apeM"]);?></div>
+                                <div class="table__item"><?php echo ('<input name="'.$row["solicitud"].'" value = "'.$row["calif"].'" type="number" align="right" style="text-align:right;" required min="0" max="100" placeholder="Ingresa una calificación menor o igual a 100"> ');?></div> 
                             <?php endwhile;
                             echo ('<input type="submit" value="Modificar Calificaciones" class="btnRCT">');
                         }    

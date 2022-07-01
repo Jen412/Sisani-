@@ -13,7 +13,7 @@
 		// echo "<pre>";
 		// var_dump($_FILES);
 		// echo "</pre>";
-		$db = new mysqli("localhost","root", "", "siseni");
+		$db = conectarDB();
 		move_uploaded_file($doc['tmp_name'],"../../Excel/importar/".$doc['name']);
 		$archivo = "../../Excel/importar/".$doc['name'];
 		$document = IOFactory::load($archivo);
@@ -26,7 +26,7 @@
 			$valorA= $hoja->getCellByColumnAndRow(1,$i);
 			$valorB= $hoja->getCellByColumnAndRow(2,$i);
 			$query ="UPDATE alumnos SET cal_ceneval= {$valorB} WHERE solicitud = '{$valorA}'";
-			$resultado =$db->query($query);
+			$resultado =mysqli_query($db,$query);
 			$resultados []= $resultado;
 		}
 		$ban = false;

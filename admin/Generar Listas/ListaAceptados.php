@@ -34,15 +34,15 @@
         $materia1 =1;
         $query ="SELECT * FROM materias WHERE idMateria = {$materia1}";
         $resultMat1 = mysqli_query($db, $query);
-        $nombreMat1=mysqli_fetch_assoc($resultMat1)['nombre_Mat'];
+        $nombreMat1=mysqli_fetch_assoc($resultMat1)['nombreMateria'];
         $materia2 =2;
         $query ="SELECT * FROM materias WHERE idMateria = {$materia2}";
         $resultMat2 = mysqli_query($db, $query);
-        $nombreMat2=mysqli_fetch_assoc($resultMat2)['nombre_Mat'];
+        $nombreMat2=mysqli_fetch_assoc($resultMat2)['nombreMateria'];
         $materia3 =3;
         $query ="SELECT * FROM materias WHERE idMateria = {$materia3}";
         $resultMat3 = mysqli_query($db, $query);
-        $nombreMat3=mysqli_fetch_assoc($resultMat3)['nombre_Mat'];
+        $nombreMat3=mysqli_fetch_assoc($resultMat3)['nombreMateria'];
         $calMat1=0;
         $calMat2=0;
         $calMat3=0;
@@ -71,8 +71,8 @@
         $hoja->getStyle("H3")->applyFromArray($borderArray);
         $hoja->getStyle("I3")->applyFromArray($borderArray);
         $hoja->getStyle("J3")->applyFromArray($borderArray);
-        $hoja->getStyle("A3:E3")->getFont()->setBold(true);
-        $hoja->getStyle("A2:E2")->getFont()->setSize(12);
+        $hoja->getStyle("A3:J3")->getFont()->setBold(true);
+        $hoja->getStyle("A2:J2")->getFont()->setSize(12);
 
         $hoja->getColumnDimension('A')->setWidth(15);
         $hoja->setCellValue('A3', "Ficha");
@@ -95,15 +95,15 @@
         $hoja->setCellValue('J3', "Prom Final");
         $hoja->getColumnDimension('J')->setWidth(15);
     
-        $queryAlu = "SELECT alufic, aluapp, aluapm, alunom, alupro, calificacionCeneval from dficha WHERE carcve1 = {$id};";
+        $queryAlu = "SELECT solicitud, alu_apeP, alu_apeM, alu_nombre, alu_prom, cal_ceneval from alumnos WHERE idCarrera = {$id};";
         $resultadoAlu = mysqli_query($db, $queryAlu);
         $fila = 4;
         $array = Array();
         while($alumno = mysqli_fetch_assoc($resultadoAlu)){
-            $queryMatG = "SELECT id_MateriaG, calif FROM calificaciones WHERE alufic = '{$alumno['alufic']}'";
+            $queryMatG = "SELECT idMateriaGrupo, calif FROM calificaciones WHERE solicitud = '{$alumno['solicitud']}'";
             $resultadoMatG = mysqli_query($db, $queryMatG);
             while ($matG=mysqli_fetch_assoc($resultadoMatG)) {
-                $queryMat = "SELECT * FROM materia_grupo WHERE id_MateriaG = {$matG['id_MateriaG']}";
+                $queryMat = "SELECT * FROM materiagrupo WHERE idMateriaGrupo = {$matG['idMateriaGrupo']}";
                 $resulMat = mysqli_query($db, $queryMat);
                 $mateG = mysqli_fetch_assoc($resulMat);
                 $calif = $matG['calif'];
@@ -118,16 +118,19 @@
                 }
             }
             #$formula = "=(((E{$fila}*30%)+(F{$fila}*10%)+(G{$fila}*10%)+(H{$fila}*10%)+(((I{$fila}-700)/6)*40%))*6)+700";
-            $promFin = ((($alumno['alupro']*0.30)+($calMat1*0.10)+($calMat2*0.10)+($calMat3*0.10)+((($alumno['calificacionCeneval']-700)/6)*0.40))*6)+700;
-            $arr =[$alumno['alufic'], $alumno['alunom'], $alumno['aluapp'], $alumno['aluapm'], $alumno['alupro'], $calMat1, $calMat2, $calMat3, $alumno['calificacionCeneval'], $promFin];
+            $promFin = ((($alumno['alu_prom']*0.30)+($calMat1*0.10)+($calMat2*0.10)+($calMat3*0.10)+((($alumno['cal_ceneval']-700)/6)*0.40))*6)+700;
+            $arr =[$alumno['solicitud'], $alumno['alu_nombre'], $alumno['alu_apeP'], $alumno['alu_apeM'], $alumno['alu_prom'], $calMat1, $calMat2, $calMat3, $alumno['cal_ceneval'], $promFin];
             array_push($array,$arr);
         }
+        // echo "<pre>";
+        // var_dump($array);
+        // echo "</pre>";
         usort($array, 'comparar');
-        $queryCanG ="SELECT * FROM detalles_config WHERE idCar={$id} AND idConfig=1";
+        $queryCanG ="SELECT * FROM detalles_config WHERE idCarrera={$id} AND idConfig=1";
         $resultadoG = mysqli_query($db, $queryCanG);
         $detalles = mysqli_fetch_assoc($resultadoG);
-        $cantGrup = $detalles['cant_Grupos'];
-        $cantXGrup = $detalles['cant_Elem_Grupo'];
+        $cantGrup = $detalles['cantidadGrupos'];
+        $cantXGrup = $detalles['num_Alumnos'];
         for ($i=0; $i <count($array); $i++) { 
             if ($i< $cantXGrup) {
                 $hoja->setCellValue('A'.$fila, $array[$i][0]);
@@ -171,9 +174,9 @@
 
     if ($_SERVER['REQUEST_METHOD']==="POST") {
         $carrera=$_POST['carrera'];
-        $queryCar = "SELECT nombcar FROM carreras WHERE idCar = {$carrera};";
+        $queryCar = "SELECT nomCarrera FROM carreras WHERE idCarrera = {$carrera};";
         $resultado = mysqli_query($db, $queryCar);
-        $nomCarrera= mysqli_fetch_assoc($resultado)['nombcar'];
+        $nomCarrera= mysqli_fetch_assoc($resultado)['nomCarrera'];
         excel($nomCarrera, $db, $carrera);
         $zip = new ZipArchive();
         $archivo ='../../Excel/'.$nomCarrera."Aceptados".'.zip';
@@ -198,7 +201,6 @@
         $dir =scandir('../../Excel/ListasAceptados/',1);
         foreach($dir as $arc){
             if ('../../Excel/ListasAceptados/'.$arc != "../../Excel/ListasAceptados/.." && '../../Excel/ListasAceptados/'.$arc != "../../Excel/ListasAceptados/.") {
-                echo ('../../Excel/ListasAceptados/'.$arc. "<br>");
                 unlink('../../Excel/ListasAceptados/'.$arc);
             }
         }
@@ -212,7 +214,7 @@
             <select name="carrera" id="carrera">
                 <option value="" disabled selected>--Seleccione Carrera--</option>
                 <?php while($carrera = mysqli_fetch_assoc($resultado)):?>
-                    <option value="<?php echo $carrera['idCar']?>"><?php echo $carrera['nombcar']?></option>    
+                    <option value="<?php echo $carrera['idCarrera']?>"><?php echo $carrera['nomCarrera']?></option>    
                 <?php endwhile;?>
             </select>
         </div>

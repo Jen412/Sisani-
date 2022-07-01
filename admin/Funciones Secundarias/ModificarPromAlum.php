@@ -6,19 +6,19 @@
     }
     inlcuirTemplate('header');
     $db = conectarDB();
-    $query = "SELECT * FROM dficha";
+    $query = "SELECT * FROM alumnos";
     $resultado = mysqli_query($db, $query);
     $array = array();
     if ($resultado) {
         while ($row = mysqli_fetch_array($resultado)) {
-            array_push($array, $row['alufic']);
+            array_push($array, $row['solicitud']);
         }
     }
 
     if ($_SERVER['REQUEST_METHOD']==="POST") {
         $ficha =$_POST['numFicha'];
         $calificacion=$_POST['prom'];
-        $query ="UPDATE dficha SET alupro={$calificacion} WHERE alufic = {$ficha};";
+        $query ="UPDATE alumnos SET alu_prom={$calificacion} WHERE solicitud = {$ficha};";
         $resultado = mysqli_query($db, $query);
         if ($resultado) {
             header('location: /admin/Funciones Secundarias/FuncionesSec.php'); 

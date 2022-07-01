@@ -102,13 +102,13 @@
                             <div class="table__header">Cantidad de grupos</div>
                             <div class="table__header">Cantidad por Grupo</div>
                 <?php  endwhile;   
-                    $queryConfig = ("SELECT * FROM detalles_config as dc INNER JOIN carreras as c ON dc.idCar = c.idCar WHERE dc.idConfig = $config AND c.idCar != 18 AND c.idCar !=25");                       
+                    $queryConfig = ("SELECT * FROM detalles_config as dc INNER JOIN carreras as c ON dc.idCarrera = c.idCarrera WHERE dc.idConfig = $config AND c.idCarrera != 18 AND c.idCarrera !=25");                       
                     $resultadoCon =mysqli_query($db, $queryConfig);
                     while($row = mysqli_fetch_assoc($resultadoCon)):?>
                         <input type="hidden" name="<?php echo $row ["idConfig"] ;?>" value="ID">
-                        <div class="table__item"><?php echo $row ["nombcar"] ;?></div>
-                        <div class="table__item"><?php echo ('<input name="'.$row ["idCar"].'x"  value = "'.$row ["cant_Grupos"].'" type="number" align="right" style="text-align:right;" required min="1" max="5" required placeholder="Ingresa la cantidad de grupos">');?></div>
-                        <div class="table__item"><?php echo ('<input name=" '.$row ["idCar"].'" value = "'.$row ["cant_Elem_Grupo"].'" type="number" align="right" style="text-align:right;" required min="1" max="45" required placeholder="Ingresa la cantidad de elementos por grupo">');?></div>
+                        <div class="table__item"><?php echo $row ["nomCarrera"] ;?></div>
+                        <div class="table__item"><?php echo ('<input name="'.$row ["idCarrera"].'x"  value = "'.$row ["cantidadGrupos"].'" type="number" align="right" style="text-align:right;" required min="1" max="5" required placeholder="Ingresa la cantidad de grupos">');?></div>
+                        <div class="table__item"><?php echo ('<input name=" '.$row ["idCarrera"].'" value = "'.$row ["num_Alumnos"].'" type="number" align="right" style="text-align:right;" required min="1" max="45" required placeholder="Ingresa la cantidad de elementos por grupo">');?></div>
                     <?php endwhile;
                     echo ('<input type="submit" value="Modificar Configuración" class="btnRCT">');
                     echo ('

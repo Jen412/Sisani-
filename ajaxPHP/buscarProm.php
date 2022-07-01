@@ -5,7 +5,7 @@ require "../includes/config/database.php";
 $solicitud = $_POST['solicitud'];
 $db = conectarDB();
 if (!empty($solicitud)) {
-    $query = "SELECT alufic,alunom, aluapp, aluapm, alupro FROM dficha WHERE alufic = {$solicitud}";
+    $query = "SELECT solicitud,alu_nombre, alu_apeP, alu_apeM, alu_prom FROM alumnos WHERE solicitud = {$solicitud}";
     $resultado = mysqli_query($db, $query);
     if (!$resultado) {
         die("Query ERROR". mysqli_error($db));
@@ -13,9 +13,9 @@ if (!empty($solicitud)) {
     $json = array();
     while($alumno = mysqli_fetch_array($resultado)){
         $json[] =array(
-            'ficha' => $alumno['alufic'], 
-            'nom' => $alumno['alunom']. " ". $alumno['aluapp']. " ". $alumno['aluapm'],
-            'prom' => $alumno['alupro']
+            'ficha' => $alumno['solicitud'], 
+            'nom' => $alumno['alu_nombre']. " ". $alumno['alu_apeP']. " ". $alumno['alu_apeM'],
+            'prom' => $alumno['alu_prom']
         );
     }
     $jsonString = json_encode($json);

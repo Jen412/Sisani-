@@ -52,23 +52,23 @@
         $hoja->getColumnDimension('E')->setWidth(20);
         $hoja->setCellValue('E3', "Promedio Bachillerato");
 
-        $queryAlu = "SELECT alufic , alunom, aluapp, aluapm, alupro FROM dficha WHERE alupro <=60;";
+        $queryAlu = "SELECT solicitud , alu_nombre, alu_apeP, alu_apeM, alu_prom FROM alumnos WHERE alu_prom <=60;";
         $resultado = mysqli_query($db, $queryAlu);
-        $fila = 3;
+        $fila = 4;
         while($alumno = mysqli_fetch_assoc($resultado)){
-            $hoja->setCellValue('A'.$fila, $alumno['alufic']);
+            $hoja->setCellValue('A'.$fila, $alumno['solicitud']);
             $hoja->getStyle('A'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
             $hoja->getStyle("A".$fila)->applyFromArray($borderArray);
-            $hoja->setCellValue('B'.$fila, $alumno['alunom']);
+            $hoja->setCellValue('B'.$fila, $alumno['alu_nombre']);
             $hoja->getStyle("B".$fila)->applyFromArray($borderArray);
             $hoja->getStyle('B'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-            $hoja->setCellValue('C'.$fila, $alumno['aluapp']);
+            $hoja->setCellValue('C'.$fila, $alumno['alu_apeP']);
             $hoja->getStyle("C".$fila)->applyFromArray($borderArray);
             $hoja->getStyle('C'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-            $hoja->setCellValue('D'.$fila, $alumno['aluapm']);
+            $hoja->setCellValue('D'.$fila, $alumno['alu_apeM']);
             $hoja->getStyle("D".$fila)->applyFromArray($borderArray);
             $hoja->getStyle('D'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-            $hoja->setCellValue('E'.$fila, $alumno['alupro']);
+            $hoja->setCellValue('E'.$fila, $alumno['alu_prom']);
             $hoja->getStyle("E".$fila)->applyFromArray($borderArray);
             $hoja->getStyle('E'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
             $fila++;
