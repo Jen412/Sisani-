@@ -71,8 +71,9 @@
         $hoja->getStyle("H3")->applyFromArray($borderArray);
         $hoja->getStyle("I3")->applyFromArray($borderArray);
         $hoja->getStyle("J3")->applyFromArray($borderArray);
-        $hoja->getStyle("A3:J3")->getFont()->setBold(true);
-        $hoja->getStyle("A2:J2")->getFont()->setSize(12);
+        $hoja->getStyle("K3")->applyFromArray($borderArray);
+        $hoja->getStyle("A3:K3")->getFont()->setBold(true);
+        $hoja->getStyle("A3:K3")->getFont()->setSize(12);
 
         $hoja->getColumnDimension('A')->setWidth(15);
         $hoja->setCellValue('A3', "Ficha");
@@ -89,11 +90,13 @@
         $hoja->setCellValue('G3', $nombreMat2);
         $hoja->getColumnDimension('G')->setWidth(25);
         $hoja->setCellValue('H3', $nombreMat3);
-        $hoja->getColumnDimension('H')->setWidth(25);
+        $hoja->getColumnDimension('H')->setWidth(30);
         $hoja->setCellValue('I3', "Prom Ceneval");
         $hoja->getColumnDimension('I')->setWidth(15); 
         $hoja->setCellValue('J3', "Prom Final");
         $hoja->getColumnDimension('J')->setWidth(15);
+        $hoja->setCellValue('K3', "Grupo");
+        $hoja->getColumnDimension('K')->setWidth(15);
     
         $queryAlu = "SELECT solicitud, alu_apeP, alu_apeM, alu_nombre, alu_prom, cal_ceneval from alumnos WHERE idCarrera = {$id};";
         $resultadoAlu = mysqli_query($db, $queryAlu);
@@ -132,7 +135,8 @@
         $cantGrup = $detalles['cantidadGrupos'];
         $cantXGrup = $detalles['num_Alumnos'];
         for ($i=0; $i <count($array); $i++) { 
-            if ($i< $cantXGrup) {
+            if ($i<= $cantXGrup) {
+                $grup="";
                 $hoja->setCellValue('A'.$fila, $array[$i][0]);
                 $hoja->getStyle('A'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
                 $hoja->getStyle("A".$fila)->applyFromArray($borderArray);
@@ -163,6 +167,9 @@
                 $hoja->setCellValue('J'.$fila, $array[$i][9]);
                 $hoja->getStyle('J'.$fila)->applyFromArray($borderArray);
                 $hoja->getStyle('J'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $hoja->setCellValue('K'.$fila, $grup);
+                $hoja->getStyle('K'.$fila)->applyFromArray($borderArray);
+                $hoja->getStyle('K'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
                 $fila++;
             }
         }

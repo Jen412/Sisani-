@@ -19,8 +19,8 @@
             $detalles = mysqli_fetch_assoc($res);
             $cantGrupos = $detalles['cantidadGrupos'];
             $cantXGrupo = round($numAlumnos/$cantGrupos);
+            $residuo = $numAlumnos%$cantGrupos;
             $grupos=[];
-            
             switch ($cantGrupos) {
                 case 1:
                     array_push($grupos, "A");
@@ -117,7 +117,6 @@
                 }
             }
         }
-        
 		foreach($resultados as $resultado){ 
 			if (!$resultado) {
 				$ban = false;

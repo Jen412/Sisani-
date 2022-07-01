@@ -46,11 +46,13 @@
                 $resultado = mysqli_query($db, $queryUpdateD);
             }
             foreach($elemGrupo as $key => $value){
-                $queryUpdateE = "UPDATE detalles_config SET cant_Elem_Grupo  = '{$value}' WHERE idConfig = '{$keyId}'  AND idCar = '{$key}' ";
+                $queryUpdateE = "UPDATE detalles_config SET num_Alumnos  = '{$value}' WHERE idConfig = '{$keyId}'  AND idCarrera = '{$key}' ";
+                echo $queryUpdateE ."<br>";
                 $resultado = mysqli_query($db, $queryUpdateE);
             }
             foreach($grupo as $key => $value){
-                $queryUpdate = "UPDATE detalles_config SET cant_Grupos = '{$value}' WHERE idConfig = '{$keyId}'  AND idCar = '{$key}' "; 
+                $queryUpdate = "UPDATE detalles_config SET cantidadGrupos = '{$value}' WHERE idConfig = '{$keyId}'  AND idCarrera = '{$key}' "; 
+                echo $queryUpdate ."<br>";
                 $resultado = mysqli_query($db, $queryUpdate);
             }
         }
@@ -92,7 +94,7 @@
                         </div>
                         <div class="des">
                             <label>Descripción</label>
-                            <?php echo ('<textarea name="'.$row["idConfig"].'d" placeholder="'.$row["descripcion"].'"name="" id="" cols="48" rows="5" required ></textarea>');?>
+                            <?php echo ('<textarea name="'.$row["idConfig"].'d" placeholder="'.$row["descripcion"].'"name="" id="" cols="48" rows="5"  ></textarea>');?>
                         </div>
                     </div>
                     
