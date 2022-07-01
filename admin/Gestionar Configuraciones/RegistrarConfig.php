@@ -8,7 +8,7 @@
     $db =conectarDB();
 
     $queryId = "SELECT MAX(idConfig)+1 FROM config ";//Ultimo id de la configuracion 
-    $queryCar ="SELECT idCar FROM carreras WHERE idCar != 18 AND idCar !=25";//Ids de las carreras de ingenieria a execpcion de maestria
+    $queryCar ="SELECT idCarrera FROM carreras";//Ids de las carreras de ingenieria a execpcion de maestria
 
     $resultadoId =mysqli_query($db, $queryId);
     $resultadoCar =mysqli_query($db, $queryCar);
@@ -28,7 +28,7 @@
             $resultadoConfig = mysqli_query($db, $queryConfig);
 
             while($row = mysqli_fetch_array($resultadoCar)){
-                $queryinsert = "INSERT INTO detalles_config (idConfig, idCar, cant_Grupos, cant_Elem_Grupo) VALUES ('{$value}',$row[0],'{$cantidadG}','{$cantidadxG}')"; 
+                $queryinsert = "INSERT INTO detalles_config (idConfig, idCarrera, cantidadGrupos, num_Alumnos) VALUES ('{$value}',$row[0],'{$cantidadG}','{$cantidadxG}')"; 
                 $resultadoCar2 =mysqli_query($db, $queryinsert);
             }
         }

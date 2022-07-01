@@ -108,6 +108,27 @@
                         $materia=$_GET['materiaS'] ?? null;
                         $grupo = $_GET['GrupoS']?? null;
                         if ($carrera!=null) {
+                            $queryCar ="SELECT nomCarrera FROM carreras WHERE idCarrera = $carrera";
+                            $resultadoCar = mysqli_query($db, $queryCar);
+
+                            while($row = mysqli_fetch_assoc($resultadoCar)){
+                                echo ('<div class="table__title">');
+                                echo ($row ["nomCarrera"]);
+                                echo ('</div>');
+                            }
+                            
+                            $queryMat ="SELECT nombreMateria FROM materias WHERE idMateria = $materia";
+                            $resultadoMat = mysqli_query($db, $queryMat);
+
+                            while($row = mysqli_fetch_assoc($resultadoMat)){
+                                echo ('<div class="table__title">');
+                                echo ($row ["nombreMateria"]);
+                                echo ('</div>');
+                            }
+                            echo ('<div class="table__title">');
+                            echo ($grupo);
+                            echo ('</div>');
+                            
                             echo ('<div class="table__header">Ficha</div>');
                             echo ('<div class="table__header">Nombre</div>');
                             echo ('<div class="table__header">Calificación</div>');
