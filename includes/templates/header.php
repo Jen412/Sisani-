@@ -40,7 +40,7 @@
         <li><a href="/admin//Importar Datos/ImportarDatos.php">Importar Datos</a>
             <ul>
                 <li><a href="/admin/Importar Datos/Aspirantes.php">Importar Datos de Aspirantes</a></li>
-                <li><a href="/admin/Importar Datos/Registrados.php">Imporatr Registros Sustentables</a></li>
+                <!-- <li><a href="/admin/Importar Datos/Registrados.php">Imporatr Registros Sustentables</a></li> -->
                 <li><a href="/admin/Importar Datos/Ceneval.php">Importar Datos del Ceneval</a></li>
             </ul>
         </li>
@@ -57,10 +57,12 @@
         <?php endif;?>
         <li><a href="/admin/Generar Listas/GenerarListas.php">Generar Listas</a>
             <ul>
+                <?php if ($rol==="admin"):?>
                 <li><a href="/admin/Generar Listas/ListaExamen.php">Listas de examen Ceneval</a></li>
-                <li><a href="/admin/Generar Listas/ListaCursoIntro.php">Listas del curso de introducción </a></li>
                 <li><a href="/admin/Generar Listas/ListaPromMen.php">Lista cuyo promedio de bachillerato es menor a 60 </a></li>
                 <li><a href="/admin/Generar Listas/ListaAceptados.php">Listas de aceptados </a></li>
+                <?php endif;?>
+                <li><a href="/admin/Generar Listas/ListaCursoIntro.php">Listas del curso de introducción </a></li>
             </ul>
         </li>
         <li><a href="/admin/Gestionar Calificaciones/GestionarCal.php">Gestionar Calificaciones</a>
@@ -80,7 +82,7 @@
         </li>
         <li><a href="/admin/Gestionar Materias/GestionarMat.php">Gestionar Materias</a>
             <ul>
-                <li><a href="/admin/Gestionar Materias/RegistrarMat.php">Registrar una nueva Materia</a></li>
+                <!-- <li><a href="/admin/Gestionar Materias/RegistrarMat.php">Registrar una nueva Materia</a></li> -->
                 <li><a href="/admin/Gestionar Materias/ModificarMat.php">Modificar materia</a></li>
             </ul>
         </li>

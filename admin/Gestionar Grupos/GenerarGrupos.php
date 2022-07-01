@@ -4,10 +4,12 @@
     if (!$auth) {
        header('location: /'); die();
     }
+    $ban = true;
     if($_SERVER['REQUEST_METHOD']==="POST"){
         $db = conectarDB();
         $query = "SELECT * FROM carreras";
         $resultado=mysqli_query($db, $query);
+        $resultados =[];
         while ($carr=mysqli_fetch_assoc($resultado)) {
             $query ="SELECT * FROM dficha WHERE carcve1 = {$carr['idCar']}";
             $result= mysqli_query($db, $query);
@@ -16,21 +18,124 @@
             $res = mysqli_query($db, $query);
             $detalles = mysqli_fetch_assoc($res);
             $cantGrupos = $detalles['cant_Grupos'];
-            $cantXGrupo = $detalles['cant_Elem_Grupo'];
+            $cantXGrupo = round($numAlumnos/$cantGrupos);
+            $grupos=[];
+            
+            switch ($cantGrupos) {
+                case 1:
+                    array_push($grupos, "A");
+                    break;
+                case 2:
+                    array_push($grupos, "A");
+                    array_push($grupos, "B");
+                    break;
+                case 3:
+                    array_push($grupos, "A");
+                    array_push($grupos, "B");
+                    array_push($grupos, "C");
+                    break;
+                case 4:
+                    array_push($grupos, "A");
+                    array_push($grupos, "B");
+                    array_push($grupos, "C");
+                    array_push($grupos, "D");
+                    break;
+                case 5:
+                    array_push($grupos, "A");
+                    array_push($grupos, "B");
+                    array_push($grupos, "C");
+                    array_push($grupos, "D");
+                    array_push($grupos, "E");
+                    break;
+                case 6:
+                    array_push($grupos, "A");
+                    array_push($grupos, "B");
+                    array_push($grupos, "C");
+                    array_push($grupos, "D");
+                    array_push($grupos, "E");
+                    array_push($grupos, "F");
+                    break;
+                case 7:
+                    array_push($grupos, "A");
+                    array_push($grupos, "B");
+                    array_push($grupos, "C");
+                    array_push($grupos, "D");
+                    array_push($grupos, "E");
+                    array_push($grupos, "F");
+                    array_push($grupos, "G");
+                    break;
+                case 8:
+                    array_push($grupos, "A");
+                    array_push($grupos, "B");
+                    array_push($grupos, "C");
+                    array_push($grupos, "D");
+                    array_push($grupos, "E");
+                    array_push($grupos, "F");
+                    array_push($grupos, "G");
+                    array_push($grupos, "H");
+                    break;
+                case 9:
+                    array_push($grupos, "A");
+                    array_push($grupos, "B");
+                    array_push($grupos, "C");
+                    array_push($grupos, "D");
+                    array_push($grupos, "E");
+                    array_push($grupos, "F");
+                    array_push($grupos, "G");
+                    array_push($grupos, "H");
+                    array_push($grupos, "I");
+                    break;
+                case 10:
+                    array_push($grupos, "A");
+                    array_push($grupos, "B");
+                    array_push($grupos, "C");
+                    array_push($grupos, "D");
+                    array_push($grupos, "E");
+                    array_push($grupos, "F");
+                    array_push($grupos, "G");
+                    array_push($grupos, "H");
+                    array_push($grupos, "I");
+                    array_push($grupos, "J");
+                    break;
+            }
+            // echo "<pre>";
+            // var_dump($grupos);
+            // echo "</pre>";
             $cont =0;
+            $anio=date("y");
             while ($alumno = mysqli_fetch_assoc($result)) {
-                
+                if ($cont <=$cantXGrupo) {
+                    $idgrup=$alumno['carcve1']."-".$anio.$grupos[0];
+                    $query ="INSERT INTO grupos(idGrupo, alufic, letraGrupo) VALUES ('{$idgrup}',{$alumno['alufic']},'{$grupos[0]}')";
+                    $res = mysqli_query($db, $query);
+                    array_push($resultados, $res);
+                    $cont++;
+                }
+                else{
+                    $cont =0;
+                    array_shift($grupos); 
+                }
             }
         }
+        
+		foreach($resultados as $resultado){ 
+			if (!$resultado) {
+				$ban = false;
+                break;
+			}
+		}
     }
     inlcuirTemplate('header');
 ?>
 <main class="c_grupos">
     <h1>Crear Grupos</h1>
     <form id="x" method="post">
-        <input type="button" value="Automáticamente" onclick="confirmarEliminacion('#x')">
+        <input type="submit" value="Automáticamente">
     </form>
 </main>
 <?php 
     inlcuirTemplate('footer');
+    if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
+        echo "<script>exito('Grupos Generados');</script>";
+    }
 ?>
