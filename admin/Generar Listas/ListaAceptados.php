@@ -134,42 +134,144 @@
         $detalles = mysqli_fetch_assoc($resultadoG);
         $cantGrup = $detalles['cantidadGrupos'];
         $cantXGrup = $detalles['num_Alumnos'];
+        $grupos=[];
+        $cantAcep = $cantGrup*$cantXGrup;
+        switch ($cantGrup) {
+            case 1:
+                array_push($grupos, "A");
+                break;
+            case 2:
+                array_push($grupos, "A");
+                array_push($grupos, "B");
+                break;
+            case 3:
+                array_push($grupos, "A");  
+                array_push($grupos, "B");  
+                array_push($grupos, "C");
+                break;
+            case 4:
+                array_push($grupos, "A");
+                array_push($grupos, "B");
+                array_push($grupos, "C");
+                array_push($grupos, "D");
+                break;
+            case 5:
+                array_push($grupos, "A");
+                array_push($grupos, "B");
+                array_push($grupos, "C");
+                array_push($grupos, "D");
+                array_push($grupos, "E");
+                break;
+            case 6:
+                array_push($grupos, "A");
+                array_push($grupos, "B");
+                array_push($grupos, "C");
+                array_push($grupos, "D");
+                array_push($grupos, "E");
+                array_push($grupos, "F");
+                break;
+            case 7:
+                array_push($grupos, "A");
+                array_push($grupos, "B");
+                array_push($grupos, "C");
+                array_push($grupos, "D");
+                array_push($grupos, "E");
+                array_push($grupos, "F");
+                array_push($grupos, "G");
+                break;
+            case 8:
+                array_push($grupos, "A");
+                array_push($grupos, "B");
+                array_push($grupos, "C");
+                array_push($grupos, "D");
+                array_push($grupos, "E");
+                array_push($grupos, "F");
+                array_push($grupos, "G");
+                array_push($grupos, "H");
+                break;
+            case 9:
+                array_push($grupos, "A");
+                array_push($grupos, "B");
+                array_push($grupos, "C");
+                array_push($grupos, "D");
+                array_push($grupos, "E");
+                array_push($grupos, "F");
+                array_push($grupos, "G");
+                array_push($grupos, "H");
+                array_push($grupos, "I");
+                break;
+            case 10:
+                array_push($grupos, "A");
+                array_push($grupos, "B");
+                array_push($grupos, "C");
+                array_push($grupos, "D");
+                array_push($grupos, "E");
+                array_push($grupos, "F");
+                array_push($grupos, "G");
+                array_push($grupos, "H");
+                array_push($grupos, "I");
+                array_push($grupos, "J");
+                break;
+        }
+        $banCambio =true;
+        $contGrup=0;
         for ($i=0; $i <count($array); $i++) { 
-            if ($i<= $cantXGrup) {
+            if ($i<= $cantAcep) {
                 $grup="";
-                $hoja->setCellValue('A'.$fila, $array[$i][0]);
-                $hoja->getStyle('A'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-                $hoja->getStyle("A".$fila)->applyFromArray($borderArray);
-                $hoja->setCellValue('B'.$fila, $array[$i][1]);
-                $hoja->getStyle("B".$fila)->applyFromArray($borderArray);
-                $hoja->getStyle('B'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-                $hoja->setCellValue('C'.$fila, $array[$i][2]);
-                $hoja->getStyle("C".$fila)->applyFromArray($borderArray);
-                $hoja->getStyle('C'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-                $hoja->setCellValue('D'.$fila, $array[$i][3]);
-                $hoja->getStyle("D".$fila)->applyFromArray($borderArray);
-                $hoja->getStyle('D'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-                $hoja->setCellValue('E'.$fila, $array[$i][4]);
-                $hoja->getStyle('E'.$fila)->applyFromArray($borderArray);
-                $hoja->getStyle('E'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-                $hoja->setCellValue('F'.$fila, $array[$i][5]);
-                $hoja->getStyle('F'.$fila)->applyFromArray($borderArray);
-                $hoja->getStyle('F'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-                $hoja->setCellValue('G'.$fila, $array[$i][6]);
-                $hoja->getStyle('G'.$fila)->applyFromArray($borderArray);
-                $hoja->getStyle('G'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-                $hoja->setCellValue('H'.$fila, $array[$i][7]);
-                $hoja->getStyle('H'.$fila)->applyFromArray($borderArray);
-                $hoja->getStyle('H'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-                $hoja->setCellValue('I'.$fila, $array[$i][8]);
-                $hoja->getStyle('I'.$fila)->applyFromArray($borderArray);
-                $hoja->getStyle('I'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-                $hoja->setCellValue('J'.$fila, $array[$i][9]);
-                $hoja->getStyle('J'.$fila)->applyFromArray($borderArray);
-                $hoja->getStyle('J'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-                $hoja->setCellValue('K'.$fila, $grup);
-                $hoja->getStyle('K'.$fila)->applyFromArray($borderArray);
-                $hoja->getStyle('K'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                if($contGrup >-1 && $contGrup < $cantGrup){
+                    $grup= $grupos[$contGrup];
+                    $hoja->setCellValue('K'.$fila, $grup);
+                    $hoja->getStyle('K'.$fila)->applyFromArray($borderArray);
+                    $hoja->getStyle('K'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                    $hoja->setCellValue('A'.$fila, $array[$i][0]);
+                    $hoja->getStyle('A'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                    $hoja->getStyle("A".$fila)->applyFromArray($borderArray);
+                    $hoja->setCellValue('B'.$fila, $array[$i][1]);
+                    $hoja->getStyle("B".$fila)->applyFromArray($borderArray);
+                    $hoja->getStyle('B'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                    $hoja->setCellValue('C'.$fila, $array[$i][2]);
+                    $hoja->getStyle("C".$fila)->applyFromArray($borderArray);
+                    $hoja->getStyle('C'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                    $hoja->setCellValue('D'.$fila, $array[$i][3]);
+                    $hoja->getStyle("D".$fila)->applyFromArray($borderArray);
+                    $hoja->getStyle('D'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                    $hoja->setCellValue('E'.$fila, $array[$i][4]);
+                    $hoja->getStyle('E'.$fila)->applyFromArray($borderArray);
+                    $hoja->getStyle('E'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                    $hoja->setCellValue('F'.$fila, $array[$i][5]);
+                    $hoja->getStyle('F'.$fila)->applyFromArray($borderArray);
+                    $hoja->getStyle('F'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                    $hoja->setCellValue('G'.$fila, $array[$i][6]);
+                    $hoja->getStyle('G'.$fila)->applyFromArray($borderArray);
+                    $hoja->getStyle('G'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                    $hoja->setCellValue('H'.$fila, $array[$i][7]);
+                    $hoja->getStyle('H'.$fila)->applyFromArray($borderArray);
+                    $hoja->getStyle('H'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                    $hoja->setCellValue('I'.$fila, $array[$i][8]);
+                    $hoja->getStyle('I'.$fila)->applyFromArray($borderArray);
+                    $hoja->getStyle('I'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                    $hoja->setCellValue('J'.$fila, $array[$i][9]);
+                    $hoja->getStyle('J'.$fila)->applyFromArray($borderArray);
+                    $hoja->getStyle('J'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                }
+                else{
+                    $i--;
+                    $grup = "X";
+                    $fila--;
+                }
+                if ($contGrup==$cantGrup) {
+                    $banCambio=false;
+                }
+                if ($contGrup<0) {
+                    $banCambio=true;
+                }
+                if ($banCambio) {
+                    $contGrup++;
+                }
+                else{
+                    $contGrup--;
+                }
+                // echo $fila." ". $grup. "<br>";
                 $fila++;
             }
         }

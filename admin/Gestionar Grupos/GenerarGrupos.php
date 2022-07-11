@@ -18,7 +18,7 @@
             $res = mysqli_query($db, $query);
             $detalles = mysqli_fetch_assoc($res);
             $cantGrupos = $detalles['cantidadGrupos'];
-            $cantXGrupo = round($numAlumnos/$cantGrupos);
+            $cantXGrupo = ($numAlumnos/$cantGrupos);
             $residuo = $numAlumnos%$cantGrupos;
             $grupos=[];
             switch ($cantGrupos) {
@@ -30,8 +30,8 @@
                     array_push($grupos, "B");
                     break;
                 case 3:
-                    array_push($grupos, "A");
-                    array_push($grupos, "B");
+                    array_push($grupos, "A");  
+                    array_push($grupos, "B");  
                     array_push($grupos, "C");
                     break;
                 case 4:
@@ -103,17 +103,40 @@
             // echo "</pre>";
             $cont =0;
             $anio=date("y");
+            $alumnos = [];
+            $carrera = 0;
             while ($alumno = mysqli_fetch_assoc($result)) {
-                if ($cont <=$cantXGrupo) {
-                    $idgrup=$anio."-".$alumno['idCarrera'].$grupos[0];
-                    $query ="INSERT INTO grupos(idGrupo, solicitud, letraGrupo) VALUES ('{$idgrup}',{$alumno['solicitud']},'{$grupos[0]}')";
+                array_push($alumnos,$alumno['solicitud']);
+                $carrera=$alumno['idCarrera'];
+                // if ($cont < $cantXGrupo) {
+                //     $idgrup=$anio."-".$alumno['idCarrera'].$grupos[0];
+                //     $query ="INSERT INTO grupos(idGrupo, solicitud, letraGrupo) VALUES ('{$idgrup}',{$alumno['solicitud']},'{$grupos[0]}')";
+                //     echo $idgrup." ". $alumno['solicitud']."<br>";
+                //     $res = mysqli_query($db, $query);
+                //     array_push($resultados, $res);
+                //     $cont++;
+                // }
+                // else{
+                //     $query ="INSERT INTO grupos(idGrupo, solicitud, letraGrupo) VALUES ('{$idgrup}',{$alumno['solicitud']},'{$grupos[1]}')";
+                //     echo $idgrup." ". $alumno['solicitud']."<br>";
+                //     $res = mysqli_query($db, $query);
+                //     array_push($resultados, $res);
+                //     $cont =1;
+                //     array_shift($grupos); 
+                // }
+            }
+            for ($i=0; $i < count($alumnos); $i++) { 
+                if ($cont != $cantXGrupo) {
+                    $idgrup=$anio."-".$carrera.$grupos[0];
+                    $query ="INSERT INTO grupos(idGrupo, solicitud, letraGrupo) VALUES ('{$idgrup}',{$alumnos[$i]},'{$grupos[0]}')";
+                    echo $idgrup." ". $alumno['solicitud']."<br>";
                     $res = mysqli_query($db, $query);
                     array_push($resultados, $res);
                     $cont++;
-                }
-                else{
+                }else{
+                    $i--;
                     $cont =0;
-                    array_shift($grupos); 
+                    array_shift($grupos);
                 }
             }
         }

@@ -47,18 +47,10 @@
             }
             foreach($elemGrupo as $key => $value){
                 $queryUpdateE = "UPDATE detalles_config SET num_Alumnos  = '{$value}' WHERE idConfig = '{$keyId}'  AND idCarrera = '{$key}' ";
-<<<<<<< HEAD
-                echo $queryUpdateE ."<br>";
-=======
->>>>>>> 4dbe0d0f257da46a6c2853d55baca4ea898bfa94
                 $resultado = mysqli_query($db, $queryUpdateE);
             }
             foreach($grupo as $key => $value){
                 $queryUpdate = "UPDATE detalles_config SET cantidadGrupos = '{$value}' WHERE idConfig = '{$keyId}'  AND idCarrera = '{$key}' "; 
-<<<<<<< HEAD
-                echo $queryUpdate ."<br>";
-=======
->>>>>>> 4dbe0d0f257da46a6c2853d55baca4ea898bfa94
                 $resultado = mysqli_query($db, $queryUpdate);
             }
         }
@@ -101,11 +93,7 @@
                         </div>
                         <div class="des">
                             <label>Descripción</label>
-<<<<<<< HEAD
                             <?php echo ('<textarea name="'.$row["idConfig"].'d" placeholder="'.$row["descripcion"].'"name="" id="" cols="48" rows="5"  ></textarea>');?>
-=======
-                            <?php echo ('<input type = "text" name="'.$row["idConfig"].'d" maxlength = "280"value="'.$row["descripcion"].'"name="" id="" cols="48" rows="5" required >');?>                        
->>>>>>> 4dbe0d0f257da46a6c2853d55baca4ea898bfa94
                         </div>
                     </div>
                     

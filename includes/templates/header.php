@@ -37,6 +37,13 @@
     <ul class="nav">
         <?php if($rol==="admin"):?>
         <li><a href="/admin/index.php">Inicio</a></li>
+        <li><a href="/admin/Gestionar Configuraciones/GestionarConfiguraciones.php">Gestionar Configuraciones</a>
+            <ul>
+                <li><a href="/admin/Gestionar Configuraciones/RegistrarConfig.php">Registrar configuración </a></li>
+                <li><a href="/admin/Gestionar Configuraciones/VerConfig.php">Ver configuraciones </a></li>
+                <li><a href="/admin/Gestionar Configuraciones/ModificarConfig.php">Modificar configuración </a></li>
+            </ul>
+        </li>    
         <li><a href="/admin//Importar Datos/ImportarDatos.php">Importar Datos</a>
             <ul>
                 <li><a href="/admin/Importar Datos/Aspirantes.php">Importar Datos de Aspirantes</a></li>
@@ -55,6 +62,13 @@
             </ul>
         </li>
         <?php endif;?>
+        <li><a href="/admin/Gestionar Calificaciones/GestionarCal.php">Gestionar Calificaciones</a>
+            <ul>
+                <li><a href="/admin/Gestionar Calificaciones/RegistrarCal.php">Registrar calificaciones</a></li>
+                <li><a href="/admin/Gestionar Calificaciones/VerCalificaciones.php">Ver calificaciones </a></li>
+                <li><a href="/admin/Gestionar Calificaciones/ModificarCal.php">Modificar calificaciones </a></li>
+            </ul>
+        </li>
         <li><a href="/admin/Generar Listas/GenerarListas.php">Generar Listas</a>
             <ul>
                 <?php if ($rol==="admin"):?>
@@ -65,27 +79,7 @@
                 <li><a href="/admin/Generar Listas/ListaCursoIntro.php">Listas del curso de introducción </a></li>
             </ul>
         </li>
-        <li><a href="/admin/Gestionar Calificaciones/GestionarCal.php">Gestionar Calificaciones</a>
-            <ul>
-                <li><a href="/admin/Gestionar Calificaciones/RegistrarCal.php">Registrar calificaciones</a></li>
-                <li><a href="/admin/Gestionar Calificaciones/VerCalificaciones.php">Ver calificaciones </a></li>
-                <li><a href="/admin/Gestionar Calificaciones/ModificarCal.php">Modificar calificaciones </a></li>
-            </ul>
-        </li>
         <?php if($rol==="admin"):?>
-        <li><a href="/admin/Gestionar Configuraciones/GestionarConfiguraciones.php">Gestionar Configuraciones</a>
-            <ul>
-                <li><a href="/admin/Gestionar Configuraciones/RegistrarConfig.php">Registrar configuración </a></li>
-                <li><a href="/admin/Gestionar Configuraciones/VerConfig.php">Ver configuraciones </a></li>
-                <li><a href="/admin/Gestionar Configuraciones/ModificarConfig.php">Modificar configuración </a></li>
-            </ul>
-        </li>
-        <li><a href="/admin/Gestionar Materias/GestionarMat.php">Gestionar Materias</a>
-            <ul>
-                <!-- <li><a href="/admin/Gestionar Materias/RegistrarMat.php">Registrar una nueva Materia</a></li> -->
-                <li><a href="/admin/Gestionar Materias/ModificarMat.php">Modificar materia</a></li>
-            </ul>
-        </li>
         <li><a href="/admin/Funciones Secundarias/FuncionesSec.php">Funciones Secundarias</a>
             <ul>
                 <li><a href="/admin/Funciones Secundarias/ModifcarPromCeneval.php">Modificar promedio de examen Ceneval</a></li>
@@ -94,6 +88,7 @@
                 <li><a href="/admin/Funciones Secundarias/RespaldoBDD.php">Crear respaldo de la Base de Datos</a></li>
                 <li><a href="/admin/Funciones Secundarias/NuevoProceso.php">Nuevo proceso</a></li>
                 <li><a href="/admin/Funciones Secundarias/RegistrarNewUser.php">Registrar un nuevo usuario</a></li>
+                <li><a href="/admin/Funciones Secundarias/ModificarMat.php">Modificar materia</a></li>
             </ul>
         </li>
         <?php endif;?>
