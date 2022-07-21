@@ -9,7 +9,7 @@
 
     $queryCon ="SELECT * FROM config";
     $resultadoCon =mysqli_query($db, $queryCon);
-
+    $ban = true;
     if ($_SERVER['REQUEST_METHOD']=="POST" && $_POST['tipoForm'] === "configuraciones") {
         $nombre =[];
         $descripcion = [];
@@ -53,6 +53,10 @@
                 $queryUpdate = "UPDATE detalles_config SET cantidadGrupos = '{$value}' WHERE idConfig = '{$keyId}'  AND idCarrera = '{$key}' "; 
                 $resultado = mysqli_query($db, $queryUpdate);
             }
+            if (!$keyId) {
+				$ban = false;
+                break;
+			}
         }
         
     }  
@@ -78,6 +82,7 @@
         <input type="hidden" name="tipoForm" value="configuraciones">
         <?php if ($_SERVER['REQUEST_METHOD']=="GET") {
             $config=$_GET['config']?? null;
+            
             if($config != null){
                 $queryDetalleCon = "SELECT * FROM config WHERE config.idConfig = $config";
                 $resultadoDetalleCon =mysqli_query($db, $queryDetalleCon);
@@ -108,8 +113,8 @@
                     while($row = mysqli_fetch_assoc($resultadoCon)):?>
                         <input type="hidden" name="<?php echo $row ["idConfig"] ;?>" value="ID">
                         <div class="table__item"><?php echo $row ["nomCarrera"] ;?></div>
-                        <div class="table__item"><?php echo ('<input name="'.$row ["idCarrera"].'x"  value = "'.$row ["cantidadGrupos"].'" type="number" align="right" style="text-align:right;" required min="1" max="5" required placeholder="Ingresa la cantidad de grupos">');?></div>
-                        <div class="table__item"><?php echo ('<input name=" '.$row ["idCarrera"].'" value = "'.$row ["num_Alumnos"].'" type="number" align="right" style="text-align:right;" required min="1" max="45" required placeholder="Ingresa la cantidad de elementos por grupo">');?></div>
+                        <div class="table__item"><?php echo ('<input name="'.$row ["idCarrera"].'x"  value = "'.$row ["cantidadGrupos"].'" type="number" align="right" style="text-align:right;" required min="1" max="10" required placeholder="Ingresa la cantidad de grupos">');?></div>
+                        <div class="table__item"><?php echo ('<input name=" '.$row ["idCarrera"].'" value = "'.$row ["num_Alumnos"].'" type="number" align="right" style="text-align:right;" required min="1" max="50" required placeholder="Ingresa la cantidad de elementos por grupo">');?></div>
                     <?php endwhile;
                     echo ('<input type="submit" value="Modificar Configuración" class="btnRCT" >');
 
@@ -122,5 +127,8 @@
 </main>
 <?php 
     inlcuirTemplate('footer');
+    if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
+        echo "<script>exito('Configuración Modificada');</script>";
+    }
 ?>
 

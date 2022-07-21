@@ -13,12 +13,14 @@
     $resultadoId =mysqli_query($db, $queryId);
     $resultadoCar =mysqli_query($db, $queryCar);
     
+    $ban = true;
     if ($_SERVER['REQUEST_METHOD']==="POST") {
         $nombreCondig = $_POST['nombreCon'];
         $descripcion = $_POST['descripcion'];
         $cantidadG= $_POST['cantidadGrupo'];
         $cantidadxG = $_POST['cantidadxG'];
         $auxId = mysqli_fetch_assoc($resultadoId);
+        $resId = [];
 
         foreach($auxId as $value){
             if($value < 1){
@@ -31,7 +33,14 @@
                 $queryinsert = "INSERT INTO detalles_config (idConfig, idCarrera, cantidadGrupos, num_Alumnos) VALUES ('{$value}',$row[0],'{$cantidadG}','{$cantidadxG}')"; 
                 $resultadoCar2 =mysqli_query($db, $queryinsert);
             }
+            if (!$value) {
+                $ban = false;
+                break;
+            }
         }
+        
+			
+		
     }
 ?>
 <main class="g_config">
@@ -48,11 +57,11 @@
         <div class="parametros">
             <div class="cantidadG">
                 <label>Cantidad Grupos </label>
-                <input type="number" name="cantidadGrupo" id="cantidadGrupo" min="1" max="5" required>
+                <input type="number" name="cantidadGrupo" id="cantidadGrupo" min="1" max="10" required>
             </div>
             <div class="cantidadXG">
                 <label>Cantidad por Grupo</label>
-                <input type="number" name="cantidadxG" id="cantidadxG" min="1" max="45"required>
+                <input type="number" name="cantidadxG" id="cantidadxG" min="1" max="50"required>
             </div>
             <div class="btnAgregar">
                 <input type="submit" value="Agregar">
@@ -62,5 +71,8 @@
 </main>
 <?php 
     inlcuirTemplate('footer');
+    if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
+        echo "<script>exito('Configuración Registrada');</script>";
+    }
 ?>
 

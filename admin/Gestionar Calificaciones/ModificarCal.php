@@ -15,6 +15,7 @@
     $resultadoMat =mysqli_query($db, $queryMat);//en forma de un query sql para interactuar con la db
     $resultadoGru =mysqli_query($db, $queryGru);
 
+    $ban = true;
     if ($_SERVER['REQUEST_METHOD']=="POST" && $_POST['tipoForm'] === "calificaciones") {
         $carrera = $_GET['carreraS']?? null;
         $materia = $_GET['materiaS']?? null;
@@ -37,8 +38,9 @@
             if ($materiaG) {
                 $queryinsert = "UPDATE calificaciones set calif ='{$value}' WHERE solicitud = '{$key}' AND idMateriaGrupo = '{$materiaG}'"; 
                 $resultado = mysqli_query($db, $queryinsert);
-                if ($resultado) {
-                    header("location: /admin/index.php");
+                if (!$resultado) {
+                    $ban = false;
+                    break;
                 }
             }
         }
@@ -144,6 +146,9 @@
 </main>
 <?php 
     inlcuirTemplate('footer');
+        if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
+        echo "<script>exito('Calificación Modificada');</script>";
+    }
 ?>  
 
        

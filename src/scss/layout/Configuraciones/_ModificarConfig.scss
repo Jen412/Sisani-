@@ -82,15 +82,17 @@
             top: 0rem;
             left: 88rem;
         }
-        input{
-            width: 51rem;
+        textarea{
+            position: absolute;
+            resize: none;
+            width: 50rem;
             height: 12rem;
             background-color: $blanco;
             color: black;
-            position: absolute;
+            border: .2rem solid black;
+            border-radius: 0.8rem;
             top: 5rem;
-            left: 77rem;
-            
+            left: 85rem;
         }
     }
     
