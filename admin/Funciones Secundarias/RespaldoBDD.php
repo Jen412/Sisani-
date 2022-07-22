@@ -5,12 +5,12 @@
        header('location: /'); die();
     }
     inlcuirTemplate('header');
-
+    $ban = true;
     if ($_SERVER['REQUEST_METHOD']=="POST"){
         
         include('RespaldoTools.php');
  
-        $arrayDbConf['host'] = 'localhost';
+        $arrayDbConf['host'] = 'localhost:3308';
         $arrayDbConf['user'] = 'root';
         $arrayDbConf['pass'] = '';
         $arrayDbConf['name'] = 'siseni';
@@ -21,6 +21,7 @@
         }
         catch(Exception $e) {
             echo $e; 
+            $ban = false;
         }
         
     }
@@ -36,4 +37,7 @@
 </main>
 <?php 
     inlcuirTemplate('footer');
+    if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
+        echo "<script>exito('Respaldo Realizado');</script>";
+    }
 ?>

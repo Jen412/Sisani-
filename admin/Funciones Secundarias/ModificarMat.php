@@ -8,6 +8,7 @@
     $db = conectarDB();
     $query = "SELECT * FROM materias";
     $resultado= mysqli_query($db, $query);
+    $ban = true;
     if ($_SERVER['REQUEST_METHOD']==="POST") {
         $idMat = $_POST['materia'];
         $nomMat= $_POST['materiaN'];
@@ -16,6 +17,8 @@
         if ($resultado) {
             header('location: /admin/Gestionar Materias/GestionarMat.php'); 
             die();
+        }else{
+            $ban = false;
         }
     }
 ?>
@@ -44,4 +47,7 @@
 </main>
 <?php 
     inlcuirTemplate('footer');
+    if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
+        echo "<script>exito('Materia Modificada');</script>";
+    }
 ?>

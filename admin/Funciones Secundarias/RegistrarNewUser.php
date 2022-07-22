@@ -14,6 +14,7 @@
     $password ="";
     $passwordCon="";
     $errores =[];
+    $ban = true;
     if ($_SERVER['REQUEST_METHOD']==="POST") {
         $email =mysqli_real_escape_string($db, $_POST['email']);
         $nombre=mysqli_real_escape_string($db, $_POST['nombre']);
@@ -29,6 +30,8 @@
             $password = password_hash($password, PASSWORD_DEFAULT);
             $query ="INSERT INTO users(`email`, `password`, `nomUsuario`, `apellidoUsuario`, `create`, `role`) VALUES ('{$email}','{$password}','{$nombre}','{$apellido}','{$fecha}','$tipoUser')";
             // $resultado = mysqli_query($db, $query);
+        }else{
+            $ban = false;
         }
     }
 ?>
@@ -72,4 +75,7 @@
 </main>
 <?php 
     inlcuirTemplate('footer');
+    if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
+        echo "<script>exito('Usuario Registrado');</script>";
+    }
 ?>

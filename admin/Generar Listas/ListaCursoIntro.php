@@ -155,7 +155,7 @@
         // $writer->save('php://output');
         $writer->save("../../Excel/ListasCursosInduccionGeneral/".$nom.'.xlsx');
     }
-
+    
     if ($_SERVER['REQUEST_METHOD']==="POST" && $_POST['tipoLista']=="Especifica") {
         $carrera = $_POST['carrera'];
         $materia = $_POST['materia'];
@@ -196,6 +196,7 @@
             }
         }
     }
+    $ban = true;
     if ($_SERVER['REQUEST_METHOD']==="POST" && $_POST['tipoLista']=="Todas") {
         $materia = $_POST['materia'];
         $queryMate = "SELECT nombreMateria FROM materias WHERE idMateria = {$materia};";
@@ -239,6 +240,8 @@
                 if ('../../Excel/ListasCursosInduccionGeneral/'.$arc != "../../Excel/ListasCursosInduccionGeneral/.." && '../../Excel/ListasCursosInduccionGeneral/'.$arc != "../../Excel/ListasCursosInduccionGeneral/.") {
                     echo ('../../Excel/ListasCursosInduccionGeneral/'.$arc. "<br>");
                     unlink('../../Excel/ListasCursosInduccionGeneral/'.$arc);
+                }else{
+                    $ban = false;
                 }
             }
         }
@@ -313,6 +316,9 @@
 </main>
 <?php 
     inlcuirTemplate('footer');
+    if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
+        echo "<script>exito('Lista del Cuso de Intruducción Generada');</script>";
+    }
 ?>
 
 

@@ -78,7 +78,7 @@
         // $writer->save('php://output');
         $writer->save("../../Excel/ListasAlumnos60/".$nom.'.xlsx');
     }
-
+    $ban = true;
     if ($_SERVER['REQUEST_METHOD']==="POST") {
         $db = conectarDB();
         $nom ="ListaAlumnosMenos60";
@@ -109,6 +109,8 @@
             if ('../../Excel/ListasAlumnos60/'.$arc != "../../Excel/ListasAlumnos60/.." && '../../Excel/ListasAlumnos60/'.$arc != "../../Excel/ListasAlumnos60/.") {
                 echo ('../../Excel/ListasAlumnos60/'.$arc. "<br>");
                 unlink('../../Excel/ListasAlumnos60/'.$arc);
+            }else{
+                $ban = false;
             }
         }
     }
@@ -123,6 +125,9 @@
 </main>
 <?php 
     inlcuirTemplate('footer');
+    if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
+        echo "<script>exito('Lista de Promedios Bajos Generada');</script>";
+    }
 ?>
 
 

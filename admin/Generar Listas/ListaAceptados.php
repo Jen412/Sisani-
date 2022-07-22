@@ -280,7 +280,7 @@
         // $writer->save('php://output');
         $writer->save("../../Excel/ListasAceptados/".$nom.'.xlsx');
     }
-
+    $ban = true;
     if ($_SERVER['REQUEST_METHOD']==="POST") {
         $carrera=$_POST['carrera'];
         $queryCar = "SELECT nomCarrera FROM carreras WHERE idCarrera = {$carrera};";
@@ -311,6 +311,8 @@
         foreach($dir as $arc){
             if ('../../Excel/ListasAceptados/'.$arc != "../../Excel/ListasAceptados/.." && '../../Excel/ListasAceptados/'.$arc != "../../Excel/ListasAceptados/.") {
                 unlink('../../Excel/ListasAceptados/'.$arc);
+            }else{
+                $ban = false;
             }
         }
     }
@@ -334,4 +336,7 @@
 </main>
 <?php 
     inlcuirTemplate('footer');
+    if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
+        echo "<script>exito('Lista de Aceptados Generada');</script>";
+    }
 ?>

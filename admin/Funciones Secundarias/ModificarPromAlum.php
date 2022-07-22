@@ -14,15 +14,14 @@
             array_push($array, $row['solicitud']);
         }
     }
-
+    $ban = true;
     if ($_SERVER['REQUEST_METHOD']==="POST") {
         $ficha =$_POST['numFicha'];
         $calificacion=$_POST['prom'];
         $query ="UPDATE alumnos SET alu_prom={$calificacion} WHERE solicitud = {$ficha};";
         $resultado = mysqli_query($db, $query);
-        if ($resultado) {
-            header('location: /admin/Funciones Secundarias/FuncionesSec.php'); 
-            die();
+        if (!$resultado) {
+            $ban = false;
         }
     }
 ?>
@@ -61,4 +60,7 @@ $(document).ready(function(){
 </script>
 <?php 
     inlcuirTemplate('footer');
+    if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
+        echo "<script>exito('Promedio Modificado');</script>";
+    }
 ?>

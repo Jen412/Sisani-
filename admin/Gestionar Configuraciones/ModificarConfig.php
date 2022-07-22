@@ -9,7 +9,7 @@
 
     $queryCon ="SELECT * FROM config";
     $resultadoCon =mysqli_query($db, $queryCon);
-    $ban = true;
+    
     if ($_SERVER['REQUEST_METHOD']=="POST" && $_POST['tipoForm'] === "configuraciones") {
         $nombre =[];
         $descripcion = [];
@@ -53,6 +53,7 @@
                 $queryUpdate = "UPDATE detalles_config SET cantidadGrupos = '{$value}' WHERE idConfig = '{$keyId}'  AND idCarrera = '{$key}' "; 
                 $resultado = mysqli_query($db, $queryUpdate);
             }
+            
             if (!$keyId) {
 				$ban = false;
                 break;

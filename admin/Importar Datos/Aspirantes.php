@@ -9,6 +9,7 @@
     }
     inlcuirTemplate('header');
 	$doc ="";
+	$ban = true;
 	if ($_SERVER['REQUEST_METHOD']==="POST") {
 		$doc =$_FILES['importA'];
 		// echo "<pre>";
@@ -106,4 +107,7 @@
 
 <?php //Metódo de footer
     inlcuirTemplate('footer');
+	if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
+        echo "<script>exito('Datos de Aspirantes Importados');</script>";
+    }
 ?>

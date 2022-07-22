@@ -6,8 +6,10 @@
     if (!$auth) {
        header('location: /'); die();
     }
+	
     inlcuirTemplate('header');
 	$doc ="";
+	
 	if ($_SERVER['REQUEST_METHOD']==="POST") {
 		$doc =$_FILES['importA'];
 		// echo "<pre>";
@@ -30,6 +32,7 @@
 			$resultados []= $resultado;
 		}
 		$ban = false;
+		
 		foreach($resultados as $resultado){ 
 			if ($resultado) {
 				$ban = true;
@@ -62,4 +65,7 @@
 
 <?php //Metódo de footer
     inlcuirTemplate('footer');
+	if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
+        echo "<script>exito('Datos de Ceneval Importados');</script>";
+    }
 ?>

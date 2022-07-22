@@ -8,6 +8,7 @@
     $db = conectarDB();
     $query= "SELECT * FROM materias";
     $resultado = mysqli_query($db, $query);
+    $ban = true;
     if ($_SERVER['REQUEST_METHOD']==="POST") {
         // echo "<pre>";
         // var_dump($_POST);
@@ -23,6 +24,9 @@
             //     header("location: /admin/index.php");
             //     die();
             // }
+            if (!$key) {
+				$ban = false;
+			}
         }
     }
 ?>
@@ -75,7 +79,7 @@
                     ?></div>
                 </div>
                 <?php endwhile;
-                echo ('<input type="submit" value="Registrar Calificaciones" class="btnRCT">');
+                echo ('<input type="submit" value="Modificar Asignación" class="btnRCT">');
             }    
         }?>
         </div> 
@@ -83,4 +87,7 @@
 </main>
 <?php 
     inlcuirTemplate('footer');
+    if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
+        echo "<script>exito('Modificación Exitosa');</script>";
+    }
 ?>
