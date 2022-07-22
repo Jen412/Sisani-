@@ -7,8 +7,12 @@
     use PhpOffice\PhpSpreadsheet\{Spreadsheet, IOFactory, Style\Alignment};
     use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-     if (!$auth) {
+    if (!$auth) {
        header('location: /'); die();
+    }
+    if ($_SESSION['role']!="admin") {
+        header('location: /admin/index.php'); 
+        die();
     }
     inlcuirTemplate('header');
     $db = conectarDB();

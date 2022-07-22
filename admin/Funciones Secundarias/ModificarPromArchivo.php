@@ -4,6 +4,10 @@
        header('location: /'); die();
     }
     inlcuirTemplate('header');
+	if ($_SESSION['role']!="admin") {
+        header('location: /admin/index.php'); 
+        die();
+    }
 ?>
 <div class="contenedor">
 	<div class="enunciado">

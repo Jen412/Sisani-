@@ -1,14 +1,14 @@
 .nuevoProceso{
     margin-top: 2rem;
     text-align: center;
-    button{
+    input{
         background-color: $rojo;
         border-radius: 0.5rem;
         padding: 1rem;
         width: 20%;
         color: $blanco;
     }
-    button:hover{
+    input:hover{
         cursor: pointer;
         background-color: $rojoOscuro;
     }

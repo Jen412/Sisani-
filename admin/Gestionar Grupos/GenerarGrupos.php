@@ -4,6 +4,10 @@
     if (!$auth) {
        header('location: /'); die();
     }
+    if ($_SESSION['role']!="admin") {
+        header('location: /admin/index.php'); 
+        die();
+    }
     $ban = true;
     if($_SERVER['REQUEST_METHOD']==="POST"){
         $db = conectarDB();
