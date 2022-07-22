@@ -3,6 +3,10 @@
     if (!$auth) {
        header('location: /'); die();
     }
+    if ($_SESSION['role']!="admin") {
+        header('location: /admin/index.php'); 
+        die();
+    }
     inlcuirTemplate('header');
 ?>
 <main class="gestionar">

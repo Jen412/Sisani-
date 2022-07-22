@@ -7,6 +7,10 @@
     if (!$auth) {
        header('location: /'); die();
     }
+	if ($_SESSION['role']!="admin") {
+        header('location: /admin/index.php'); 
+        die();
+    }
     inlcuirTemplate('header');
 	$doc ="";
 	if ($_SERVER['REQUEST_METHOD']==="POST") {

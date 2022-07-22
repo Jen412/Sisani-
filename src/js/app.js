@@ -31,6 +31,21 @@ function confirmarEliminacion (formulario){
             form.submit();
         }});
 }
+function borrarDatos (formulario){
+    const result = Swal.fire({
+        title: '¿Esta seguro de Eliminar?',
+        text: "Se Eliminaran todos los datos de los estudiantes",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: 'Si Eliminar'
+    }).then((result) => {
+        if(result.isConfirmed){
+            const form = document.querySelector(formulario);
+            console.log(form);
+            form.submit();
+        }});
+}
 function exito(mensaje) {
     Swal.fire({
         position: 'center',
