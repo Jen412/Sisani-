@@ -25,7 +25,7 @@
             $query ="INSERT INTO materiagrupo(idMateria, idMaestro, idGrupo) VALUES ('{$materia}','{$value}','{$grupo}')";  
             $resultado = mysqli_query($db, $query);
         }
-        if (!$resultado) {
+        if (!$key) {
             $ban = false;
         }
     }
@@ -76,7 +76,7 @@
                     ?></div>
                 </div>
                 <?php endwhile;
-                echo ('<input type="submit" value="Registrar Maestro" class="btnRCT">');
+                echo ('<input type="submit" value="Asignar Maestros" class="btnRCT">');
             }    
         }?>
         </div> 

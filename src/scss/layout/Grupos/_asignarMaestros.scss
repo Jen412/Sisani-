@@ -8,10 +8,11 @@
     }
     select{
         margin-left: -10rem;
-        width: 20%;
+        width: 25%;
         border: .1rem solid $azulMarino;
         border-radius: 0.8rem;
         height: 3rem;
+        text-align: center;
     }
     input{
         width: 10%;
@@ -19,6 +20,7 @@
         color: $blanco;
         border-radius: 0.8rem;
         margin-bottom: 0;
+        
     }
 }
 .asigMaes{

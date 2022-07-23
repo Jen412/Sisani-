@@ -13,7 +13,7 @@
 
     $queryCon ="SELECT * FROM config";
     $resultadoCon =mysqli_query($db, $queryCon);
-    
+    $ban = true;
     if ($_SERVER['REQUEST_METHOD']=="POST" && $_POST['tipoForm'] === "configuraciones") {
         $nombre =[];
         $descripcion = [];

@@ -1,0 +1,113 @@
+<?php  
+    require "../../includes/funciones.php";  $auth = estaAutenticado();
+    if (!$auth) {
+       header('location: /'); die();
+    }
+    inlcuirTemplate('header');
+    require "../../includes/config/database.php";//Dirección relativa donde se encuentra la conexion a la db
+    $db =conectarDB();//Funcion dentro que permite la conexión
+
+    $queryCar ="SELECT * FROM carreras";//Las variables empiezan por $ y pueden almacenar instrucciones SQL
+    $queryMat ="SELECT * FROM materias";
+    $queryGru ="SELECT * FROM grupos";
+   
+    $resultadoCar =mysqli_query($db, $queryCar);//mysqli_query necesita de un parametro para establecer la conexion y de otro 
+    $resultadoMat =mysqli_query($db, $queryMat);//en forma de un query sql para interactuar con la db
+    $resultadoGru =mysqli_query($db, $queryGru);
+
+?>
+<main class="registrarCal">
+    <section>
+        <h1>Ver Calificaciones</h1>
+        <form method="POST"><!-- Se debe de poner el metodo post como si fuese un formulario-->
+            <div class="linea">
+                <div class="carrera">
+                    <label for="">Selecciona Carrera</label>
+                    <select name="carreraS" id="carreraS">
+                        <option value=""disabled selected>--Seleccione Carrera--</option>  
+                        <?php while($carrera = mysqli_fetch_assoc($resultadoCar)):?><!--como es son varias carreras se guarda la seleccionada en una variable -->
+                            <option value="<?php echo $carrera['idCarrera'];?>"><!--la variable contiene referenciando a la db y el query que se esta realizando-->
+                                <?php echo $carrera['nomCarrera'];?><!---para mostrar el resultado en pantalla se muestra en una etiqueta del mismo tipo-->
+                            </option><!--con la impresion de la variable de la carrera dentro del while mediante el nombre del campo de la tabla-->
+                            <!--cuando se selecciona una opcion se presenta el nombre en base a su id, primero se acede al id y despues al nombre-->
+                        <?php endwhile;?>  
+                    </select>
+                </div>
+                <div class="materia">
+                    <label for="">Selecciona Materia</label>
+                    <select name="materiaS" id="materiaS">
+                        <option value=""disabled selected>--Seleccione Materia--</option>    
+                        <?php while($materia = mysqli_fetch_assoc($resultadoMat)):?>
+                            <option value="<?php echo $materia['idMateria'];?>"><!---El valor contiene el id de la materia que seleccionemos-->
+                                <?php echo $materia['nombreMateria'];?><!--Se imprime lo que se eligio-->
+                            </option>
+                        <?php endwhile;?>
+                    </select><!--Se envia el id del select desde el formulario conteniendo el valor del id de la materia seleccionada--->
+                </div>
+                <div class="grupo">
+                    <label for="">Grupo</label>
+                    <select name="GrupoS" id="GrupoS">
+                        <option value="" disabled selected>--Seleccione Grupo--</option>    
+                        <option value="A">A</option>
+                        <?php 
+                            while($grupo = mysqli_fetch_assoc($resultadoGru)){
+                                if ($grupo['letraGrupo']=='B') {
+                                    echo '<option value="B">B</option>';
+                                }
+                                if ($grupo['letraGrupo']=='C') {
+                                    echo '<option value="C">C</option>';
+                                }
+                                if ($grupo['letraGrupo']=='D') {
+                                    echo '<option value="D">D</option>';
+                                }
+                            }
+                        ?>
+                    </select>
+                </div>
+                <input type="submit" value="Buscar" name="btnRC" id="btnRC" onclick="mostrarTabla();">
+            </div>
+            <div class = "container-table">
+                <?php  
+                    if ($_SERVER['REQUEST_METHOD']=="POST") {//se reciben los datos del formulario con el imput hidden seleccion 
+                        $materia=$_POST['materiaS'];
+                        $carrera=$_POST['carreraS'];
+                        $grupo = $_POST['GrupoS'];
+                        $queryCar ="SELECT nomCarrera FROM carreras WHERE idCarrera = $carrera";
+                        $resultadoCar = mysqli_query($db, $queryCar);
+
+                        while($row = mysqli_fetch_assoc($resultadoCar)){
+                            echo ('<div class="table__title">');
+                            echo ($row ["nomCarrera"]);
+                            echo ('</div>');
+                        }
+                        
+                        $queryMat ="SELECT nombreMateria FROM materias WHERE idMateria = $materia";
+                        $resultadoMat = mysqli_query($db, $queryMat);
+
+                        while($row = mysqli_fetch_assoc($resultadoMat)){
+                            echo ('<div class="table__title">');
+                            echo ($row ["nombreMateria"]);
+                            echo ('</div>');
+                        }
+                        echo ('<div class="table__title">');
+                        echo ($grupo);
+                        echo ('</div>');
+                        echo ('<div class="table__header">Ficha</div>');
+                        echo ('<div class="table__header">Nombre</div>');
+                        echo ('<div class="table__header">Calificación</div>');
+                        $queryBtn = ("SELECT d.solicitud, d.alu_nombre, d.alu_apeP, d.alu_apeM, cl.calif FROM alumnos as d INNER JOIN calificaciones as cl ON cl.solicitud = d.solicitud INNER JOIN grupos as g ON d.solicitud = g.solicitud WHERE g.letraGrupo = '$grupo'AND cl.idMateriaGrupo IN (SELECT mg.idMateriaGrupo FROM calificaciones as cl INNER JOIN materiagrupo as mg ON cl.idMateriaGrupo = mg.idMateriaGrupo WHERE mg.idMateria = $materia AND d.solicitud IN (SELECT d.solicitud FROM carreras as c INNER JOIN alumnos as d ON c.idCarrera = d.idCarrera WHERE d.idCarrera = $carrera));");                       
+                        $resultadoBtn =mysqli_query($db, $queryBtn);
+                        while($btnRC = mysqli_fetch_assoc($resultadoBtn)): 
+                ?>
+                            <div class="table__item"><?php echo $btnRC["solicitud"] ;?></div>
+                            <div class="table__item"><?php echo $btnRC["alu_nombre"];echo "  "; echo $btnRC["alu_apeP"]; echo "  ";echo $btnRC["alu_apeM"];?></div>
+                            <div class="table__item"><?php echo $btnRC["calif"] ;?></div>
+                    <?php endwhile; }?>
+            </div> 
+        </form>
+    </section>
+</main>
+<?php 
+    inlcuirTemplate('footer');
+?>
+
