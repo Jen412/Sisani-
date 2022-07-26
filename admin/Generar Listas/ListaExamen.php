@@ -11,7 +11,7 @@
        header('location: /'); die();
     }
     if ($_SESSION['role']!="admin") {
-        header('location: /admin/index.php'); 
+        header('location: /'); 
         die();
     }
     inlcuirTemplate('header');
@@ -88,7 +88,7 @@
         $writer->save("../../Excel/ListasCeneval/".$nom.'.xlsx');
     }
 
-    $ban = true;
+    
     if ($_SERVER['REQUEST_METHOD']==="POST" && $_POST['tipoLista']=="General") {
         $queryCars = "SELECT * FROM carreras";
         $resultado = mysqli_query($db, $queryCars);
@@ -124,8 +124,6 @@
                 if ('../../Excel/ListasCeneval/'.$arc != "../../Excel/ListasCeneval/.." && '../../Excel/ListasCeneval/'.$arc != "../../Excel/ListasCeneval/.") {
                     echo ('../../Excel/ListasCeneval/'.$arc. "<br>");
                     unlink('../../Excel/ListasCeneval/'.$arc);
-                }else{
-                    $ban = false;
                 }
             }
         }
@@ -189,9 +187,6 @@
 </main>
 <?php 
     inlcuirTemplate('footer');
-    if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
-        echo "<script>exito('Lista de Examen Cenaval Generada');</script>";
-    }
 ?>
 
 

@@ -14,7 +14,7 @@
         
         include('RespaldoTools.php');
  
-        $arrayDbConf['host'] = 'localhost:3308';
+        $arrayDbConf['host'] = 'localhost';
         $arrayDbConf['user'] = 'root';
         $arrayDbConf['pass'] = '';
         $arrayDbConf['name'] = 'siseni';

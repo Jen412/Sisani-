@@ -1,5 +1,6 @@
 <?php  
-    require "../../includes/funciones.php";  $auth = estaAutenticado();
+    require "../../includes/funciones.php";  
+    $auth = estaAutenticado();
     require '../../includes/config/database.php';
     require "../../vendor/autoload.php";
 
@@ -10,17 +11,29 @@
        header('location: /'); die();
     }
     inlcuirTemplate('header');
-
     $db = conectarDB();
-    $queryMat = "SELECT * FROM materias;";
-    $resulMat = mysqli_query($db, $queryMat);
-
-    $queryCarr= "SELECT * FROM carreras;";
-    $resulCarr = mysqli_query($db, $queryCarr);
-
-    $queryGrupo = "SELECT * FROM grupos";
-    $resulGrup = mysqli_query($db, $queryGrupo); 
-
+    if($_SESSION['role']!="admin"){
+        $rfc = $_SESSION['rfc'];
+        $queryMaes = "SELECT idMaestro FROM maestros WHERE rfc = '{$rfc}'";
+        $resultadoMaes = mysqli_query($db, $queryMaes);
+        $idMaestro = mysqli_fetch_assoc($resultadoMaes)["idMaestro"];
+    }
+    $queryCarr = "SELECT * FROM carreras";
+    $queryMat ="SELECT * FROM materias";
+    $queryMat2 = "SELECT * FROM materias;";
+    $queryGrupo ="SELECT DISTINCT letraGrupo FROM grupos";
+    if ($_SESSION['role'] !="admin") {
+        $queryCarr ="SELECT DISTINCT carreras.idCarrera, carreras.nomCarrera FROM carreras, maestros, alumnos,grupos, materiagrupo where alumnos.idCarrera =carreras.idCarrera AND grupos.solicitud = alumnos.solicitud && grupos.idGrupo = materiagrupo.idGrupo AND maestros.rfc = '{$rfc}' AND maestros.idMaestro = '{$idMaestro}';";//Las variables empiezan por $ y pueden almacenar instrucciones SQL
+        $queryMat2 = "SELECT DISTINCT materias.idMateria, materias.nombreMateria FROM materias, maestros, materiagrupo, alumnos, grupos WHERE materiagrupo.idMateria = materias.idMateria AND alumnos.solicitud = grupos.solicitud AND grupos.idGrupo = materiagrupo.idGrupo AND maestros.rfc = '{$rfc}';";
+    }
+    
+    $resulCarr = mysqli_query($db, $queryCarr);//mysqli_query necesita de un parametro para establecer la conexion y de otro ;
+    $resulMatGen = mysqli_query($db, $queryMat2);
+    if($_SESSION['role'] === "admin"){
+        $resultadoMat = mysqli_query($db, $queryMat);
+        $resulGrup = mysqli_query($db, $queryGrupo);
+    }
+    
     function excel($nom,$db, $carrera, $materia, $grupo, $nomCarrera){
         $borderArray =[
             'borders' => [
@@ -259,7 +272,7 @@
                 <input type="hidden" name="tipoLista" id="tipoLista" value="Todas">
                 <select name="materia" id="materia">
                     <option value="" disabled selected>--Seleccione Materia--</option>
-                    <?php while($materia = mysqli_fetch_assoc($resulMat)):?>
+                    <?php while($materia = mysqli_fetch_assoc($resulMatGen)):?>
                     <option value="<?php echo $materia['idMateria'];?>"><?php echo $materia['nombreMateria'];?></option>
                     <?php endwhile;?>
                 </select>
@@ -271,32 +284,40 @@
             <form method="POST" id="especifica">
                 <input type="hidden" name="tipoLista" id="tipoLista" value="Especifica">
                 <div class="carrera">
-                    <label for="">Selecciona una Carrera</label>
-                    <select class="carrera" id="carrera" name="carrera">
-                        <option value="" disabled selected>--Seleccione Carrera--</option>
-                        <?php while($carrera = mysqli_fetch_assoc($resulCarr)):?>
-                        <option value="<?php echo $carrera['idCarrera'];?>"><?php echo $carrera['nomCarrera'];?></option>
-                        <?php endwhile;?>    
+                    <label for="">Selecciona Carrera</label>
+                    <select name="carreraS" id="carreraS"onchange="buscarMaterias('<?php echo $rfc;?>', event);">
+                        <option value=""disabled selected>--Seleccione Carrera--</option>  
+                        <?php while($carrera = mysqli_fetch_assoc($resulCarr)):?><!--como es son varias carreras se guarda la seleccionada en una variable -->
+                            <option value="<?php echo $carrera['idCarrera'];?>"><!--la variable contiene referenciando a la db y el query que se esta realizando-->
+                                <?php echo $carrera['nomCarrera'];?><!---para mostrar el resultado en pantalla se muestra en una etiqueta del mismo tipo-->
+                            </option><!--con la impresion de la variable de la carrera dentro del while mediante el nombre del campo de la tabla-->
+                            <!--cuando se selecciona una opcion se presenta el nombre en base a su id, primero se acede al id y despues al nombre-->
+                        <?php endwhile;?>  
                     </select>
                 </div>
                 <div class="materia">
-                    <label for="">Selecciona una Materia</label>
-                    <select name="materia" id="materia">
-                        <option value="" disabled selected>--Seleccione Materia--</option>
-                        <?php
-                        $resulMat = mysqli_query($db, $queryMat);
-                        while($materia = mysqli_fetch_assoc($resulMat)):?>
-                        <option value="<?php echo $materia['idMateria'];?>"><?php echo $materia['nombreMateria'];?></option>
-                        <?php endwhile;?>
-                    </select>
+                    <label for="">Selecciona Materia</label>
+                    <select name="materiaS" id="materiaS"onchange="buscarGrupo('<?php echo $rfc;?>', event);">
+                        <option value=""disabled selected>--Seleccione Materia--</option>    
+                        <?php 
+                        if ($_SESSION['role']==="admin") {
+                            while ($materia = mysqli_fetch_assoc($resultadoMat)): ?>
+                                <option value="<?php echo $materia['idMateria'];?>"><?php echo $materia['nombreMateria'];?></option> 
+                            <?php endwhile;
+                        }
+                        ?>
+                    </select><!--Se envia el id del select desde el formulario conteniendo el valor del id de la materia seleccionada--->
                 </div>
                 <div class="grupo">
-                    <label for="">Letra Grupo</label>
-                    <select name="grupo" id="grupo">
+                    <label for="">Grupo</label>
+                    <select name="GrupoS" id="GrupoS">
                         <option value="" disabled selected>--Seleccione Grupo--</option>    
-                        <option value="A">A</option>
                         <?php 
+                        if ($_SESSION['role']==="admin") {
                             while($grupo = mysqli_fetch_assoc($resulGrup)){
+                                if ($grupo['letraGrupo']=='A') {
+                                    echo '<option value="A">A</option>';
+                                }
                                 if ($grupo['letraGrupo']=='B') {
                                     echo '<option value="B">B</option>';
                                 }
@@ -307,6 +328,7 @@
                                     echo '<option value="D">D</option>';
                                 }
                             }
+                        }
                         ?>
                     </select>
                 </div>

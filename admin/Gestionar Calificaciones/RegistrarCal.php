@@ -6,14 +6,24 @@
     }
     inlcuirTemplate('header');
     $db =conectarDB();//Funcion dentro que permite la conexión
-
-    $queryCar ="SELECT * FROM carreras";//Las variables empiezan por $ y pueden almacenar instrucciones SQL
+    if($_SESSION['role']!="admin"){
+        $rfc = $_SESSION['rfc'];
+        $queryMaes = "SELECT idMaestro FROM maestros WHERE rfc = '{$rfc}'";
+        $resultadoMaes = mysqli_query($db, $queryMaes);
+        $idMaestro = mysqli_fetch_assoc($resultadoMaes)["idMaestro"];
+    }
+    $queryCar = "SELECT * FROM carreras";
+    if ($_SESSION['role'] !="admin") {
+        $queryCar ="SELECT DISTINCT carreras.idCarrera, carreras.nomCarrera FROM carreras, maestros, alumnos,grupos, materiagrupo where alumnos.idCarrera =carreras.idCarrera AND grupos.solicitud = alumnos.solicitud && grupos.idGrupo = materiagrupo.idGrupo AND maestros.rfc = '{$rfc}' AND maestros.idMaestro = '{$idMaestro}';";//Las variables empiezan por $ y pueden almacenar instrucciones SQL
+    }
     $queryMat ="SELECT * FROM materias";
-    $queryGru ="SELECT * FROM grupos";
+    $queryGru ="SELECT DISTINCT letraGrupo FROM grupos";
    
     $resultadoCar =mysqli_query($db, $queryCar);//mysqli_query necesita de un parametro para establecer la conexion y de otro 
-    $resultadoMat =mysqli_query($db, $queryMat);//en forma de un query sql para interactuar con la db
-    $resultadoGru =mysqli_query($db, $queryGru);
+    if($_SESSION['role'] === "admin"){
+        $resultadoMat = mysqli_query($db, $queryMat);
+        $resultadoGrup = mysqli_query($db, $queryGru);
+    }
 
     $ban = true;
     if ($_SERVER['REQUEST_METHOD']=="POST" && $_POST['tipoForm'] === "calificaciones") {
@@ -56,7 +66,7 @@
             <div class="linea">
                 <div class="carrera">
                     <label for="">Selecciona Carrera</label>
-                    <select name="carreraS" id="carreraS">
+                    <select name="carreraS" id="carreraS"onchange="buscarMaterias('<?php echo $rfc;?>', event);">
                         <option value=""disabled selected>--Seleccione Carrera--</option>  
                         <?php while($carrera = mysqli_fetch_assoc($resultadoCar)):?><!--como es son varias carreras se guarda la seleccionada en una variable -->
                             <option value="<?php echo $carrera['idCarrera'];?>"><!--la variable contiene referenciando a la db y el query que se esta realizando-->
@@ -68,22 +78,27 @@
                 </div>
                 <div class="materia">
                     <label for="">Selecciona Materia</label>
-                    <select name="materiaS" id="materiaS">
+                    <select name="materiaS" id="materiaS"onchange="buscarGrupo('<?php echo $rfc;?>', event);">
                         <option value=""disabled selected>--Seleccione Materia--</option>    
-                        <?php while($materia = mysqli_fetch_assoc($resultadoMat)):?>
-                            <option value="<?php echo $materia['idMateria'];?>"><!---El valor contiene el id de la materia que seleccionemos-->
-                                <?php echo $materia['nombreMateria'];?><!--Se imprime lo que se eligio-->
-                            </option>
-                        <?php endwhile;?>
+                        <?php 
+                        if ($_SESSION['role']==="admin") {
+                            while ($materia = mysqli_fetch_assoc($resultadoMat)): ?>
+                                <option value="<?php echo $materia['idMateria'];?>"><?php echo $materia['nombreMateria'];?></option> 
+                            <?php endwhile;
+                        }
+                        ?>
                     </select><!--Se envia el id del select desde el formulario conteniendo el valor del id de la materia seleccionada--->
                 </div>
                 <div class="grupo">
                     <label for="">Grupo</label>
                     <select name="GrupoS" id="GrupoS">
                         <option value="" disabled selected>--Seleccione Grupo--</option>    
-                        <option value="A">A</option>
                         <?php 
-                            while($grupo = mysqli_fetch_assoc($resultadoGru)){
+                        if ($_SESSION['role']==="admin") {
+                            while($grupo = mysqli_fetch_assoc($resultadoGrup)){
+                                if ($grupo['letraGrupo']=='A') {
+                                    echo '<option value="A">A</option>';
+                                }
                                 if ($grupo['letraGrupo']=='B') {
                                     echo '<option value="B">B</option>';
                                 }
@@ -94,6 +109,7 @@
                                     echo '<option value="D">D</option>';
                                 }
                             }
+                        }
                         ?>
                     </select>
                 </div>

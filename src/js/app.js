@@ -4,7 +4,7 @@ let archivo = document.querySelector('#importA');//Se utiliza en tiempo real a l
 	archivo.files[0].name;});
 
 const { task } = require("gulp");
-const { Value } = require("sass");
+const { Value, renderSync } = require("sass");
 
 function mostrarContenido(){//Muestra el menú de selección para generar todas las listas 
 	document.getElementById('todas').style.display ='flex';
@@ -102,6 +102,43 @@ function buscarAlumno(e){
     });
 }
 
+function buscarMaterias(rfc, e) {
+    $.ajax({
+        url: '../../ajaxPHP/buscarMat.php',
+        type: "POST",
+        data:{rfc},
+        success: respuesta =>{
+            let datos = JSON.parse(respuesta);
+            let select = document.querySelector("#materiaS");
+            datos.forEach(materia =>{
+                let option = document.createElement("option");
+                option.text = materia['nombreMateria'];
+                option.value= materia['idMateria'];
+                select.appendChild(option);
+            })
+        }
+    });
+}
+
+function buscarGrupo(rfc, e) {
+    const idCarrera = document.querySelector("#carreraS").value;
+    console.log(idCarrera);
+    $.ajax({
+        url: '../../ajaxPHP/buscarGrupo.php',
+        type: "POST",
+        data:{rfc, idCarrera},
+        success: respuesta =>{
+            let datos = JSON.parse(respuesta);
+            let select = document.querySelector("#GrupoS");
+            datos.forEach(materia =>{
+                let option = document.createElement("option");
+                option.text = materia['letraGrupo'];
+                option.value= materia['letraGrupo'];
+                select.appendChild(option);
+            })
+        }
+    });
+}
 
 function buscarAlumnoProm(e){
     let solicitud = document.querySelector("#numFicha").value;

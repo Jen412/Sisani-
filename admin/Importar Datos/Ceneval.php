@@ -6,16 +6,16 @@
     if (!$auth) {
        header('location: /'); die();
     }
-	
+	$db = conectarDB();
     inlcuirTemplate('header');
 	$doc ="";
-	
+	$ban = false;
 	if ($_SERVER['REQUEST_METHOD']==="POST") {
 		$doc =$_FILES['importA'];
 		// echo "<pre>";
 		// var_dump($_FILES);
 		// echo "</pre>";
-		$db = conectarDB();
+		
 		move_uploaded_file($doc['tmp_name'],"../../Excel/importar/".$doc['name']);
 		$archivo = "../../Excel/importar/".$doc['name'];
 		$document = IOFactory::load($archivo);
@@ -31,7 +31,7 @@
 			$resultado =mysqli_query($db,$query);
 			$resultados []= $resultado;
 		}
-		$ban = false;
+		
 		
 		foreach($resultados as $resultado){ 
 			if ($resultado) {
@@ -68,4 +68,10 @@
 	if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
         echo "<script>exito('Datos de Ceneval Importados');</script>";
     }
+	$queryVal = "SELECT * FROM alumnos";
+	$resultadoVal = mysqli_query($db, $queryVal);
+	if (mysqli_num_rows($resultadoVal)===0) {
+		echo "<script> alert('No se han ingresado Alumnos');</scritp>";
+		header("location: /admin/Importar Datos/Aspirantes.php");
+	}
 ?>

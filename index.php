@@ -32,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD']=== 'POST') {
                     $_SESSION['usuario'] = $usuario['email'];
                     $_SESSION['login'] = true;
                     $_SESSION['role'] = $usuario['role'];
+                    $_SESSION['rfc'] = $usuario['rfc'];
                     header('location: /admin');
                 }
                 else {
