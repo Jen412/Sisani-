@@ -87,8 +87,7 @@
         // $writer->save('php://output');
         $writer->save("../../Excel/ListasCeneval/".$nom.'.xlsx');
     }
-
-    
+    $ban = true;
     if ($_SERVER['REQUEST_METHOD']==="POST" && $_POST['tipoLista']=="General") {
         $queryCars = "SELECT * FROM carreras";
         $resultado = mysqli_query($db, $queryCars);
@@ -118,6 +117,7 @@
                 readfile($filePath);
             }else{
                 echo 'No existe el archivo';
+                $ban = false;
             }
             $dir =scandir('../../Excel/ListasCeneval/',1);
             foreach($dir as $arc){
@@ -153,6 +153,7 @@
             readfile($filePath);
         }else{
             echo 'The file does not exist.';
+            $ban = false;
         }
         $dir =scandir('../../Excel/ListasCeneval/',1);
         foreach($dir as $arc){
@@ -176,7 +177,7 @@
             <form method="POST" id="todas">
                 <label>Seleccionar una Carrera</label>
                 <input type="hidden" name="tipoLista" value="Especifica">
-                <select name="carrera" id="carrera" >
+                <select name="carrera" id="carrera" required >
                     <option value="" disabled selected>--Seleccione Carrera--</option>
                     <?php while($materia = mysqli_fetch_assoc($resultadoMat)):?>
                         <option value="<?php echo $materia['idCarrera'];?>"><?php echo $materia['nomCarrera'];?></option>
@@ -187,6 +188,9 @@
 </main>
 <?php 
     inlcuirTemplate('footer');
+    if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
+        echo "<script>exito('Lista de Examen Ceneval Generada');</script>";
+    }
 ?>
 
 

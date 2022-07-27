@@ -107,14 +107,13 @@
             
         }else{
             echo 'No existe el archivo';
+            $ban = false;
         }
         $dir =scandir('../../Excel/ListasAlumnos60/',1);
         foreach($dir as $arc){
             if ('../../Excel/ListasAlumnos60/'.$arc != "../../Excel/ListasAlumnos60/.." && '../../Excel/ListasAlumnos60/'.$arc != "../../Excel/ListasAlumnos60/.") {
                 echo ('../../Excel/ListasAlumnos60/'.$arc. "<br>");
                 unlink('../../Excel/ListasAlumnos60/'.$arc);
-            }else{
-                $ban = false;
             }
         }
     }

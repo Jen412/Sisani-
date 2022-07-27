@@ -168,7 +168,7 @@
         // $writer->save('php://output');
         $writer->save("../../Excel/ListasCursosInduccionGeneral/".$nom.'.xlsx');
     }
-    
+    $ban = true;
     if ($_SERVER['REQUEST_METHOD']==="POST" && $_POST['tipoLista']=="Especifica") {
         $carrera = $_POST['carrera'];
         $materia = $_POST['materia'];
@@ -200,6 +200,7 @@
             readfile($filePath);
         }else{
             echo 'The file does not exist.';
+            $ban = false;
         }
         $dir =scandir('../../Excel/ListasCursosInduccion/',1);
         foreach($dir as $arc){
@@ -209,7 +210,7 @@
             }
         }
     }
-    $ban = true;
+    
     if ($_SERVER['REQUEST_METHOD']==="POST" && $_POST['tipoLista']=="Todas") {
         $materia = $_POST['materia'];
         $queryMate = "SELECT nombreMateria FROM materias WHERE idMateria = {$materia};";
@@ -247,14 +248,13 @@
                 readfile($filePath);
             }else{
                 echo 'No existe el archivo';
+                $ban = false;
             }
             $dir =scandir('../../Excel/ListasCursosInduccionGeneral/',1);
             foreach($dir as $arc){
                 if ('../../Excel/ListasCursosInduccionGeneral/'.$arc != "../../Excel/ListasCursosInduccionGeneral/.." && '../../Excel/ListasCursosInduccionGeneral/'.$arc != "../../Excel/ListasCursosInduccionGeneral/.") {
                     echo ('../../Excel/ListasCursosInduccionGeneral/'.$arc. "<br>");
                     unlink('../../Excel/ListasCursosInduccionGeneral/'.$arc);
-                }else{
-                    $ban = false;
                 }
             }
         }
@@ -270,7 +270,7 @@
             <form method="POST" id="todas">
                 <label>Selecciona una Materia</label>
                 <input type="hidden" name="tipoLista" id="tipoLista" value="Todas">
-                <select name="materia" id="materia">
+                <select name="materia" id="materia" required>
                     <option value="" disabled selected>--Seleccione Materia--</option>
                     <?php while($materia = mysqli_fetch_assoc($resulMatGen)):?>
                     <option value="<?php echo $materia['idMateria'];?>"><?php echo $materia['nombreMateria'];?></option>
@@ -285,7 +285,7 @@
                 <input type="hidden" name="tipoLista" id="tipoLista" value="Especifica">
                 <div class="carrera">
                     <label for="">Selecciona Carrera</label>
-                    <select name="carreraS" id="carreraS"onchange="buscarMaterias('<?php echo $rfc;?>', event);">
+                    <select name="carreraS" id="carreraS"onchange="buscarMaterias('<?php echo $rfc;?>', event);" required>
                         <option value=""disabled selected>--Seleccione Carrera--</option>  
                         <?php while($carrera = mysqli_fetch_assoc($resulCarr)):?><!--como es son varias carreras se guarda la seleccionada en una variable -->
                             <option value="<?php echo $carrera['idCarrera'];?>"><!--la variable contiene referenciando a la db y el query que se esta realizando-->
@@ -297,7 +297,7 @@
                 </div>
                 <div class="materia">
                     <label for="">Selecciona Materia</label>
-                    <select name="materiaS" id="materiaS"onchange="buscarGrupo('<?php echo $rfc;?>', event);">
+                    <select name="materiaS" id="materiaS"onchange="buscarGrupo('<?php echo $rfc;?>', event);" required>
                         <option value=""disabled selected>--Seleccione Materia--</option>    
                         <?php 
                         if ($_SESSION['role']==="admin") {
@@ -310,7 +310,7 @@
                 </div>
                 <div class="grupo">
                     <label for="">Grupo</label>
-                    <select name="GrupoS" id="GrupoS">
+                    <select name="GrupoS" id="GrupoS" required>
                         <option value="" disabled selected>--Seleccione Grupo--</option>    
                         <?php 
                         if ($_SESSION['role']==="admin") {
@@ -339,9 +339,6 @@
 <?php 
     inlcuirTemplate('footer');
     if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
-        echo "<script>exito('Lista del Cuso de Intruducción Generada');</script>";
+        echo "<script>exito('Lista del Curso de Introducción Generada');</script>";
     }
 ?>
-
-
-

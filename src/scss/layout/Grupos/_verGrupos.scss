@@ -8,7 +8,7 @@
     }
     select{
         margin-left: -10rem;
-        width: 35%;
+        width: 28%;
         border: .1rem solid $azulMarino;
         border-radius: 0.8rem;
         height: 3rem;
@@ -36,7 +36,7 @@
         height: auto;
         .table__title{
             grid-column-start: 1;
-            grid-column-end: 4;
+            grid-column-end: 6;
             display: flex;
             justify-content: center;
             align-items: center;
