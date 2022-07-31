@@ -17,10 +17,6 @@
                 <ion-icon name="cloud-upload-outline"></ion-icon>
                 Importar Datos Aspirantes
             </a>
-            <a href="/admin/Importar Datos/Registrados.php">
-                <ion-icon name="cloud-upload-outline"></ion-icon>
-                Importar Registros Sustentables
-            </a>
             <a href="/admin/Importar Datos/Ceneval.php">
                 <ion-icon name="cloud-upload-outline"></ion-icon>
                 Importar Datos Ceneval

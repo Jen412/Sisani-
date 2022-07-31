@@ -12,8 +12,10 @@
     $db = conectarDB();
 
     $email ="";
+    $rfc="";
     $nombre="";
-    $apellido="";
+    $apellidoP="";
+    $apellidoM="";
     $tipoUser="";
     $password ="";
     $passwordCon="";
@@ -22,7 +24,9 @@
     if ($_SERVER['REQUEST_METHOD']==="POST") {
         $email =mysqli_real_escape_string($db, $_POST['email']);
         $nombre=mysqli_real_escape_string($db, $_POST['nombre']);
-        $apellido=mysqli_real_escape_string($db, $_POST['apellido']);
+        $apellidoP=mysqli_real_escape_string($db, $_POST['apellidoP']);
+        $apellidoM=mysqli_real_escape_string($db, $_POST['apellidoM']);
+        $rfc=mysqli_real_escape_string($db, $_POST['rfc']);
         $tipoUser=$_POST['tipoUsuario'];
         $password =mysqli_real_escape_string($db, $_POST['password']);
         $passwordCon=mysqli_real_escape_string($db, $_POST['passwordCon']);
@@ -31,9 +35,14 @@
         }
         if (empty($errores)) {
             $fecha = date('Y-m-d');
+            if ($tipoUser ==="maestro") {
+                $nombreMaestro = $nombre. " ".$apellidoP ." ".$apellidoM;
+                $query = "INSERT INTO `maestros`(`nombreMaestro`, `rfc`) VALUES ('{$nombreMaestro}','{$rfc}')";
+                $resultadoMaes = mysqli_query($db, $query);
+            }
             $password = password_hash($password, PASSWORD_DEFAULT);
-            $query ="INSERT INTO users(`email`, `password`, `nomUsuario`, `apellidoUsuario`, `create`, `role`) VALUES ('{$email}','{$password}','{$nombre}','{$apellido}','{$fecha}','$tipoUser')";
-            // $resultado = mysqli_query($db, $query);
+            $query ="INSERT INTO users(`email`, `password`, `create`, `role`, 'rfc') VALUES ('{$email}','{$password}','{$fecha}','$tipoUser', '{$rfc}')";
+            $resultado = mysqli_query($db, $query);
         }else{
             $ban = false;
         }
@@ -45,31 +54,39 @@
         <form method="POST">
             <div class="email">
                 <label for="email">Email</label>
-                <input type="email" name="email" id="email">           
+                <input required type="email" name="email" id="email">           
             </div>
             <div class="nombreUser">
                 <label for="nombre">Nombre</label>
-                <input type="text" name="nombre" id="nombre"onkeypress="return checkLetters(event);">           
+                <input required type="text" name="nombre" id="nombre"onkeypress="return checkLetters(event);">           
             </div>
-            <div class="apellido">
-                <label for="apellido">Apellido</label>
-                <input type="text" name="apellido" id="apellido"onkeypress="return checkLetters(event);">           
+            <div class="apellidoP">
+                <label for="apellido">Apellido Paterno</label>
+                <input required type="text" name="apellidoP" id="apellido"onkeypress="return checkLetters(event);">           
+            </div>
+            <div class="apellidoM">
+                <label for="apellido">Apellido Materno</label>
+                <input required type="text" name="apellidoM" id="apellido"onkeypress="return checkLetters(event);">           
             </div>
             <div class="tipoUsuario">
                 <label for="tipoUsuario">Tipo de Usuario</label>
-                <select name="tipoUsuario" id="tipoUsuario">
+                <select name="tipoUsuario" id="tipoUsuario" required>
                     <option disabled selected>--Seleccione--</option>
                     <option value="admin">Administrador</option>
                     <option value="maestro">Docente</option>
                 </select>           
             </div>
+            <div class="RFC">
+                <label for="rfc">RFX</label>
+                <input required type="text" name="rfc" minlength="13" id="rfc"onkeypress="return checkLetters(event);">           
+            </div>
             <div class="password">
                 <label for="password">Contraseña</label>
-                <input type="password" name="password" id="password">           
+                <input required type="password" name="password" id="password">           
             </div>
             <div class="passwordCon">
                 <label for="passwordCon">Confirmar Contraseña</label>
-                <input type="password" name="passwordCon" id="passwordCon">           
+                <input required type="password" name="passwordCon" id="passwordCon">           
             </div>
             <div class="but">
                 <input type="submit" value="Registrar">

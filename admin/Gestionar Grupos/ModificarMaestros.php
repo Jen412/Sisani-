@@ -63,7 +63,6 @@
                     $queryGrup ="SELECT idMaestro FROM materiagrupo WHERE idMateria= {$materia} AND idGrupo = '{$row ["idGrupo"]}';";
                     $result = mysqli_query($db, $queryGrup);
                     $idMaest = mysqli_fetch_assoc($result)['idMaestro'];
-                    echo $idMaest;
                 ?>
                 <?php echo ('<div class="table__header">'.$row['nomCarrera'].'</div>');?>
                 <div class="contRow">
@@ -71,8 +70,7 @@
                     <div class="table__item"><?php echo($nombreMat);?></div>
                     <div class="table__item"><?php 
                     
-                    echo ('<select name="'.$row ["idGrupo"]." ".$row['idCarrera'].'" type="number" align="right" style="text-align:center;" required>
-                    <option value=""disabled selected>--Seleccione al maestro--</option>');
+                    echo ('<select name="'.$row ["idGrupo"]." ".$row['idCarrera'].'" align="right" style="text-align:center;" required>');
                     $queryMaestros = "SELECT * FROM maestros";
                     $resultadoMaes = mysqli_query($db, $queryMaestros);
                     while ($maestros = mysqli_fetch_assoc($resultadoMaes)): ?>

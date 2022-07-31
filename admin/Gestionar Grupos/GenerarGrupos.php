@@ -133,7 +133,6 @@
                 if ($cont != $cantXGrupo) {
                     $idgrup=$anio."-".$carrera.$grupos[0];
                     $query ="INSERT INTO grupos(idGrupo, solicitud, letraGrupo) VALUES ('{$idgrup}',{$alumnos[$i]},'{$grupos[0]}')";
-                    echo $idgrup." ". $alumno['solicitud']."<br>";
                     $res = mysqli_query($db, $query);
                     array_push($resultados, $res);
                     $cont++;

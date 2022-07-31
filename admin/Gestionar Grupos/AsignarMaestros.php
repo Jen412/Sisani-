@@ -39,7 +39,7 @@
             <select name="materiaS" id="materiaS">
                 <option value="" disabled selected>--Seleccione Materia--</option>
                 <?php while($mat = mysqli_fetch_assoc($resultado)):?>
-                <option value="<?php echo $mat['idMateria']?>"><?php echo $mat['nombreMateria']?></option>
+                    <option value="<?php echo $mat['idMateria']?>"><?php echo $mat['nombreMateria']?></option>
                 <?php endwhile;?>
             </select>
             <input type="submit" value="Buscar">
@@ -49,7 +49,7 @@
     <form  method="post" class="asigMaes">
         <div class = "container-table">
         <?php  
-        if ($_SERVER['REQUEST_METHOD']=="GET") {//se reciben los datos del formulario con el imput hidden seleccion 
+        if ($_SERVER['REQUEST_METHOD']==="GET") {//se reciben los datos del formulario con el imput hidden seleccion 
             $materia=$_GET['materiaS'] ?? null;
             $queryNomM ="SELECT nombreMateria FROM materias WHERE idMateria ={$materia}";
             $resultadoMat = mysqli_query($db,$queryNomM);
@@ -57,26 +57,25 @@
                $nombreMat = mysqli_fetch_assoc($resultadoMat)['nombreMateria'];
                 $queryRC = "SELECT DISTINCT carreras.idCarrera, carreras.nomCarrera, grupos.letraGrupo, idGrupo FROM carreras, grupos, alumnos WHERE grupos.solicitud = alumnos.solicitud AND carreras.idCarrera = alumnos.idCarrera;";                       
                 $resultadoRC =mysqli_query($db, $queryRC);
-                while($row = mysqli_fetch_assoc($resultadoRC)): ?>
-                <?php echo ('<div class="table__header">'.$row['nomCarrera'].'</div>');?>
-                <div class="contRow">
-                    <div class="table__item"><?php echo ("Grupo ".$row ["letraGrupo"]);?></div>
-                    <div class="table__item"><?php echo($nombreMat);?></div>
-                    <div class="table__item"><?php 
-                    
-                    echo ('<select name="'.$row ["idGrupo"]." ".$row['idCarrera'].'" type="number" align="right" style="text-align:center;" required>
-                    <option value=""disabled selected>--Seleccione al maestro--</option>');
-                    $queryMaestros = "SELECT * FROM maestros";
-                    $resultadoMaes = mysqli_query($db, $queryMaestros);
-                    while ($maestros = mysqli_fetch_assoc($resultadoMaes)): ?>
-                        <option value="<?php echo $maestros['idMaestro']?>"><?php echo $maestros['nombreMaestro']?></option>
-                    <?php
-                    endwhile;
-                    echo "</select>";
-                    ?></div>
-                </div>
+                while($row = mysqli_fetch_assoc($resultadoRC)):?>
+                    <div class="table__header"><?php echo $row['nomCarrera']?></div>
+                    <div class="contRow">
+                        <div class="table__item"><?php echo ("Grupo ".$row ["letraGrupo"]);?></div>
+                        <div class="table__item"><?php echo($nombreMat);?></div>
+                        <div class="table__item">
+                            <?php 
+                            echo ('<select name="'.$row ["idGrupo"]." ".$row['idCarrera'].'" align="right" style="text-align:center;" required>');
+                            echo('<option value=""disabled selected >--Seleccione al maestro--</option>');
+                            $queryMaestros = "SELECT * FROM maestros";
+                            $resultadoMaes = mysqli_query($db, $queryMaestros);
+                            while ($maestros = mysqli_fetch_assoc($resultadoMaes)): ?>
+                                <option value="<?php echo $maestros['idMaestro']?>"><?php echo $maestros['nombreMaestro']?></option>
+                            <?php endwhile;
+                            echo "</select>"; ?>
+                        </div>
+                    </div>
                 <?php endwhile;
-                echo ('<input type="submit" value="Asignar Maestros" class="btnRCT">');
+                echo('<input type="submit" value="Asignar Maestros" class="btnRCT">');
             }    
         }?>
         </div> 

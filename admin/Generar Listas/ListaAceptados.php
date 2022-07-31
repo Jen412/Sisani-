@@ -53,8 +53,9 @@
 
         $spreadsheet = new Spreadsheet();
         $spreadsheet->getProperties()->setTitle($nom);
-
+        //Lista general de estudiantes
         $hoja = $spreadsheet->getActiveSheet();
+        $hoja->setTitle("Lista General");
         $hoja->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         $hoja->mergeCells("A1:G1");
         $hoja->getStyle("A1")->getFont()->setSize(15);
@@ -101,7 +102,53 @@
         $hoja->getColumnDimension('J')->setWidth(15);
         $hoja->setCellValue('K3', "Grupo");
         $hoja->getColumnDimension('K')->setWidth(15);
-    
+        //Lista de alumnos rechazados
+        $hoja2 = $spreadsheet->createSheet();
+        $hoja2->setTitle("Lista Rechazados");
+        $hoja2->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $hoja2->mergeCells("A1:G1");
+        $hoja2->getStyle("A1")->getFont()->setSize(15);
+        $hoja2->getStyle("A1")->getFont()->setBold(true);
+        $hoja2->setCellValue("A1","INSTITUTO TECNOLOGICO DE CIUDAD GUZMAN  ");
+        $hoja2->mergeCells("A2:B2");
+        $hoja2->getStyle("A2")->getFont()->setSize(13);
+        $hoja2->getStyle("A2:B2")->getFont()->setBold(true);
+        $hoja2->setCellValue("A2","Lista Rechazados");
+        $hoja2->getStyle("A2:E2")->applyFromArray($borderArray);
+        $hoja2->getStyle("A3")->applyFromArray($borderArray);
+        $hoja2->getStyle("B3")->applyFromArray($borderArray);
+        $hoja2->getStyle("C3")->applyFromArray($borderArray);
+        $hoja2->getStyle("D3")->applyFromArray($borderArray);
+        $hoja2->getStyle("E3")->applyFromArray($borderArray);
+        $hoja2->getStyle("F3")->applyFromArray($borderArray);
+        $hoja2->getStyle("G3")->applyFromArray($borderArray);
+        $hoja2->getStyle("H3")->applyFromArray($borderArray);
+        $hoja2->getStyle("I3")->applyFromArray($borderArray);
+        $hoja2->getStyle("J3")->applyFromArray($borderArray);
+        $hoja2->getStyle("A3:J3")->getFont()->setBold(true);
+        $hoja2->getStyle("A3:J3")->getFont()->setSize(12);
+
+        $hoja2->getColumnDimension('A')->setWidth(15);
+        $hoja2->setCellValue('A3', "Ficha");
+        $hoja2->getColumnDimension('B')->setWidth(20);
+        $hoja2->setCellValue('B3', "Nombre");
+        $hoja2->getColumnDimension('C')->setWidth(20);
+        $hoja2->setCellValue('C3', "Apellido Paterno");
+        $hoja2->getColumnDimension('D')->setWidth(20);
+        $hoja2->setCellValue('D3', "Apellido Materno");
+        $hoja2->setCellValue('E3', "PromB");
+        $hoja2->getColumnDimension('E')->setWidth(15);
+        $hoja2->setCellValue('F3', $nombreMat1);
+        $hoja2->getColumnDimension('F')->setWidth(20);
+        $hoja2->setCellValue('G3', $nombreMat2);
+        $hoja2->getColumnDimension('G')->setWidth(25);
+        $hoja2->setCellValue('H3', $nombreMat3);
+        $hoja2->getColumnDimension('H')->setWidth(30);
+        $hoja2->setCellValue('I3', "Prom Ceneval");
+        $hoja2->getColumnDimension('I')->setWidth(15); 
+        $hoja2->setCellValue('J3', "Prom Final");
+        $hoja2->getColumnDimension('J')->setWidth(15);
+        
         $queryAlu = "SELECT solicitud, alu_apeP, alu_apeM, alu_nombre, alu_prom, cal_ceneval from alumnos WHERE idCarrera = {$id};";
         $resultadoAlu = mysqli_query($db, $queryAlu);
         $fila = 4;
@@ -126,6 +173,7 @@
             }
             #$formula = "=(((E{$fila}*30%)+(F{$fila}*10%)+(G{$fila}*10%)+(H{$fila}*10%)+(((I{$fila}-700)/6)*40%))*6)+700";
             $promFin = ((($alumno['alu_prom']*0.30)+($calMat1*0.10)+($calMat2*0.10)+($calMat3*0.10)+((($alumno['cal_ceneval']-700)/6)*0.40))*6)+700;
+            //Se sacan los datos de la BDD y se genera calificacion promedio final 
             $arr =[$alumno['solicitud'], $alumno['alu_nombre'], $alumno['alu_apeP'], $alumno['alu_apeM'], $alumno['alu_prom'], $calMat1, $calMat2, $calMat3, $alumno['cal_ceneval'], $promFin];
             array_push($array,$arr);
         }
@@ -219,14 +267,13 @@
         }
         $banCambio =true;
         $contGrup=0;
+        $lista = Array();
+        $listaRechazados = Array();
         for ($i=0; $i <count($array); $i++) { 
             if ($i<= $cantAcep) {
                 $grup="";
                 if($contGrup >-1 && $contGrup < $cantGrup){
                     $grup= $grupos[$contGrup];
-                    $hoja->setCellValue('K'.$fila, $grup);
-                    $hoja->getStyle('K'.$fila)->applyFromArray($borderArray);
-                    $hoja->getStyle('K'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
                     $hoja->setCellValue('A'.$fila, $array[$i][0]);
                     $hoja->getStyle('A'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
                     $hoja->getStyle("A".$fila)->applyFromArray($borderArray);
@@ -257,6 +304,24 @@
                     $hoja->setCellValue('J'.$fila, $array[$i][9]);
                     $hoja->getStyle('J'.$fila)->applyFromArray($borderArray);
                     $hoja->getStyle('J'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                    $hoja->setCellValue('K'.$fila, $grup);
+                    $hoja->getStyle('K'.$fila)->applyFromArray($borderArray);
+                    $hoja->getStyle('K'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                    // se les asigna grupo a cada alumno para despues guardarse en un array para formatearlos 
+                    $solicitud = $array[$i][0];
+                    $nombre = $array[$i][1];
+                    $apellidoP = $array[$i][2];
+                    $apellidoM= $array[$i][3];
+                    $prom= $array[$i][4];
+                    $cal1 = $array[$i][5];
+                    $cal2 = $array[$i][6];
+                    $cal3 = $array[$i][7];
+                    $calCeneval =$array[$i][8];
+                    $promfin =$array[$i][9];
+                    
+                    $alumno = [$solicitud, $nombre, $apellidoP,  $apellidoM, $prom, $cal1, $cal2, $cal3, $calCeneval, $promfin, $grup];
+                    array_push($lista, $alumno);
+                    
                 }
                 else{
                     $i--;
@@ -278,12 +343,112 @@
                 // echo $fila." ". $grup. "<br>";
                 $fila++;
             }
+            else{
+                //Lista de rechazados
+                $solicitud = $array[$i][0];
+                $nombre = $array[$i][1];
+                $apellidoP = $array[$i][2];
+                $apellidoM= $array[$i][3];
+                $prom= $array[$i][4];
+                $cal1 = $array[$i][5];
+                $cal2 = $array[$i][6];
+                $cal3 = $array[$i][7];
+                $calCeneval =$array[$i][8];
+                $promfin =$array[$i][9];
+                $alumno = [$solicitud, $nombre, $apellidoP, $apellidoM, $prom, $cal1, $cal2, $cal3, $calCeneval, $promfin];
+                array_push($listaRechazados, $alumno);
+            }
         }
+        for ($i=0; $i < count($listaRechazados); $i++) { 
+            $hoja2->setCellValue('A'.$fila, $listaRechazados[$i][0]);
+            $hoja2->getStyle('A'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+            $hoja2->getStyle("A".$fila)->applyFromArray($borderArray);
+            $hoja2->setCellValue('B'.$fila, $listaRechazados[$i][1]);
+            $hoja2->getStyle("B".$fila)->applyFromArray($borderArray);
+            $hoja2->getStyle('B'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+            $hoja2->setCellValue('C'.$fila, $listaRechazados[$i][2]);
+            $hoja2->getStyle("C".$fila)->applyFromArray($borderArray);
+            $hoja2->getStyle('C'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+            $hoja2->setCellValue('D'.$fila, $listaRechazados[$i][3]);
+            $hoja2->getStyle("D".$fila)->applyFromArray($borderArray);
+            $hoja2->getStyle('D'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+            $hoja2->setCellValue('E'.$fila, $listaRechazados[$i][4]);
+            $hoja2->getStyle('E'.$fila)->applyFromArray($borderArray);
+            $hoja2->getStyle('E'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+            $hoja2->setCellValue('F'.$fila, $listaRechazados[$i][5]);
+            $hoja2->getStyle('F'.$fila)->applyFromArray($borderArray);
+            $hoja2->getStyle('F'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+            $hoja2->setCellValue('G'.$fila, $listaRechazados[$i][6]);
+            $hoja2->getStyle('G'.$fila)->applyFromArray($borderArray);
+            $hoja2->getStyle('G'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+            $hoja2->setCellValue('H'.$fila, $listaRechazados[$i][7]);
+            $hoja2->getStyle('H'.$fila)->applyFromArray($borderArray);
+            $hoja2->getStyle('H'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+            $hoja2->setCellValue('I'.$fila, $listaRechazados[$i][8]);
+            $hoja2->getStyle('I'.$fila)->applyFromArray($borderArray);
+            $hoja2->getStyle('I'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+            $hoja2->setCellValue('J'.$fila, $listaRechazados[$i][9]);
+            $hoja2->getStyle('J'.$fila)->applyFromArray($borderArray);
+            $hoja2->getStyle('J'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);            
+        }
+        crearGruposExcel($spreadsheet, $grupos, $lista, $borderArray);
         $writer = new Xlsx($spreadsheet);        
         $writer =IOFactory::createWriter($spreadsheet, 'Xlsx');
         // $writer->save('php://output');
         $writer->save("../../Excel/ListasAceptados/".$nom.'.xlsx');
     }
+    function crearGruposExcel($spreadsheet, $grupos, $lista, $borderArray){
+        for ($i=0; $i <count($grupos); $i++) { 
+            $letraGrupo = $grupos[$i];
+            $grupo = $spreadsheet->createSheet();
+            $grupo->setTitle("Grupo ". $grupos[$i]);
+            $grupo->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $grupo->mergeCells("A1:G1");
+            $grupo->getStyle("A1")->getFont()->setSize(15);
+            $grupo->getStyle("A1")->getFont()->setBold(true);
+            $grupo->setCellValue("A1","INSTITUTO TECNOLOGICO DE CIUDAD GUZMAN ");
+            $grupo->mergeCells("A2:B2");
+            $grupo->getStyle("A2")->getFont()->setSize(13);
+            $grupo->getStyle("A2:B2")->getFont()->setBold(true);
+            $grupo->setCellValue("A2","Grupo ". $grupos[$i]);
+            $grupo->getStyle("A2:E2")->applyFromArray($borderArray);
+            $grupo->getStyle("A3")->applyFromArray($borderArray);
+            $grupo->getStyle("B3")->applyFromArray($borderArray);
+            $grupo->getStyle("C3")->applyFromArray($borderArray);
+            $grupo->getStyle("D3")->applyFromArray($borderArray);
+            $grupo->getStyle("A3:D3")->getFont()->setBold(true);
+            $grupo->getStyle("A3:D3")->getFont()->setSize(12);
+
+            $grupo->getColumnDimension('A')->setWidth(15);
+            $grupo->setCellValue('A3', "Ficha");
+            $grupo->getColumnDimension('B')->setWidth(20);
+            $grupo->setCellValue('B3', "Nombre");
+            $grupo->getColumnDimension('C')->setWidth(20);
+            $grupo->setCellValue('C3', "Apellido Paterno");
+            $grupo->getColumnDimension('D')->setWidth(20);
+            $grupo->setCellValue('D3', "Apellido Materno");
+            $fila=4;
+            for ($j=0; $j <count($lista); $j++) { 
+                if ($lista[$j][10] === $letraGrupo) {
+            
+                    $grupo->setCellValue('A'.$fila, $lista[$j][0]);
+                    $grupo->getStyle('A'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                    $grupo->getStyle("A".$fila)->applyFromArray($borderArray);
+                    $grupo->setCellValue('B'.$fila, $lista[$j][1]);
+                    $grupo->getStyle("B".$fila)->applyFromArray($borderArray);
+                    $grupo->getStyle('B'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                    $grupo->setCellValue('C'.$fila, $lista[$j][2]);
+                    $grupo->getStyle("C".$fila)->applyFromArray($borderArray);
+                    $grupo->getStyle('C'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                    $grupo->setCellValue('D'.$fila, $lista[$j][3]);
+                    $grupo->getStyle("D".$fila)->applyFromArray($borderArray);
+                    $grupo->getStyle('D'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                    $fila++;
+                }
+            }
+        }
+    }
+
     $ban = true;
     if ($_SERVER['REQUEST_METHOD']==="POST") {
         $carrera=$_POST['carrera'];

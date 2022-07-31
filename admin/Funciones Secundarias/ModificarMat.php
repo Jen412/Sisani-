@@ -16,7 +16,7 @@
     if ($_SERVER['REQUEST_METHOD']==="POST") {
         $idMat = $_POST['materia'];
         $nomMat= $_POST['materiaN'];
-        $query="UPDATE materias SET nombre_Mat='{$nomMat}' WHERE idMateria = {$idMat};";
+        $query="UPDATE materias SET nombreMateria='{$nomMat}' WHERE idMateria = {$idMat};";
         $resultado = mysqli_query($db, $query);
         if ($resultado) {
             header('location: /admin/Gestionar Materias/GestionarMat.php'); 
