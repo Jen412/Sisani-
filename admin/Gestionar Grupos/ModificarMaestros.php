@@ -39,7 +39,7 @@
     <form method="GET">
         <div class="buscar">
             <label for="sel">Seleccionar Materia</label>
-            <select name="materiaS" id="materiaS">
+            <select name="materiaS" id="materiaS" required>
                 <option value="" disabled selected>--Seleccione Materia--</option>
                 <?php while($mat = mysqli_fetch_assoc($resultado)):?>
                 <option value="<?php echo $mat['idMateria']?>"><?php echo $mat['nombreMateria']?></option>

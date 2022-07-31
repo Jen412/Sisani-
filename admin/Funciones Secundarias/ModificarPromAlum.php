@@ -35,7 +35,7 @@
         <form method="POST">
             <div class="numFicha">
                 <label for="numFicha">Número de Ficha: </label>
-                <input type="text" name="numFicha" id="numFicha" onchange="buscarAlumnoProm(event);">
+                <input type="text" name="numFicha" id="numFicha" onchange="buscarAlumnoProm(event);" required>
             </div>
             <div class="nomAlumno">
                 <label for="nomAlumno">Nombre: </label>
@@ -43,7 +43,7 @@
             </div>
             <div class="prom">
                 <label for="prom">Promedio: </label>
-                <input type="number" name="prom" id="prom">
+                <input type="number" name="prom" id="prom" required>
             </div>
             <div class="but">
                 <input type="submit" value="Modificar">

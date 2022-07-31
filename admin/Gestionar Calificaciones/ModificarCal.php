@@ -64,7 +64,7 @@
             <div class="linea">
                 <div class="carrera">
                     <label for="">Selecciona Carrera</label>
-                    <select name="carreraS" id="carreraS"onchange="buscarMaterias('<?php echo $rfc;?>', event);">
+                    <select name="carreraS" id="carreraS"onchange="buscarMaterias('<?php echo $rfc;?>', event);" required>
                         <option value=""disabled selected>--Seleccione Carrera--</option>  
                         <?php while($carrera = mysqli_fetch_assoc($resultadoCar)):?><!--como es son varias carreras se guarda la seleccionada en una variable -->
                             <option value="<?php echo $carrera['idCarrera'];?>"><!--la variable contiene referenciando a la db y el query que se esta realizando-->
@@ -76,7 +76,7 @@
                 </div>
                 <div class="materia">
                     <label for="">Selecciona Materia</label>
-                    <select name="materiaS" id="materiaS"onchange="buscarGrupo('<?php echo $rfc;?>', event);">
+                    <select name="materiaS" id="materiaS"onchange="buscarGrupo('<?php echo $rfc;?>', event);"required>
                         <option value=""disabled selected>--Seleccione Materia--</option>    
                         <?php 
                         if ($_SESSION['role']==="admin") {
@@ -89,7 +89,7 @@
                 </div>
                 <div class="grupo">
                     <label for="">Grupo</label>
-                    <select name="GrupoS" id="GrupoS">
+                    <select name="GrupoS" id="GrupoS" required>
                         <option value="" disabled selected>--Seleccione Grupo--</option>    
                         <?php 
                         if ($_SESSION['role']==="admin") {

@@ -71,7 +71,7 @@
     <form method="GET">
         <div class="nombreCo">
             <label >Nombre de la configuración</label>
-            <select name="config" id="config">
+            <select name="config" id="config" required>
                 <option value=""disabled selected>--Seleccione la Configuración--</option>  
                 <?php while($configuracion = mysqli_fetch_assoc($resultadoCon)):?>
                     <option value="<?php echo $configuracion['idConfig'];?>">

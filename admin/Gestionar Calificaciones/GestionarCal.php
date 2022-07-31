@@ -26,7 +26,4 @@
 </main>
 <?php 
     inlcuirTemplate('footer');
-    if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
-        echo "<script>exito('Configuración Registrada');</script>";
-    }
 ?>

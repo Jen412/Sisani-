@@ -18,10 +18,7 @@
         $nomMat= $_POST['materiaN'];
         $query="UPDATE materias SET nombreMateria='{$nomMat}' WHERE idMateria = {$idMat};";
         $resultado = mysqli_query($db, $query);
-        if ($resultado) {
-            header('location: /admin/Gestionar Materias/GestionarMat.php'); 
-            die();
-        }else{
+        if (!$resultado) {
             $ban = false;
         }
     }

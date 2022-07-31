@@ -475,13 +475,12 @@
             readfile($filePath);
         }else{
             echo 'The file does not exist.';
+            $ban = false;
         }
         $dir =scandir('../../Excel/ListasAceptados/',1);
         foreach($dir as $arc){
             if ('../../Excel/ListasAceptados/'.$arc != "../../Excel/ListasAceptados/.." && '../../Excel/ListasAceptados/'.$arc != "../../Excel/ListasAceptados/.") {
                 unlink('../../Excel/ListasAceptados/'.$arc);
-            }else{
-                $ban = false;
             }
         }
     }
@@ -491,14 +490,12 @@
     <form method="POST">
         <div class="carreras">
             <label>Selecciona una carrera</label>
-            <select name="carrera" id="carrera">
+            <select name="carrera" id="carrera" required>
                 <option value="" disabled selected>--Seleccione Carrera--</option>
                 <?php while($carrera = mysqli_fetch_assoc($resultado)):?>
                     <option value="<?php echo $carrera['idCarrera']?>"><?php echo $carrera['nomCarrera']?></option>    
                 <?php endwhile;?>
             </select>
-        </div>
-        <div class="modal">
             <input type="submit" value="Generar Lista">
         </div>
     </form>
