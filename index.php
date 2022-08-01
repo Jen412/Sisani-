@@ -60,6 +60,11 @@ if ($_SERVER['REQUEST_METHOD']=== 'POST') {
     <main>
         <section>
             <h1>Iniciar Sesión</h1>
+                <?php foreach($errores as $error): ?>
+                <div class="alerta error">
+                    <?php  echo $error; ?>
+                </div>
+                <?php    endforeach;?>
             <form method="POST">
                 <div class="email">
                     <label for="email">Email</label>
@@ -69,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD']=== 'POST') {
                     <label for="pass">Contraseña</label>
                     <input type="password" name="pass" id="pass" placeholder="Contraseña">
                 </div>
-                <a href="/">Olvidaste Contraseña?</a>
+                <a href="/forgotPassword.php">Olvidaste Contraseña?</a>
                 <div class="iniciar">
                     <button>
                         <ion-icon name="enter-outline" class="size3"></ion-icon>

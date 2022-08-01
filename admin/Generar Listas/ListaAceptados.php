@@ -411,7 +411,7 @@
             $grupo->getStyle("A2")->getFont()->setSize(13);
             $grupo->getStyle("A2:B2")->getFont()->setBold(true);
             $grupo->setCellValue("A2","Grupo ". $grupos[$i]);
-            $grupo->getStyle("A2:E2")->applyFromArray($borderArray);
+            $grupo->getStyle("A2:D2")->applyFromArray($borderArray);
             $grupo->getStyle("A3")->applyFromArray($borderArray);
             $grupo->getStyle("B3")->applyFromArray($borderArray);
             $grupo->getStyle("C3")->applyFromArray($borderArray);
