@@ -7,7 +7,7 @@ class MySqlBackupLite {
   private $pass;
   private $name="";
 
-  private $fileName = 'Backup.sql';
+  private $fileName = "";
   private $fileDir = "./";
   private $fileCompression = false;
 
@@ -44,9 +44,10 @@ class MySqlBackupLite {
 
 
   public function backUp() {
-
+    $this->fileName = "Backup_".date('Ymd').".sql";
     $this->connectMySql();
     $this->getTables();
+    $this->orderTables();
     $this->generateSqlHeader();
     $this->createTableStaments();
     $this->insertStaments();
@@ -117,6 +118,21 @@ class MySqlBackupLite {
 
   }
 
+  private function orderTables(){
+    $array = [
+      $this->arrayTables[2],
+      $this->arrayTables[3],
+      $this->arrayTables[6],
+      $this->arrayTables[8],
+      $this->arrayTables[9],
+      $this->arrayTables[0],
+      $this->arrayTables[4],
+      $this->arrayTables[5],
+      $this->arrayTables[7],
+      $this->arrayTables[1]
+    ];
+    $this->arrayTables = $array;
+  }
 
 
   private function generateSqlHeader() {
