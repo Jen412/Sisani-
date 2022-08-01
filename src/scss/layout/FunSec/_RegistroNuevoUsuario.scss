@@ -1,11 +1,11 @@
 .RegistroNuevoUsuario{
     margin-top: 2rem;
-    .email, .nombreUser, .apellido, .tipoUsuario, .password, .passwordCon{
+    .email, .nombreUser, .apellidoM, .tipoUsuario, .password, .passwordCon, .RFC, .apellidoP{
         display: flex;
         justify-content: center;
         gap: 2rem;
     }
-    .password{
+    .RFC{
         margin-top: 1rem;
     }
     input:not(input[type="submit"]), select{

@@ -77,7 +77,7 @@
                 </select>           
             </div>
             <div class="RFC">
-                <label for="rfc">RFX</label>
+                <label for="rfc">RFC</label>
                 <input required type="text" name="rfc" minlength="13" id="rfc"onkeypress="return checkLetters(event);">           
             </div>
             <div class="password">
