@@ -24,19 +24,24 @@ if ($_SERVER['REQUEST_METHOD']=== 'POST') {
             while($usuario = mysqli_fetch_assoc($resultado)){
             //var_dump($usuario); 
             //verificar si el password es correcto o no 
-                $auth = password_verify($password, $usuario['password']);
-                if ($auth) {
-                    //Usuario Autentificado
-                    session_start();
-                    //llenar arreglo de sesion
-                    $_SESSION['usuario'] = $usuario['email'];
-                    $_SESSION['login'] = true;
-                    $_SESSION['role'] = $usuario['role'];
-                    $_SESSION['rfc'] = $usuario['rfc'];
-                    header('location: /admin');
-                }
-                else {
-                    $errores[] = 'La contraseña es incorrecta';
+                
+                echo $usuario['email']." ".$email . "<br> ";
+                if ($email==$usuario['email']) {
+                    # code...
+                    $auth = password_verify($password, $usuario['password']);
+                    if ($auth) {
+                        //Usuario Autentificado
+                        session_start();
+                        // //llenar arreglo de sesion
+                        $_SESSION['usuario'] = $usuario['email'];
+                        $_SESSION['login'] = true;
+                        $_SESSION['role'] = $usuario['role'];
+                        $_SESSION['rfc'] = $usuario['rfc'];
+                        header('location: /admin');
+                    }
+                    else {
+                        $errores[] = 'La contraseña es incorrecta';
+                    }
                 }
             }
         }

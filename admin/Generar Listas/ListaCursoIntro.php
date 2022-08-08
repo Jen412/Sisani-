@@ -170,9 +170,9 @@
     }
     $ban = true;
     if ($_SERVER['REQUEST_METHOD']==="POST" && $_POST['tipoLista']=="Especifica") {
-        $carrera = $_POST['carrera'];
-        $materia = $_POST['materia'];
-        $grupo = $_POST['grupo'];
+        $carrera = $_POST['carreraS'];
+        $materia = $_POST['materiaS'];
+        $grupo = $_POST['grupoS'];
         $queryMate = "SELECT nombreMateria FROM materias WHERE idMateria = {$materia};";
         $resultado = mysqli_query($db, $queryMate);
         $nomMat= mysqli_fetch_assoc($resultado)['nombreMateria'];
