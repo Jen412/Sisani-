@@ -4,6 +4,8 @@
 	require "../../includes/config/database.php";
 	use PhpOffice\PhpSpreadsheet\{Spreadsheet, IOFactory, Style\Alignment};
 
+use function PHPSTORM_META\type;
+
     if (!$auth) {
        header('location: /'); die();
     }
@@ -34,6 +36,9 @@
 			$valorD = $hoja->getCellByColumnAndRow(4,$i);
 			$valorE = $hoja->getCellByColumnAndRow(5,$i);
 			$valorF = $hoja->getCellByColumnAndRow(6,$i);
+			if ($valorF->getValue() <=10) {
+				$valorF = $valorF->getValue()*10;
+			}
 			switch ($valorE) {
 				case 'INGENIERÍA ELECTRÓNICA':
 					$valorE = 4;

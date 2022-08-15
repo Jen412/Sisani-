@@ -102,6 +102,7 @@
         $hoja->getColumnDimension('J')->setWidth(15);
         $hoja->setCellValue('K3', "Grupo");
         $hoja->getColumnDimension('K')->setWidth(15);
+        
         //Lista de alumnos rechazados
         $hoja2 = $spreadsheet->createSheet();
         $hoja2->setTitle("Lista Rechazados");
@@ -270,7 +271,7 @@
         $lista = Array();
         $listaRechazados = Array();
         for ($i=0; $i <count($array); $i++) { 
-            if ($i<= $cantAcep) {
+            if ($i< $cantAcep) {
                 $grup="";
                 if($contGrup >-1 && $contGrup < $cantGrup){
                     $grup= $grupos[$contGrup];
@@ -359,6 +360,7 @@
                 array_push($listaRechazados, $alumno);
             }
         }
+        $fila =4;
         for ($i=0; $i < count($listaRechazados); $i++) { 
             $hoja2->setCellValue('A'.$fila, $listaRechazados[$i][0]);
             $hoja2->getStyle('A'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
@@ -390,6 +392,7 @@
             $hoja2->setCellValue('J'.$fila, $listaRechazados[$i][9]);
             $hoja2->getStyle('J'.$fila)->applyFromArray($borderArray);
             $hoja2->getStyle('J'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);            
+            $fila++;
         }
         crearGruposExcel($spreadsheet, $grupos, $lista, $borderArray);
         $writer = new Xlsx($spreadsheet);        
@@ -430,7 +433,6 @@
             $fila=4;
             for ($j=0; $j <count($lista); $j++) { 
                 if ($lista[$j][10] === $letraGrupo) {
-            
                     $grupo->setCellValue('A'.$fila, $lista[$j][0]);
                     $grupo->getStyle('A'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
                     $grupo->getStyle("A".$fila)->applyFromArray($borderArray);
