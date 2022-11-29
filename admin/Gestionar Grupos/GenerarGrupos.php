@@ -161,6 +161,6 @@
 <?php 
     inlcuirTemplate('footer');
     if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
-        echo "<script>exito('Grupos Generados');</script>";
+        echo "<script>mostrarAlerta('Grupos Generados', '/admin/Gestionar%20Grupos/GestionarGrupos.php');</script>";
     }
 ?>

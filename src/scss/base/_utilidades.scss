@@ -16,3 +16,17 @@
 .w80{
     width: 80%;
 }
+
+.alerta {
+    padding: .5rem;
+    text-align: center;
+    color: $blanco;
+    font-weight: $bold;
+    text-transform: uppercase;
+    margin: 1rem 0;
+    border-radius: 1rem;
+
+    &.error {
+        background-color: $rojo;
+    }
+}

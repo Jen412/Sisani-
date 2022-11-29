@@ -80,6 +80,13 @@
             </ul>
         </li>
         <?php if($rol==="admin"):?>
+        <li><a href="/admin/Gestionar Carreras/GestionarCarreras.php">Gestionar Carreras</a>
+            <ul>
+                <li><a href="/admin/Gestionar Carreras/agregarCarrera.php">Agregar Carrera</a></li>
+                <li><a href="/admin/Gestionar Carreras/modificarCarrera.php">Modificar Carrera </a></li>
+                <li><a href="/admin/Gestionar Carreras/eliminarCarrera.php">Eliminar Carrera </a></li>
+            </ul>
+        </li>
         <li><a href="/admin/Funciones Secundarias/FuncionesSec.php">Funciones Secundarias</a>
             <ul>
                 <li><a href="/admin/Funciones Secundarias/ModifcarPromCeneval.php">Modificar promedio de examen Ceneval</a></li>

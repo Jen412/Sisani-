@@ -3,7 +3,7 @@ let archivo = document.querySelector('#importA');//Se utiliza en tiempo real a l
 	document.querySelector('#nombre').innerText =
 	archivo.files[0].name;});
 
-const { task } = require("gulp");
+const { task, tree } = require("gulp");
 const { Value, renderSync } = require("sass");
 
 function mostrarContenido(){//Muestra el menú de selección para generar todas las listas 
@@ -46,15 +46,24 @@ function borrarDatos (formulario){
             form.submit();
         }});
 }
+
+function mostrarAlerta(mensaje, url){
+    exito(mensaje);
+    setTimeout(() => {
+        window.location.href = url;
+    }, 1500);
+}
+
 function exito(mensaje) {
     Swal.fire({
         position: 'center',
         icon: 'success',
         title: mensaje,
         showConfirmButton: false,
-        timer: 1500
-      })
+        timer: 2000
+    });
 }
+
 function checkLetters(e) {
     tecla = (document.all) ? e.keyCode : e.which;
 	//Tecla de retroceso para borrar, siempre la permite
@@ -79,6 +88,8 @@ function checkNumber(e) {
     console.log(patron.test(tecla_final));
     return patron.test(tecla_final); 
 }
+
+
 
 function buscarAlumno(e){
     let solicitud = document.querySelector("#numFicha").value;

@@ -1,0 +1,41 @@
+.agregarCarrera{
+    margin-top: 0;
+    
+    form{
+        width: 50%;
+        margin: 0 auto;
+        .nombreCarrera, .id{
+            display: flex;
+            margin-top: 2rem;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            label{
+                width: 15rem;
+                text-align: center;
+            }
+            input{
+                width: 50rem;
+                display: inline;
+                background-color: $blanco;
+                color: black;
+            }
+        }
+        .agregar{
+            float: right;
+            width: 15rem;
+            margin-top: 2rem;
+            margin-right: 0.5rem;
+            text-transform: uppercase;
+            background-color: $azulMarino;
+            color: $blanco;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            border-color: $azulOscuro;
+            font-weight: 700;
+        }
+        .agregar:hover{
+            background-color: $azulOscuro;
+        }
+    }
+}

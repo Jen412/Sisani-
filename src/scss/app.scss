@@ -14,6 +14,11 @@
 @import 'layout/Grupos/generarGrupos';
 @import 'layout/Grupos/asignarMaestros';
 @import 'layout/Grupos/verGrupos';
+//Gestionar Carreras
+@import "layout/Carreras/gestionarCarreras";
+@import "layout/Carreras/agregarCarreras";
+@import "layout/Carreras/modificarCarreras";
+@import "layout/Carreras/eliminarCarrera";
 //Generar Listas
 @import 'layout/Listas/listaContenidoOculto';
 @import 'layout/Listas//listaMenu_Y_Botones';
