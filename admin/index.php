@@ -39,6 +39,10 @@
                 Gestionar Calificaciones
             </a>
             <?php if($rol==="admin"):?>
+            <a href="/admin/Gestionar Carreras/GestionarCarreras.php">
+                <ion-icon name="id-card-outline"></ion-icon>
+                Gestionar Carreras
+            </a>
             <a href="/admin/Gestionar Configuraciones/GestionarConfiguraciones.php">
                 <ion-icon name="cog"></ion-icon>
                 Gestionar Configuraciones

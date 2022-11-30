@@ -28,6 +28,10 @@
         if (!$resultado) {
             $ban = false;
         }
+        else{
+            header("location: \admin\Gestionar Grupos\GestionarGrupos.php?alerta=1");
+            die();
+        }
     }
 ?>
 <main class="c_grupos">
@@ -83,7 +87,4 @@
 </main>
 <?php 
     inlcuirTemplate('footer');
-    if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
-        echo "<script>exito('Maestros Asignados Correctamente');</script>";
-    }
 ?>

@@ -65,6 +65,7 @@
         <li><a href="/admin/Gestionar Calificaciones/GestionarCal.php">Gestionar Calificaciones</a>
             <ul>
                 <li><a href="/admin/Gestionar Calificaciones/RegistrarCal.php">Registrar calificaciones</a></li>
+                <li><a href="/admin/Gestionar Calificaciones/RegistrarCalPorArchivo.php">Registrar calificaciones Por Archivo</a></li>
                 <li><a href="/admin/Gestionar Calificaciones/VerCalificaciones.php">Ver calificaciones </a></li>
                 <li><a href="/admin/Gestionar Calificaciones/ModificarCal.php">Modificar calificaciones </a></li>
             </ul>

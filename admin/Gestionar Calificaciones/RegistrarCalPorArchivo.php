@@ -1,0 +1,117 @@
+<?php //Metódo de header  
+    require "../../includes/funciones.php";  
+	require "../../vendor/autoload.php";
+	require "../../includes/config/database.php";
+	use PhpOffice\PhpSpreadsheet\{Spreadsheet, IOFactory, Style\Alignment};
+
+    $auth = estaAutenticado();
+    if (!$auth) {
+       header('location: /'); die();
+    }
+	if ($_SESSION['role']!="admin") {
+        header('location: /admin/index.php'); 
+        die();
+    }
+    inlcuirTemplate('header');
+	$doc ="";
+	if ($_SERVER['REQUEST_METHOD']==="POST") {
+		$doc =$_FILES['importA'];
+		// echo "<pre>";
+		// var_dump($_FILES);
+		// echo "</pre>";
+		$db = conectarDB();
+		move_uploaded_file($doc['tmp_name'],"../../Excel/importar/".$doc['name']);
+		$archivo = "../../Excel/importar/".$doc['name'];
+		$document = IOFactory::load($archivo);
+
+		$hoja = $document->getSheet(0);
+		$numFilas= $hoja->getHighestDataRow();
+		$letra = $hoja->getHighestColumn();
+		$resultados = [];
+		for ($i=2; $i <= $numFilas; $i++) { 
+			$valorA = $hoja->getCellByColumnAndRow(1,$i);
+			$valorB = $hoja->getCellByColumnAndRow(2,$i);
+			$valorC = $hoja->getCellByColumnAndRow(3,$i);
+			$valorD = $hoja->getCellByColumnAndRow(4,$i);
+			$valorE = $hoja->getCellByColumnAndRow(5,$i);
+			$valorF = $hoja->getCellByColumnAndRow(6,$i);
+			if ($valorF->getValue() <=10) {
+				$valorF = $valorF->getValue()*10;
+			}
+			switch ($valorE) {
+				case 'INGENIERÍA ELECTRÓNICA':
+					$valorE = 4;
+					break;
+				case 'INGENIERÍA MECÁNICA':
+					$valorE = 5;
+					break;
+				case 'INGENIERÍA ELÉCTRICA':
+					$valorE = 6;
+					break;
+				case 'INGENIERÍA EN SISTEMAS COMPUTACIONALES':
+					$valorE = 15;
+					break;
+				case 'INGENIERÍA INDUSTRIAL':
+					$valorE = 16;
+					break;
+				case 'MAESTRÍA EN INGENIERÍA ELECTRÓNICA':
+					$valorE = 18;
+					break;
+				case 'INGENIERÍA AMBIENTAL':
+					$valorE = 20;
+					break;
+				case 'ARQUITECTURA':
+					$valorE = 21;
+					break;
+				case 'CONTADOR PÚBLICO':
+					$valorE = 22;
+					break;
+				case 'INGENIERÍA EN GESTIÓN EMPRESARIAL':
+					$valorE = 23;
+					break;
+				case 'INGENIERÍA INFORMÁTICA':
+					$valorE = 24;
+					break;
+				case 'MAESTRÍA EN CIENCIAS DE LA COMPUTACIÓN':
+					$valorE = 25;
+					break;
+			}
+			$query ="";
+			//echo $query . "<br>";
+			$resultado =mysqli_query($db,$query);
+			$resultados []= $resultado;
+		}
+		$ban = false;
+		foreach($resultados as $resultado){ 
+			if ($resultado) {
+				$ban = true;
+			}
+		}
+		if ($ban) {
+			unlink("../../Excel/importar/".$doc['name']);
+			header("location: /admin/Importar Datos/importarDatos.php");
+			die();
+		}
+	}
+?>
+<div class="contenedor">
+	<div class="enunciado">
+	    <p>Registrar Calificaciones por Archivo</p>
+   	</div>
+	<br>
+	<p>Importar Archivo: </p>
+	<form method="POST" class="funciones" enctype="multipart/form-data">
+		<label for="importA">Seleccionar archivo</label>
+		<input  type="file" class ="archivo" name="importA" id="importA"  accept=".xlsx"  >
+		<h4 id="nombre"></h4>
+		<div>
+			<button>Registrar Calificaciones
+				<input type="submit" value="" id="btnImport">
+			</button>
+		</div>
+	</form>
+</div>
+
+<?php //Metódo de footer
+    inlcuirTemplate('footer');
+?>

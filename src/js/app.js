@@ -173,4 +173,8 @@ function buscarAlumnoProm(e){
     });
 }
 
-
+function visibilidad(e) {
+    const seleccion = document.querySelector(".vanish");
+    seleccion.classList.add("Con");
+    seleccion.classList.remove("vanish");
+}

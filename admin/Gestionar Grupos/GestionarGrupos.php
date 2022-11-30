@@ -7,6 +7,7 @@
         header('location: /admin/index.php'); 
         die();
     }
+    $alerta = $_GET['alerta']??null;
     inlcuirTemplate('header');
 ?>
 <main class="gestionar">
@@ -34,4 +35,10 @@
 </main>
 <?php 
     inlcuirTemplate('footer');
+    if ($alerta ==1) {
+        echo "<script>exito('Maestros Asignados Correctamente');</script>";
+    }
+    else if($alerta==2){
+        echo "<script>exito('Modificación Exitosa');</script>";
+    }
 ?>

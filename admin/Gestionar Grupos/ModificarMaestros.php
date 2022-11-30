@@ -21,17 +21,17 @@
             $values = explode("_", $key);
             $grupo =$values[0];
             $carrera = $values[1];
-            $materia=$_GET['materiaS'] ?? null;
-            // $query ="INSERT INTO materiagrupo(idMateria, idMaestro, idGrupo) VALUES ('{$materia}','{$value}','{$grupo}')";  
-            // $resultado = mysqli_query($db, $query);
-            // if ($resultado) {
-            //     header("location: /admin/index.php");
-            //     die();
-            // }
-            if (!$key) {
-				$ban = false;
-			}
+            $query ="UPDATE `materiagrupo` SET `idMaestro`=${value} WHERE idMateriaGrupo= '${grupo}' ";  
+            $resultado = mysqli_query($db, $query);
+            // if (!$key) {
+			// 	$ban = false;
+			// }
         }
+        if ($resultado) {
+            header("location: \admin\Gestionar Grupos\GestionarGrupos.php?alerta=2");
+            die();
+        }
+
     }
 ?>
 <main class="c_grupos">
@@ -89,7 +89,4 @@
 </main>
 <?php 
     inlcuirTemplate('footer');
-    if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
-        echo "<script>exito('Modificación Exitosa');</script>";
-    }
 ?>

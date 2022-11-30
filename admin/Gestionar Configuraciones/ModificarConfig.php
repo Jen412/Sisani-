@@ -13,57 +13,18 @@
 
     $queryCon ="SELECT * FROM config";
     $resultadoCon =mysqli_query($db, $queryCon);
-    $ban = true;
+    
+    $queryCarreras= "SELECT * FROM carreras";
+    $resultadoCarreras =mysqli_query($db, $queryCarreras);
+    $config=$_GET['config']?? null;
     if ($_SERVER['REQUEST_METHOD']=="POST" && $_POST['tipoForm'] === "configuraciones") {
-        $nombre =[];
-        $descripcion = [];
-        $id = [];
-        $grupo = [];
-        $elemGrupo = [];
-
-        foreach($_POST as $key => $value){
-            if ($value == "ID"){//Id de la configuración
-                $id [$key] = $value;
+        $carreras=[];
+        foreach ($_POST as $key => $value) {
+            if (is_numeric($key)) {
+                $carreras [] = $value;
             }
-            if(strpos($key, 'n')){//Nombre
-                $nombre [rtrim($key,'n')] = $value;
-            }
-            if(strpos($key, 'd')){//Descripción
-                $descripcion [rtrim($key,'d')] = $value;
-            }
-            if(strpos($key, 'x')){//Columna de grupos
-                $grupo [rtrim($key,'x')] = $value;
-            }
-            if(is_int($key) && $value != "ID"){//Columna de Elementos por grupo
-                $elemGrupo [$key] = $value;
-            } 
         }
-        
-        foreach($id as $keyId => $valueId){
-
-            foreach($nombre as $key => $value){
-                $queryUpdateN = "UPDATE config SET nombre  = '{$value}' WHERE idConfig = '{$keyId}' ";
-                $resultado = mysqli_query($db, $queryUpdateN);
-            }
-            foreach($descripcion as $key => $value){
-                $queryUpdateD = "UPDATE config SET descripcion = '{$value}' WHERE idConfig = '{$keyId}' ";
-                $resultado = mysqli_query($db, $queryUpdateD);
-            }
-            foreach($elemGrupo as $key => $value){
-                $queryUpdateE = "UPDATE detalles_config SET num_Alumnos  = '{$value}' WHERE idConfig = '{$keyId}'  AND idCarrera = '{$key}' ";
-                $resultado = mysqli_query($db, $queryUpdateE);
-            }
-            foreach($grupo as $key => $value){
-                $queryUpdate = "UPDATE detalles_config SET cantidadGrupos = '{$value}' WHERE idConfig = '{$keyId}'  AND idCarrera = '{$key}' "; 
-                $resultado = mysqli_query($db, $queryUpdate);
-            }
-            
-            if (!$keyId) {
-				$ban = false;
-                break;
-			}
-        }
-        
+        header("location: \admin\Gestionar Configuraciones\ModificarConfig2.php?config=${config}&carreras=".serialize($carreras));
     }  
 ?>
 <main class="g_config">
@@ -86,12 +47,12 @@
     <form method="POST">
         <input type="hidden" name="tipoForm" value="configuraciones">
         <?php if ($_SERVER['REQUEST_METHOD']=="GET") {
-            $config=$_GET['config']?? null;
+            
             
             if($config != null){
                 $queryDetalleCon = "SELECT * FROM config WHERE config.idConfig = $config";
                 $resultadoDetalleCon =mysqli_query($db, $queryDetalleCon);
-                while($row = mysqli_fetch_assoc($resultadoDetalleCon)): ?>
+                $row = mysqli_fetch_assoc($resultadoDetalleCon); ?>
                     <div class="modificarC">
                         <div class="id">
                             <label for="">Id Configuración</label>
@@ -99,41 +60,37 @@
                         </div>
                         <div class="nameConfig">
                             <label>Nombre de la Configuración</label>
-                            <?php echo ('<input name="'.$row["idConfig"].'n"  value = "'.$row["nombre"].'" type="text" required> ');?>
+                            <?php echo ('<input name="'.$row["idConfig"].'n" disabled  value = "'.$row["nombre"].'" type="text" required> ');?>
                         </div>
                         <div class="des">
                             <label>Descripción</label>
-                            <?php echo ('<textarea name="'.$row["idConfig"].'d" placeholder="'.$row["descripcion"].'"name="" id="" cols="48" rows="5"  ></textarea>');?>
+                            <?php echo ('<textarea name="'.$row["idConfig"].'d" disabled value="'.'"name="" id="" cols="48" rows="5"  >'.$row["descripcion"].'</textarea>');?>
+                        </div>
+                        <h3 class="tituloSel">Seleccion de Materias para proceso</h3>
+                    </div>
+                    <div class="centrado">
+                        <div class="checks">
+                            <?php while($carrera = mysqli_fetch_assoc($resultadoCarreras)):?>
+                                <div class="id<?php echo $carrera["idCarrera"]?>">
+                                    <input type="checkbox" name="<?php echo $carrera["idCarrera"]?>" value="<?php echo $carrera["idCarrera"]?>">    
+                                    <label for=""><?php echo $carrera['nomCarrera']?></label>
+                                </div>
+                            <?php endwhile;?>
                         </div>
                     </div>
-                    
-                    <div class="Con">
-                        <div class = "container-table-con">
-                            <div class="table__header">Carrera</div>
-                            <div class="table__header">Cantidad de grupos</div>
-                            <div class="table__header">Cantidad por Grupo</div>
-                <?php  endwhile;   
-                    $queryConfig = ("SELECT * FROM detalles_config as dc INNER JOIN carreras as c ON dc.idCarrera = c.idCarrera WHERE dc.idConfig = $config");                       
-                    $resultadoCon =mysqli_query($db, $queryConfig);
-                    while($row = mysqli_fetch_assoc($resultadoCon)):?>
-                        <input type="hidden" name="<?php echo $row ["idConfig"] ;?>" value="ID">
-                        <div class="table__item"><?php echo $row ["nomCarrera"] ;?></div>
-                        <div class="table__item"><?php echo ('<input name="'.$row ["idCarrera"].'x"  value = "'.$row ["cantidadGrupos"].'" type="number" align="right" style="text-align:right;" required min="1" max="10" required placeholder="Ingresa la cantidad de grupos">');?></div>
-                        <div class="table__item"><?php echo ('<input name=" '.$row ["idCarrera"].'" value = "'.$row ["num_Alumnos"].'" type="number" align="right" style="text-align:right;" required min="1" max="50" required placeholder="Ingresa la cantidad de elementos por grupo">');?></div>
-                    <?php endwhile;
-                    echo ('<input type="submit" value="Modificar Configuración" class="btnRCT" >');
-
-                    echo ('
-                        </div> 
-                    </div>');
+                    <button class="seleccion" type="submit">
+                        Seleccionar
+                    </button>
+     
+            <?php
             }  
         }?>          
     </form>
 </main>
 <?php 
     inlcuirTemplate('footer');
-    if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
-        echo "<script>exito('Configuración Modificada');</script>";
-    }
+    // if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
+    //     echo "<script>exito('Configuración Modificada');</script>";
+    // }
 ?>
 
