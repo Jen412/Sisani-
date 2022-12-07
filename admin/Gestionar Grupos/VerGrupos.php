@@ -18,7 +18,7 @@
     <form method="GET">
         <div class="buscarC">
             <label for="sel">Seleccionar Carrera</label>
-            <select name="carrera" id="carrera" required>
+            <select required name="carrera" id="carrera" required>
                 <option value="" disabled selected>--Seleccione Carrera--</option>
                 <?php while($carreras = mysqli_fetch_assoc($resultado)):?>
                 <option value="<?php echo $carreras['idCarrera']?>"><?php echo $carreras['nomCarrera']?></option>

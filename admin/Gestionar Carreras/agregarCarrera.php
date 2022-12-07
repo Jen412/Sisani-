@@ -24,7 +24,7 @@
         }
 
         if (empty($errores)) {
-            $nombreCarrera=strtoupper($nombreCarrera);
+            $nombreCarrera=mb_strtoupper($nombreCarrera);
             $query ="INSERT INTO `carreras`(`idCarrera`, `nomCarrera`) VALUES ('${idCarrera}','${nombreCarrera}')";
             $resultado = mysqli_query($db, $query);
             if ($resultado) {
@@ -36,15 +36,16 @@
 <main class="agregarCarrera">
     <section class="w80">
         <h1>Agregar Carrera</h1>
-        <form method="post">
+        <form class="formAC" method="post">
             <?php foreach($errores as $error): ?>
                 <div class="alerta error">
                     <?php  echo $error; ?>
                 </div>
             <?php    endforeach;?>
+
             <div class="id">
                 <label for="id">Id Carrera</label>
-                <input type="number" name="id" id="id" min="1"  required placeholder="Id Carrera Ej: 4">
+                <input type="number" onblur="buscarCarrera(event)" name="id" id="id" min="1"  required placeholder="Id Carrera Ej: 4">
             </div>                
             <div class="nombreCarrera">
                 <label for="nombre">Nombre Carrera</label>

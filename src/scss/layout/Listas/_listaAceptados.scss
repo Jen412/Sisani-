@@ -77,6 +77,20 @@
         cursor: pointer;
         text-align: center;
     } 
+
+    .check{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        label{
+            display: inline;
+            width: 9rem;
+        }
+        input{
+            width: 2rem;
+        }
+    }
 }
 .opciones{
     display: flex;

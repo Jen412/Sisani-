@@ -173,6 +173,32 @@ function buscarAlumnoProm(e){
     });
 }
 
+function buscarCarrera(e) {
+    const idCarr = document.querySelector("#id").value;
+    $.ajax({
+        url: '../../ajaxPHP/buscarCarrera.php',
+        type: 'POST',
+        data: {idCarr},
+        success: function(response){
+            let data = JSON.parse(response);
+            if (data.idCarrera) {
+                const div = document.createElement("div");
+                const form = document.querySelector(".formAC");
+                const text= document.createTextNode(`ID INVALIDO PERTENECE A LA Carrera  ${data.nomCarrera}`);
+                div.classList.add("alerta");
+                div.classList.add("error");
+                div.appendChild(text);
+                if (!form.querySelector(".alerta")) {
+                    form.insertAdjacentElement("afterbegin", div)
+                }
+                setTimeout(() => {
+                    form.removeChild(div);
+                }, 4500);
+            }
+        }
+    });
+}
+
 function visibilidad(e) {
     const seleccion = document.querySelector(".vanish");
     seleccion.classList.add("Con");

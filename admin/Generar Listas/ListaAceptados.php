@@ -1,5 +1,6 @@
 <?php  
-    require "../../includes/funciones.php";  $auth = estaAutenticado();
+    require "../../includes/funciones.php";  
+    $auth = estaAutenticado();
     require "../../includes/config/database.php";
     require "../../vendor/autoload.php";
 
@@ -50,7 +51,8 @@
         $calMat1=0;
         $calMat2=0;
         $calMat3=0;
-
+        $grupEsp = $_POST['lista_especial'] ?? null;
+        
         $spreadsheet = new Spreadsheet();
         $spreadsheet->getProperties()->setTitle($nom);
         //Lista general de estudiantes
@@ -498,6 +500,10 @@
                     <option value="<?php echo $carrera['idCarrera']?>"><?php echo $carrera['nomCarrera']?></option>    
                 <?php endwhile;?>
             </select>
+            <div class="check">
+                <input type="checkbox" name="lista_especial" id="lista_especial">
+                <label for="lista_especial">Primeros 40</label>
+            </div>
             <input type="submit" value="Generar Lista">
         </div>
     </form>

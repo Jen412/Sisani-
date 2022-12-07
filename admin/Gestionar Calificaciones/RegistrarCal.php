@@ -56,6 +56,10 @@
                 }
             }
         }
+        if ($ban) {
+			header("location: /admin/Gestionar Calificaciones/GestionarCal.php?alerta=1");
+			die();
+		}
     }
 ?>
 <main class="registrarCal">
@@ -167,7 +171,4 @@
 </main>
 <?php 
     inlcuirTemplate('footer');
-    if ($ban && $_SERVER['REQUEST_METHOD']==="POST") {
-        echo "<script>exito('Calificación Registrada');</script>";
-    }
 ?>           

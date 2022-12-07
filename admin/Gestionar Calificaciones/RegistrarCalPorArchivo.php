@@ -33,51 +33,17 @@
 			$valorB = $hoja->getCellByColumnAndRow(2,$i);
 			$valorC = $hoja->getCellByColumnAndRow(3,$i);
 			$valorD = $hoja->getCellByColumnAndRow(4,$i);
-			$valorE = $hoja->getCellByColumnAndRow(5,$i);
-			$valorF = $hoja->getCellByColumnAndRow(6,$i);
-			if ($valorF->getValue() <=10) {
-				$valorF = $valorF->getValue()*10;
-			}
-			switch ($valorE) {
-				case 'INGENIERÍA ELECTRÓNICA':
-					$valorE = 4;
-					break;
-				case 'INGENIERÍA MECÁNICA':
-					$valorE = 5;
-					break;
-				case 'INGENIERÍA ELÉCTRICA':
-					$valorE = 6;
-					break;
-				case 'INGENIERÍA EN SISTEMAS COMPUTACIONALES':
-					$valorE = 15;
-					break;
-				case 'INGENIERÍA INDUSTRIAL':
-					$valorE = 16;
-					break;
-				case 'MAESTRÍA EN INGENIERÍA ELECTRÓNICA':
-					$valorE = 18;
-					break;
-				case 'INGENIERÍA AMBIENTAL':
-					$valorE = 20;
-					break;
-				case 'ARQUITECTURA':
-					$valorE = 21;
-					break;
-				case 'CONTADOR PÚBLICO':
-					$valorE = 22;
-					break;
-				case 'INGENIERÍA EN GESTIÓN EMPRESARIAL':
-					$valorE = 23;
-					break;
-				case 'INGENIERÍA INFORMÁTICA':
-					$valorE = 24;
-					break;
-				case 'MAESTRÍA EN CIENCIAS DE LA COMPUTACIÓN':
-					$valorE = 25;
-					break;
-			}
-			$query ="";
-			//echo $query . "<br>";
+			// Se busca la id de la materia mediante el nombre de la materia
+			$query ="SELECT idMateria FROM materias WHERE nombreMateria LIKE '${valorB}'";
+			$resultadoMat = mysqli_query($db, $query);
+			$idMat= mysqli_fetch_assoc($resultadoMat)['idMateria'];
+			//se busca el id de materiaGrupo mediante el id de materia y el id del grupo sacado del documento excel
+			$query = "SELECT idMateriaGrupo FROM materiagrupo WHERE idMateria = '${idMat}' && idGrupo = '${valorC}';";
+			$resultadoMG = mysqli_query($db, $query);
+			$idMatG = mysqli_fetch_assoc($resultadoMG)['idMateriaGrupo'];
+			//Se insertan los datos de las calificaciones
+			$query= "INSERT INTO `calificaciones`(`idMateriaGrupo`, `solicitud`, `calif`) VALUES (${idMatG},'${valorA}',${valorD});";
+			//echo "<br>". $query;
 			$resultado =mysqli_query($db,$query);
 			$resultados []= $resultado;
 		}
@@ -89,7 +55,7 @@
 		}
 		if ($ban) {
 			unlink("../../Excel/importar/".$doc['name']);
-			header("location: /admin/Importar Datos/importarDatos.php");
+			header("location: /admin/Gestionar Calificaciones/GestionarCal.php?alerta=1");
 			die();
 		}
 	}
