@@ -3,6 +3,7 @@
     $auth = estaAutenticado();
     require "../../includes/config/database.php";
     require "../../vendor/autoload.php";
+    require "../../helpers/helpers.php";
 
     use PhpOffice\PhpSpreadsheet\{Spreadsheet, IOFactory, Style\Alignment};
     use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -18,7 +19,7 @@
     }
     inlcuirTemplate('header');
     $db = conectarDB();
-    $query = "SELECT * FROM carreras";
+    $query = "SELECT c.idCarrera, c.nomCarrera FROM carreras AS c JOIN detalles_config as dc WHERE c.idCarrera=dc.idCarrera AND dc.cantidadGrupos >0 AND dc.idConfig =1;";
     $resultado = mysqli_query($db, $query);
 
     function comparar($a, $b){
@@ -189,90 +190,81 @@
         $detalles = mysqli_fetch_assoc($resultadoG);
         $cantGrup = $detalles['cantidadGrupos'];
         $cantXGrup = $detalles['num_Alumnos'];
-        $grupos=[];
-        $cantAcep = $cantGrup*$cantXGrup;
-        switch ($cantGrup) {
-            case 1:
-                array_push($grupos, "A");
-                break;
-            case 2:
-                array_push($grupos, "A");
-                array_push($grupos, "B");
-                break;
-            case 3:
-                array_push($grupos, "A");  
-                array_push($grupos, "B");  
-                array_push($grupos, "C");
-                break;
-            case 4:
-                array_push($grupos, "A");
-                array_push($grupos, "B");
-                array_push($grupos, "C");
-                array_push($grupos, "D");
-                break;
-            case 5:
-                array_push($grupos, "A");
-                array_push($grupos, "B");
-                array_push($grupos, "C");
-                array_push($grupos, "D");
-                array_push($grupos, "E");
-                break;
-            case 6:
-                array_push($grupos, "A");
-                array_push($grupos, "B");
-                array_push($grupos, "C");
-                array_push($grupos, "D");
-                array_push($grupos, "E");
-                array_push($grupos, "F");
-                break;
-            case 7:
-                array_push($grupos, "A");
-                array_push($grupos, "B");
-                array_push($grupos, "C");
-                array_push($grupos, "D");
-                array_push($grupos, "E");
-                array_push($grupos, "F");
-                array_push($grupos, "G");
-                break;
-            case 8:
-                array_push($grupos, "A");
-                array_push($grupos, "B");
-                array_push($grupos, "C");
-                array_push($grupos, "D");
-                array_push($grupos, "E");
-                array_push($grupos, "F");
-                array_push($grupos, "G");
-                array_push($grupos, "H");
-                break;
-            case 9:
-                array_push($grupos, "A");
-                array_push($grupos, "B");
-                array_push($grupos, "C");
-                array_push($grupos, "D");
-                array_push($grupos, "E");
-                array_push($grupos, "F");
-                array_push($grupos, "G");
-                array_push($grupos, "H");
-                array_push($grupos, "I");
-                break;
-            case 10:
-                array_push($grupos, "A");
-                array_push($grupos, "B");
-                array_push($grupos, "C");
-                array_push($grupos, "D");
-                array_push($grupos, "E");
-                array_push($grupos, "F");
-                array_push($grupos, "G");
-                array_push($grupos, "H");
-                array_push($grupos, "I");
-                array_push($grupos, "J");
-                break;
+        $cantAcep =0; 
+        if ($grupEsp !=null) {
+            $cantAcep = ($cantGrup-1)*$cantXGrup;
         }
+        else{
+            $cantAcep= $cantGrup*$cantXGrup;
+        }
+
+        $grupos=generarGrupos($cantGrup, $grupEsp);
         $banCambio =true;
         $contGrup=0;
         $lista = Array();
         $listaRechazados = Array();
-        for ($i=0; $i <count($array); $i++) { 
+        $alumCont=0;
+        if ($grupEsp !=null) {
+            for ($i=0; $i < 40; $i++) { 
+                $hoja->setCellValue('A'.$fila, $array[$i][0]);
+                $hoja->getStyle('A'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $hoja->getStyle("A".$fila)->applyFromArray($borderArray);
+                $hoja->setCellValue('B'.$fila, $array[$i][1]);
+                $hoja->getStyle("B".$fila)->applyFromArray($borderArray);
+                $hoja->getStyle('B'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $hoja->setCellValue('C'.$fila, $array[$i][2]);
+                $hoja->getStyle("C".$fila)->applyFromArray($borderArray);
+                $hoja->getStyle('C'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $hoja->setCellValue('D'.$fila, $array[$i][3]);
+                $hoja->getStyle("D".$fila)->applyFromArray($borderArray);
+                $hoja->getStyle('D'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $hoja->setCellValue('E'.$fila, $array[$i][4]);
+                $hoja->getStyle('E'.$fila)->applyFromArray($borderArray);
+                $hoja->getStyle('E'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $hoja->setCellValue('F'.$fila, $array[$i][5]);
+                $hoja->getStyle('F'.$fila)->applyFromArray($borderArray);
+                $hoja->getStyle('F'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $hoja->setCellValue('G'.$fila, $array[$i][6]);
+                $hoja->getStyle('G'.$fila)->applyFromArray($borderArray);
+                $hoja->getStyle('G'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $hoja->setCellValue('H'.$fila, $array[$i][7]);
+                $hoja->getStyle('H'.$fila)->applyFromArray($borderArray);
+                $hoja->getStyle('H'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $hoja->setCellValue('I'.$fila, $array[$i][8]);
+                $hoja->getStyle('I'.$fila)->applyFromArray($borderArray);
+                $hoja->getStyle('I'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $hoja->setCellValue('J'.$fila, $array[$i][9]);
+                $hoja->getStyle('J'.$fila)->applyFromArray($borderArray);
+                $hoja->getStyle('J'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $hoja->setCellValue('K'.$fila, "A");
+                $hoja->getStyle('K'.$fila)->applyFromArray($borderArray);
+                $hoja->getStyle('K'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                // se les asigna grupo a cada alumno para despues guardarse en un array para formatearlos 
+                $solicitud = $array[$i][0];
+                $nombre = $array[$i][1];
+                $apellidoP = $array[$i][2];
+                $apellidoM= $array[$i][3];
+                $prom= $array[$i][4];
+                $cal1 = $array[$i][5];
+                $cal2 = $array[$i][6];
+                $cal3 = $array[$i][7];
+                $calCeneval =$array[$i][8];
+                $promfin =$array[$i][9];
+                
+                $alumno = [$solicitud, $nombre, $apellidoP,  $apellidoM, $prom, $cal1, $cal2, $cal3, $calCeneval, $promfin, "A"];
+                array_push($lista, $alumno);
+                $alumCont++;
+                $fila++;
+            }
+        }   
+        $contArray = 0;
+        if ($grupEsp != null) {
+            $contArray = $alumCont;
+        }
+        else{
+            $contArray= count($array);
+        }
+        for ($i=0; $i <$contArray; $i++) { 
             if ($i< $cantAcep) {
                 $grup="";
                 if($contGrup >-1 && $contGrup < $cantGrup){
@@ -324,7 +316,6 @@
                     
                     $alumno = [$solicitud, $nombre, $apellidoP,  $apellidoM, $prom, $cal1, $cal2, $cal3, $calCeneval, $promfin, $grup];
                     array_push($lista, $alumno);
-                    
                 }
                 else{
                     $i--;
@@ -399,7 +390,6 @@
         crearGruposExcel($spreadsheet, $grupos, $lista, $borderArray);
         $writer = new Xlsx($spreadsheet);        
         $writer =IOFactory::createWriter($spreadsheet, 'Xlsx');
-        // $writer->save('php://output');
         $writer->save("../../Excel/ListasAceptados/".$nom.'.xlsx');
     }
     function crearGruposExcel($spreadsheet, $grupos, $lista, $borderArray){
@@ -481,10 +471,18 @@
             echo 'The file does not exist.';
             $ban = false;
         }
+        //Borra los documentos creados de excel
         $dir =scandir('../../Excel/ListasAceptados/',1);
         foreach($dir as $arc){
             if ('../../Excel/ListasAceptados/'.$arc != "../../Excel/ListasAceptados/.." && '../../Excel/ListasAceptados/'.$arc != "../../Excel/ListasAceptados/.") {
                 unlink('../../Excel/ListasAceptados/'.$arc);
+            }
+        }
+        //Borra los Zip creados
+        $dir =scandir('../../Excel/',1);
+        foreach($dir as $arc){
+            if ('../../Excel/'.$arc != "../../Excel/.." && '../../Excel/'.$arc != "../../Excel/.") {
+                unlink('../../Excel/'.$arc);
             }
         }
     }
