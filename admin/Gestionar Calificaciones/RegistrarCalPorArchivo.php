@@ -37,8 +37,12 @@
 			$query ="SELECT idMateria FROM materias WHERE nombreMateria LIKE '${valorB}'";
 			$resultadoMat = mysqli_query($db, $query);
 			$idMat= mysqli_fetch_assoc($resultadoMat)['idMateria'];
+
+			$queryidGrupo = "SELECT grupos.idGrupo FROM grupos JOIN materiagrupo ON grupos.idGrupo=materiagrupo.idGrupo JOIN alumnos ON alumnos.solicitud = grupos.solicitud  JOIN materias ON materias.idMateria= materiagrupo.idMateria JOIN carreras ON carreras.idCarrera = alumnos.idCarrera WHERE materias.idMateria = ${idMat} AND grupos.letraGrupo = '${valorC}' AND alumnos.solicitud = ${valorA};";
+			$resultadoIG = mysqli_query($db, $queryidGrupo);
+			$idGrup = mysqli_fetch_assoc($resultadoIG)['idGrupo'];
 			//se busca el id de materiaGrupo mediante el id de materia y el id del grupo sacado del documento excel
-			$query = "SELECT idMateriaGrupo FROM materiagrupo WHERE idMateria = '${idMat}' && idGrupo = '${valorC}';";
+			$query = "SELECT idMateriaGrupo FROM materiagrupo WHERE idMateria = '${idMat}' && idGrupo = '${idGrup}';";
 			$resultadoMG = mysqli_query($db, $query);
 			$idMatG = mysqli_fetch_assoc($resultadoMG)['idMateriaGrupo'];
 			//Se insertan los datos de las calificaciones

@@ -33,7 +33,7 @@
                 <ion-icon name="sync"></ion-icon>
                 Nuevo Proceso
             </a>
-            <a href="/admin/Funciones Secundarias/RegistrarNewUser.php">
+            <a href="/admin/Funciones Secundarias/RegistrarNuevoUsuario.php">
                 <ion-icon name="person-add"></ion-icon>
                 Registrar Nuevo Usuario
             </a>

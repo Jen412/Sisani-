@@ -22,7 +22,9 @@
         margin-bottom: 0;
     }
 }
-.tabla{
+.tabla-grupos{
+    width: 80%;
+    margin: 0 auto;
     .container-table{
         display: grid;
         right:35.5rem;
@@ -33,7 +35,8 @@
         grid-auto-rows: 5rem;
     
         overflow-y: scroll;
-        height: auto;
+        height: 50rem;
+        
         .table__title{
             grid-column-start: 1;
             grid-column-end: 6;
@@ -42,6 +45,9 @@
             align-items: center;
             font-weight: bold;
             font-size: 1.9em;
+            width: auto;
+            margin-bottom: 3rem;
+            margin-top: 3rem;
         }
         .table__header{
             background: rgba(40, 65, 120, 1);
@@ -51,7 +57,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            
+            padding: 3rem;
+            position: sticky;
         }
         .table__item{
             display: flex;
@@ -61,6 +68,7 @@
             transition: all .5s;
             padding: 1.25rem 0rem 1.25rem 0rem;
             border-bottom: solid .1rem rgb(223, 214, 214);
+            overflow-y: visible;
             
             &:hover {
                 background-color: $azulMarino;

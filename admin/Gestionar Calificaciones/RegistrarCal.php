@@ -70,7 +70,11 @@
             <div class="linea">
                 <div class="carrera">
                     <label for="">Selecciona Carrera</label>
-                    <select name="carreraS" id="carreraS"onchange="buscarMaterias('<?php echo $rfc;?>', event);" required>
+                    <?php if($_SESSION["role"]!=="admin"):?>
+                    <select name="carreraS" id="carreraS" onchange="buscarMaterias('<?php echo $rfc;?>', event);" required>
+                    <?php else: ?>
+                    <select name="carreraS" id="carreraS" onchange="buscarGrupos(event);" required>
+                    <?php endif;?>
                         <option value=""disabled selected>--Seleccione Carrera--</option>  
                         <?php while($carrera = mysqli_fetch_assoc($resultadoCar)):?><!--como es son varias carreras se guarda la seleccionada en una variable -->
                             <option value="<?php echo $carrera['idCarrera'];?>"><!--la variable contiene referenciando a la db y el query que se esta realizando-->
@@ -98,22 +102,22 @@
                     <select name="GrupoS" id="GrupoS" required>
                         <option value="" disabled selected>--Seleccione Grupo--</option>    
                         <?php 
-                        if ($_SESSION['role']==="admin") {
-                            while($grupo = mysqli_fetch_assoc($resultadoGrup)){
-                                if ($grupo['letraGrupo']=='A') {
-                                    echo '<option value="A">A</option>';
-                                }
-                                if ($grupo['letraGrupo']=='B') {
-                                    echo '<option value="B">B</option>';
-                                }
-                                if ($grupo['letraGrupo']=='C') {
-                                    echo '<option value="C">C</option>';
-                                }
-                                if ($grupo['letraGrupo']=='D') {
-                                    echo '<option value="D">D</option>';
-                                }
-                            }
-                        }
+                        // if ($_SESSION['role']==="admin") {
+                        //     while($grupo = mysqli_fetch_assoc($resultadoGrup)){
+                        //         if ($grupo['letraGrupo']=='A') {
+                        //             echo '<option value="A">A</option>';
+                        //         }
+                        //         if ($grupo['letraGrupo']=='B') {
+                        //             echo '<option value="B">B</option>';
+                        //         }
+                        //         if ($grupo['letraGrupo']=='C') {
+                        //             echo '<option value="C">C</option>';
+                        //         }
+                        //         if ($grupo['letraGrupo']=='D') {
+                        //             echo '<option value="D">D</option>';
+                        //         }
+                        //     }
+                        // }
                         ?>
                     </select>
                 </div>

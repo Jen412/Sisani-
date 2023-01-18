@@ -191,14 +191,14 @@
         $cantGrup = $detalles['cantidadGrupos'];
         $cantXGrup = $detalles['num_Alumnos'];
         $cantAcep =0; 
+        $grupos=generarGrupos($cantGrup, $grupEsp);
         if ($grupEsp !=null) {
-            $cantAcep = ($cantGrup-1)*$cantXGrup;
+            $cantGrup--;
+            $cantAcep = ($cantGrup)*$cantXGrup;
         }
         else{
             $cantAcep= $cantGrup*$cantXGrup;
         }
-
-        $grupos=generarGrupos($cantGrup, $grupEsp);
         $banCambio =true;
         $contGrup=0;
         $lista = Array();
@@ -239,7 +239,6 @@
                 $hoja->setCellValue('K'.$fila, "A");
                 $hoja->getStyle('K'.$fila)->applyFromArray($borderArray);
                 $hoja->getStyle('K'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-                // se les asigna grupo a cada alumno para despues guardarse en un array para formatearlos 
                 $solicitud = $array[$i][0];
                 $nombre = $array[$i][1];
                 $apellidoP = $array[$i][2];
@@ -387,6 +386,13 @@
             $hoja2->getStyle('J'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);            
             $fila++;
         }
+        if ($grupEsp!=null) {
+            agregarGrupoEsp($spreadsheet, $lista, $borderArray);
+        }
+        // echo "<pre>";
+        // var_dump($lista);
+        // echo "</pre>";
+        // exit;
         crearGruposExcel($spreadsheet, $grupos, $lista, $borderArray);
         $writer = new Xlsx($spreadsheet);        
         $writer =IOFactory::createWriter($spreadsheet, 'Xlsx');
@@ -439,6 +445,54 @@
                     $grupo->getStyle('D'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
                     $fila++;
                 }
+            }
+        }
+    }
+    function agregarGrupoEsp($spreadsheet,$lista, $borderArray){
+        $letraGrupo = "A";
+        $grupo = $spreadsheet->createSheet();
+        $grupo->setTitle("Grupo ". "A");
+        $grupo->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $grupo->mergeCells("A1:G1");
+        $grupo->getStyle("A1")->getFont()->setSize(15);
+        $grupo->getStyle("A1")->getFont()->setBold(true);
+        $grupo->setCellValue("A1","INSTITUTO TECNOLOGICO DE CIUDAD GUZMAN ");
+        $grupo->mergeCells("A2:B2");
+        $grupo->getStyle("A2")->getFont()->setSize(13);
+        $grupo->getStyle("A2:B2")->getFont()->setBold(true);
+        $grupo->setCellValue("A2","Grupo ". "A");
+        $grupo->getStyle("A2:D2")->applyFromArray($borderArray);
+        $grupo->getStyle("A3")->applyFromArray($borderArray);
+        $grupo->getStyle("B3")->applyFromArray($borderArray);
+        $grupo->getStyle("C3")->applyFromArray($borderArray);
+        $grupo->getStyle("D3")->applyFromArray($borderArray);
+        $grupo->getStyle("A3:D3")->getFont()->setBold(true);
+        $grupo->getStyle("A3:D3")->getFont()->setSize(12);
+
+        $grupo->getColumnDimension('A')->setWidth(15);
+        $grupo->setCellValue('A3', "Ficha");
+        $grupo->getColumnDimension('B')->setWidth(20);
+        $grupo->setCellValue('B3', "Nombre");
+        $grupo->getColumnDimension('C')->setWidth(20);
+        $grupo->setCellValue('C3', "Apellido Paterno");
+        $grupo->getColumnDimension('D')->setWidth(20);
+        $grupo->setCellValue('D3', "Apellido Materno");
+        $fila=4;
+        for ($j=0; $j <count($lista); $j++) { 
+            if ($lista[$j][10] === $letraGrupo) {
+                $grupo->setCellValue('A'.$fila, $lista[$j][0]);
+                $grupo->getStyle('A'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $grupo->getStyle("A".$fila)->applyFromArray($borderArray);
+                $grupo->setCellValue('B'.$fila, $lista[$j][1]);
+                $grupo->getStyle("B".$fila)->applyFromArray($borderArray);
+                $grupo->getStyle('B'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $grupo->setCellValue('C'.$fila, $lista[$j][2]);
+                $grupo->getStyle("C".$fila)->applyFromArray($borderArray);
+                $grupo->getStyle('C'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $grupo->setCellValue('D'.$fila, $lista[$j][3]);
+                $grupo->getStyle("D".$fila)->applyFromArray($borderArray);
+                $grupo->getStyle('D'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $fila++;
             }
         }
     }

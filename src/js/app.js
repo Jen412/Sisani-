@@ -3,6 +3,7 @@ let archivo = document.querySelector('#importA');//Se utiliza en tiempo real a l
 	document.querySelector('#nombre').innerText =
 	archivo.files[0].name;});
 
+
 const { task, tree } = require("gulp");
 const { Value, renderSync } = require("sass");
 
@@ -131,9 +132,38 @@ function buscarMaterias(rfc, e) {
     });
 }
 
+function buscarGrupos(e) {
+    const idCarrera = document.querySelector("#carreraS").value;
+    $.ajax({
+        url: "../../ajaxPHP/buscarGruposGeneral.php",
+        type: "POST",
+        data: {idCarrera},
+        success: respuesta =>{
+            let datos = JSON.parse(respuesta);
+            let select = document.querySelector("#GrupoS");
+            removeAllChilds(select);
+            let optionS = document.createElement("option");
+            optionS.text = "--Seleccione Grupo--"
+            select.appendChild(optionS);
+            datos.forEach(materia =>{
+                
+                let option = document.createElement("option");
+                option.text = materia['letraGrupo'];
+                option.value= materia['letraGrupo'];
+                select.appendChild(option);
+            })
+        }
+    });
+}
+
+function removeAllChilds(a){
+    while(a.hasChildNodes())
+        a.removeChild(a.firstChild);	
+}
+
 function buscarGrupo(rfc, e) {
     const idCarrera = document.querySelector("#carreraS").value;
-    console.log(idCarrera);
+    //console.log(idCarrera);
     $.ajax({
         url: '../../ajaxPHP/buscarGrupo.php',
         type: "POST",

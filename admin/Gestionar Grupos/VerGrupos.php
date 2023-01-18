@@ -27,7 +27,7 @@
             <input type="submit" value="Buscar">
         </div>
     </form>
-    <div class="tabla">
+    <div class="tabla-grupos">
         <div class = "container-table">
         <?php  
         if ($_SERVER['REQUEST_METHOD']=="GET") {//se reciben los datos del formulario con el imput hidden seleccion 

@@ -1,6 +1,7 @@
 <?php  
     require "../../includes/funciones.php";  $auth = estaAutenticado();
     require "../../includes/config/database.php";
+    require "../../helpers/helpers.php";
     if (!$auth) {
        header('location: /'); die();
     }
@@ -24,84 +25,7 @@
             $cantGrupos = $detalles['cantidadGrupos'];
             $cantXGrupo = ($numAlumnos/$cantGrupos);
             $residuo = $numAlumnos%$cantGrupos;
-            $grupos=[];
-            switch ($cantGrupos) {
-                case 1:
-                    array_push($grupos, "A");
-                    break;
-                case 2:
-                    array_push($grupos, "A");
-                    array_push($grupos, "B");
-                    break;
-                case 3:
-                    array_push($grupos, "A");  
-                    array_push($grupos, "B");  
-                    array_push($grupos, "C");
-                    break;
-                case 4:
-                    array_push($grupos, "A");
-                    array_push($grupos, "B");
-                    array_push($grupos, "C");
-                    array_push($grupos, "D");
-                    break;
-                case 5:
-                    array_push($grupos, "A");
-                    array_push($grupos, "B");
-                    array_push($grupos, "C");
-                    array_push($grupos, "D");
-                    array_push($grupos, "E");
-                    break;
-                case 6:
-                    array_push($grupos, "A");
-                    array_push($grupos, "B");
-                    array_push($grupos, "C");
-                    array_push($grupos, "D");
-                    array_push($grupos, "E");
-                    array_push($grupos, "F");
-                    break;
-                case 7:
-                    array_push($grupos, "A");
-                    array_push($grupos, "B");
-                    array_push($grupos, "C");
-                    array_push($grupos, "D");
-                    array_push($grupos, "E");
-                    array_push($grupos, "F");
-                    array_push($grupos, "G");
-                    break;
-                case 8:
-                    array_push($grupos, "A");
-                    array_push($grupos, "B");
-                    array_push($grupos, "C");
-                    array_push($grupos, "D");
-                    array_push($grupos, "E");
-                    array_push($grupos, "F");
-                    array_push($grupos, "G");
-                    array_push($grupos, "H");
-                    break;
-                case 9:
-                    array_push($grupos, "A");
-                    array_push($grupos, "B");
-                    array_push($grupos, "C");
-                    array_push($grupos, "D");
-                    array_push($grupos, "E");
-                    array_push($grupos, "F");
-                    array_push($grupos, "G");
-                    array_push($grupos, "H");
-                    array_push($grupos, "I");
-                    break;
-                case 10:
-                    array_push($grupos, "A");
-                    array_push($grupos, "B");
-                    array_push($grupos, "C");
-                    array_push($grupos, "D");
-                    array_push($grupos, "E");
-                    array_push($grupos, "F");
-                    array_push($grupos, "G");
-                    array_push($grupos, "H");
-                    array_push($grupos, "I");
-                    array_push($grupos, "J");
-                    break;
-            }
+            $grupos=generarGrupos($cantGrupos, null);
             // echo "<pre>";
             // var_dump($grupos);
             // echo "</pre>";

@@ -32,7 +32,7 @@
         $passwordCon=mysqli_real_escape_string($db, $_POST['passwordCon']);
         if ($password != $passwordCon) {
             $errores[] ="No Coincidaden las contraseñas";
-        }
+        } 
         if (empty($errores)) {
             $fecha = date('Y-m-d');
             if ($tipoUser ==="maestro") {

@@ -39,44 +39,10 @@ use function PHPSTORM_META\type;
 			if ($valorF->getValue() <=10) {
 				$valorF = $valorF->getValue()*10;
 			}
-			switch ($valorE) {
-				case 'INGENIERÍA ELECTRÓNICA':
-					$valorE = 4;
-					break;
-				case 'INGENIERÍA MECÁNICA':
-					$valorE = 5;
-					break;
-				case 'INGENIERÍA ELÉCTRICA':
-					$valorE = 6;
-					break;
-				case 'INGENIERÍA EN SISTEMAS COMPUTACIONALES':
-					$valorE = 15;
-					break;
-				case 'INGENIERÍA INDUSTRIAL':
-					$valorE = 16;
-					break;
-				case 'MAESTRÍA EN INGENIERÍA ELECTRÓNICA':
-					$valorE = 18;
-					break;
-				case 'INGENIERÍA AMBIENTAL':
-					$valorE = 20;
-					break;
-				case 'ARQUITECTURA':
-					$valorE = 21;
-					break;
-				case 'CONTADOR PÚBLICO':
-					$valorE = 22;
-					break;
-				case 'INGENIERÍA EN GESTIÓN EMPRESARIAL':
-					$valorE = 23;
-					break;
-				case 'INGENIERÍA INFORMÁTICA':
-					$valorE = 24;
-					break;
-				case 'MAESTRÍA EN CIENCIAS DE LA COMPUTACIÓN':
-					$valorE = 25;
-					break;
-			}
+			
+			$query ="SELECT idCarrera FROM carreras WHERE nomCarrera LIKE '$valorE';";
+			$resultado = mysqli_query($db, $query);
+			$valorE = mysqli_fetch_assoc($resultado)['idCarrera'];
 			$query ="INSERT INTO alumnos(solicitud, alu_nombre, alu_prom, alu_apeP, alu_apeM, idCarrera) VALUES ('{$valorA}','{$valorB}',{$valorF},'{$valorC}','{$valorD}',{$valorE});";
 			//echo $query . "<br>";
 			$resultado =mysqli_query($db,$query);

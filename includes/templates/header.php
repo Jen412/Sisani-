@@ -95,7 +95,7 @@
                 <li><a href="/admin//Funciones Secundarias/ModificarPromArchivo.php">Modificar promedios a partir de un archivo </a></li>
                 <li><a href="/admin/Funciones Secundarias/RespaldoBDD.php">Crear respaldo de la Base de Datos</a></li>
                 <li><a href="/admin/Funciones Secundarias/NuevoProceso.php">Nuevo proceso</a></li>
-                <li><a href="/admin/Funciones Secundarias/RegistrarNewUser.php">Registrar un nuevo usuario</a></li>
+                <li><a href="/admin/Funciones Secundarias/RegistrarNuevoUsuario.php">Registrar un nuevo usuario</a></li>
                 <li><a href="/admin/Funciones Secundarias/ModificarMat.php">Modificar materia</a></li>
             </ul>
         </li>

@@ -15,7 +15,7 @@ function generarGrupos(int $cantGrup, $grupEsp){
             9=> ["B","C","D","E","F","G","H","I"],
             10=>["B","C","D","E","F","G","H","I","J"],
         };
-    }else{
+    }else{ 
         $grupos = match($cantGrup){
             1=> ["A"],
             2=> ["A", "B"],

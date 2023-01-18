@@ -55,8 +55,8 @@
         <?php  
         if ($_SERVER['REQUEST_METHOD']==="GET") {//se reciben los datos del formulario con el imput hidden seleccion 
             $materia=$_GET['materiaS'] ?? null;
-            $queryNomM ="SELECT nombreMateria FROM materias WHERE idMateria ={$materia}";
-            $resultadoMat = mysqli_query($db,$queryNomM);
+            $queryNomM ="SELECT nombreMateria FROM materias WHERE idMateria= $materia";
+            $resultadoMat = mysqli_query($db, (string) $queryNomM);
             if ($materia!=null) {
                $nombreMat = mysqli_fetch_assoc($resultadoMat)['nombreMateria'];
                 $queryRC = "SELECT DISTINCT carreras.idCarrera, carreras.nomCarrera, grupos.letraGrupo, idGrupo FROM carreras, grupos, alumnos WHERE grupos.solicitud = alumnos.solicitud AND carreras.idCarrera = alumnos.idCarrera;";                       
