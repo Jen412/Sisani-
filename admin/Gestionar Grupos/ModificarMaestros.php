@@ -52,10 +52,10 @@
         <div class = "container-table">
         <?php  
         if ($_SERVER['REQUEST_METHOD']=="GET") {//se reciben los datos del formulario con el imput hidden seleccion 
-            $materia=$_GET['materiaS'] ?? null;
+            $materia=$_GET['materiaS'] ?? -1;
             $queryNomM ="SELECT nombreMateria FROM materias WHERE idMateria ={$materia}";
             $resultadoMat = mysqli_query($db,$queryNomM);
-            if ($materia!=null) {
+            if ($materia!=-1) {
                 $nombreMat = mysqli_fetch_assoc($resultadoMat)['nombreMateria'];
                 $queryRC = "SELECT DISTINCT carreras.idCarrera, nomCarrera, grupos.letraGrupo, idGrupo FROM carreras, grupos, alumnos WHERE grupos.solicitud = alumnos.solicitud AND carreras.idCarrera = alumnos.idCarrera;";                       
                 $resultadoRC =mysqli_query($db, $queryRC);

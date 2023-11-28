@@ -76,10 +76,14 @@
         WHERE alumnos.solicitud = grupos.solicitud AND grupos.letraGrupo = '{$grupo}' 
         AND idCarrera = {$carrera} AND grupos.idGrupo=materiagrupo.idGrupo 
         AND materiagrupo.idMateria = {$materia};";
+        // echo "<pre>";
+        // var_dump($queryGrupEs);
+        // echo "</pre>";
 
         $resultado = mysqli_query($db, $queryGrupEs);
         $fila = 4;
         while($alumno = mysqli_fetch_assoc($resultado)){
+
             $hoja->setCellValue('A'.$fila, $alumno['solicitud']);
             $hoja->getStyle('A'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
             $hoja->getStyle("A".$fila)->applyFromArray($borderArray);
@@ -181,6 +185,7 @@
         $nomCarrera= mysqli_fetch_assoc($resultado)['nomCarrera'];
         $nomArc = $nomMat."_".$nomCarrera."_Grupo".$grupo;
         excel($nomArc,$db,$carrera, $materia, $grupo, $nomCarrera);
+    
         $zip = new ZipArchive();
         $archivo ='../../Excel/'.$nomArc.'.zip';
         if ($zip->open($archivo, ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
@@ -231,9 +236,9 @@
                     $zip->addFile('../../Excel/ListasCursosInduccionGeneral/'.$arc);
                 }
             }
-            echo "<pre>";
-            var_dump($zip);
-            echo "</pre>";
+            // echo "<pre>";
+            // var_dump($zip);
+            // echo "</pre>";
             $zip->close();
             $fileName = basename('ListasCursos.zip');
             $filePath = '../../Excel/'.$fileName;
@@ -310,7 +315,7 @@
                 </div>
                 <div class="grupo">
                     <label for="">Grupo</label>
-                    <select name="GrupoS" id="GrupoS" required>
+                    <select name="grupoS" id="grupoS" required>
                         <option value="" disabled selected>--Seleccione Grupo--</option>    
                         <?php 
                         if ($_SESSION['role']==="admin") {

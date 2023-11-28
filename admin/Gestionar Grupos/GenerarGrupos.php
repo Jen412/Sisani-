@@ -17,18 +17,16 @@
         $resultados =[];
         while ($carr=mysqli_fetch_assoc($resultado)) {
             $query ="SELECT * FROM alumnos WHERE idCarrera = {$carr['idCarrera']}";
-            $result= mysqli_query($db, $query);
+            $result= mysqli_query($db, $query);    
             $numAlumnos= mysqli_num_rows($result);
             $query = "SELECT cantidadGrupos, num_Alumnos FROM detalles_config WHERE idCarrera = {$carr['idCarrera']} AND idConfig =2;";
             $res = mysqli_query($db, $query);
             $detalles = mysqli_fetch_assoc($res);
             $cantGrupos = $detalles['cantidadGrupos'];
             $cantXGrupo = ($numAlumnos/$cantGrupos);
+            $cantXGrupo = round($cantXGrupo);
             $residuo = $numAlumnos%$cantGrupos;
             $grupos=generarGrupos($cantGrupos, null);
-            // echo "<pre>";
-            // var_dump($grupos);
-            // echo "</pre>";
             $cont =0;
             $anio=date("y");
             $alumnos = [];
@@ -54,9 +52,10 @@
                 // }
             }
             for ($i=0; $i < count($alumnos); $i++) { 
-                if ($cont != $cantXGrupo) {
+                if ($cont < $cantXGrupo) {
                     $idgrup=$anio."-".$carrera.$grupos[0];
                     $query ="INSERT INTO grupos(idGrupo, solicitud, letraGrupo) VALUES ('{$idgrup}',{$alumnos[$i]},'{$grupos[0]}')";
+                    //echo $query . "<br>";
                     $res = mysqli_query($db, $query);
                     array_push($resultados, $res);
                     $cont++;

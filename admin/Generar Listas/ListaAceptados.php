@@ -1,15 +1,13 @@
 <?php  
     require "../../includes/funciones.php";  
     $auth = estaAutenticado();
-    require "../../includes/config/database.php";
     require "../../vendor/autoload.php";
+    require "../../includes/config/database.php";
     require "../../helpers/helpers.php";
 
     use PhpOffice\PhpSpreadsheet\{Spreadsheet, IOFactory, Style\Alignment};
     use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-    use PhpOffice\PhpSpreadsheet\Worksheet\AutoFilter;
-
-
+    
     if (!$auth) {
        header('location: /'); die();
     }
@@ -79,9 +77,8 @@
         $hoja->getStyle("H3")->applyFromArray($borderArray);
         $hoja->getStyle("I3")->applyFromArray($borderArray);
         $hoja->getStyle("J3")->applyFromArray($borderArray);
-        $hoja->getStyle("K3")->applyFromArray($borderArray);
-        $hoja->getStyle("A3:K3")->getFont()->setBold(true);
-        $hoja->getStyle("A3:K3")->getFont()->setSize(12);
+        $hoja->getStyle("A3:J3")->getFont()->setBold(true);
+        $hoja->getStyle("A3:J3")->getFont()->setSize(12);
 
         $hoja->getColumnDimension('A')->setWidth(15);
         $hoja->setCellValue('A3', "Ficha");
@@ -96,15 +93,13 @@
         $hoja->setCellValue('F3', $nombreMat1);
         $hoja->getColumnDimension('F')->setWidth(20);
         $hoja->setCellValue('G3', $nombreMat2);
-        $hoja->getColumnDimension('G')->setWidth(25);
-        $hoja->setCellValue('H3', $nombreMat3);
-        $hoja->getColumnDimension('H')->setWidth(30);
-        $hoja->setCellValue('I3', "Prom Ceneval");
-        $hoja->getColumnDimension('I')->setWidth(15); 
-        $hoja->setCellValue('J3', "Prom Final");
+        $hoja->getColumnDimension('G')->setWidth(40);
+        $hoja->setCellValue('H3', "Prom Ceneval");
+        $hoja->getColumnDimension('H')->setWidth(15); 
+        $hoja->setCellValue('I3', "Prom Final");
+        $hoja->getColumnDimension('I')->setWidth(15);
+        $hoja->setCellValue('J3', "Grupo");
         $hoja->getColumnDimension('J')->setWidth(15);
-        $hoja->setCellValue('K3', "Grupo");
-        $hoja->getColumnDimension('K')->setWidth(15);
         
         //Lista de alumnos rechazados
         $hoja2 = $spreadsheet->createSheet();
@@ -128,9 +123,8 @@
         $hoja2->getStyle("G3")->applyFromArray($borderArray);
         $hoja2->getStyle("H3")->applyFromArray($borderArray);
         $hoja2->getStyle("I3")->applyFromArray($borderArray);
-        $hoja2->getStyle("J3")->applyFromArray($borderArray);
-        $hoja2->getStyle("A3:J3")->getFont()->setBold(true);
-        $hoja2->getStyle("A3:J3")->getFont()->setSize(12);
+        $hoja2->getStyle("A3:H3")->getFont()->setBold(true);
+        $hoja2->getStyle("A3:H3")->getFont()->setSize(12);
 
         $hoja2->getColumnDimension('A')->setWidth(15);
         $hoja2->setCellValue('A3', "Ficha");
@@ -145,18 +139,19 @@
         $hoja2->setCellValue('F3', $nombreMat1);
         $hoja2->getColumnDimension('F')->setWidth(20);
         $hoja2->setCellValue('G3', $nombreMat2);
-        $hoja2->getColumnDimension('G')->setWidth(25);
-        $hoja2->setCellValue('H3', $nombreMat3);
-        $hoja2->getColumnDimension('H')->setWidth(30);
-        $hoja2->setCellValue('I3', "Prom Ceneval");
+        $hoja2->getColumnDimension('G')->setWidth(40);
+        $hoja2->setCellValue('H3', "Prom Ceneval");
+        $hoja2->getColumnDimension('H')->setWidth(15);
+        $hoja2->setCellValue('I3', "Prom Final");
         $hoja2->getColumnDimension('I')->setWidth(15); 
-        $hoja2->setCellValue('J3', "Prom Final");
-        $hoja2->getColumnDimension('J')->setWidth(15);
         
-        $queryAlu = "SELECT solicitud, alu_apeP, alu_apeM, alu_nombre, alu_prom, cal_ceneval from alumnos WHERE idCarrera = {$id};";
+        $queryAlu = "SELECT solicitud, alu_apeP, alu_apeM, alu_nombre, alu_prom, cal_ceneval from alumnos WHERE idCarrera = {$id} && alu_prom !=0 && cal_ceneval !=0";
         $resultadoAlu = mysqli_query($db, $queryAlu);
+        $queryAluInv = "SELECT solicitud, alu_apeP, alu_apeM, alu_nombre, alu_prom, cal_ceneval from alumnos WHERE idCarrera = {$id} && (alu_prom =0 || cal_ceneval =0)";
+        $resultadoAluInv = mysqli_query($db, $queryAluInv);
         $fila = 4;
         $array = Array();
+        $array2 = Array();
         while($alumno = mysqli_fetch_assoc($resultadoAlu)){
             $queryMatG = "SELECT idMateriaGrupo, calif FROM calificaciones WHERE solicitud = '{$alumno['solicitud']}'";
             $resultadoMatG = mysqli_query($db, $queryMatG);
@@ -175,12 +170,42 @@
                     $calMat3 =$calif;
                 }
             }
-            #$formula = "=(((E{$fila}*30%)+(F{$fila}*10%)+(G{$fila}*10%)+(H{$fila}*10%)+(((I{$fila}-700)/6)*40%))*6)+700";
-            $promFin = ((($alumno['alu_prom']*0.30)+($calMat1*0.10)+($calMat2*0.10)+($calMat3*0.10)+((($alumno['cal_ceneval']-700)/6)*0.40))*6)+700;
+            # $promFin = ((($alumno['alu_prom']*0.30)+($calMat1*0.10)+($calMat2*0.10)+($calMat3*0.10)+((($alumno['cal_ceneval']-700)/6)*0.40))*6)+700;
+           
+            $promFin = (($alumno['alu_prom']*30)+($calMat1*15)+($calMat3*15)+($alumno['cal_ceneval']*40))/10;
             //Se sacan los datos de la BDD y se genera calificacion promedio final 
             $arr =[$alumno['solicitud'], $alumno['alu_nombre'], $alumno['alu_apeP'], $alumno['alu_apeM'], $alumno['alu_prom'], $calMat1, $calMat2, $calMat3, $alumno['cal_ceneval'], $promFin];
-            array_push($array,$arr);
+            if ($calMat1 ==0 && $calMat2 ==0) {
+                array_push($array2,$arr);
+            }else
+                array_push($array,$arr);
         }
+        
+        while ($alumno = mysqli_fetch_assoc($resultadoAluInv)) {
+            $queryMatG = "SELECT idMateriaGrupo, calif FROM calificaciones WHERE solicitud = '{$alumno['solicitud']}'";
+            $resultadoMatG = mysqli_query($db, $queryMatG);
+            while ($matG=mysqli_fetch_assoc($resultadoMatG)) {
+                $queryMat = "SELECT * FROM materiagrupo WHERE idMateriaGrupo = {$matG['idMateriaGrupo']}";
+                $resulMat = mysqli_query($db, $queryMat);
+                $mateG = mysqli_fetch_assoc($resulMat);
+                $calif = $matG['calif'];
+                if ($materia1 == $mateG['idMateria']) {
+                    $calMat1 =$calif;
+                }
+                else if($materia2 == $mateG['idMateria']){
+                    $calMat2 =$calif;
+                }
+                else if($materia3 == $mateG['idMateria']){
+                    $calMat3 =$calif;
+                }
+            }
+            # $promFin = ((($alumno['alu_prom']*0.30)+($calMat1*0.10)+($calMat2*0.10)+($calMat3*0.10)+((($alumno['cal_ceneval']-700)/6)*0.40))*6)+700;
+            $promFin = (($alumno['alu_prom']*30)+($calMat1*15)+($calMat3*15)+($alumno['cal_ceneval']*40))/10;
+            //Se sacan los datos de la BDD y se genera calificacion promedio final 
+            $arr =[$alumno['solicitud'], $alumno['alu_nombre'], $alumno['alu_apeP'], $alumno['alu_apeM'], $alumno['alu_prom'], $calMat1, $calMat2, $calMat3, $alumno['cal_ceneval'], $promFin];
+            array_push($array2,$arr);
+        }
+
         // echo "<pre>";
         // var_dump($array);
         // echo "</pre>";
@@ -256,6 +281,30 @@
                 $fila++;
             }
         }   
+        
+
+        // foreach ($array as $alumnoArray) {
+        //     $prom = intval($alumnoArray[5]) + intval($alumnoArray[6])/2;
+        //     if (($alumnoArray[4] =="0" || $alumnoArray[8] =="0" || $prom ==0)) {
+        //         array_push($listaRechazados, $alumnoArray);
+        //     }
+        // }
+
+        foreach ($array2 as $alumnoArray) {
+            array_push($listaRechazados, $alumnoArray);
+        }
+        
+        // $array = array_filter($array, function ($alumnoArray) {
+
+        // return$alumnoArray[5] != '0' && $alumnoArray[6] !='0';
+        // });
+
+        //echo "<pre>";
+        //var_dump($array);
+        //echo "</pre>";
+        
+        echo count($array);
+
         $contArray = 0;
         if ($grupEsp != null) {
             $contArray = $alumCont;
@@ -289,18 +338,18 @@
                     $hoja->setCellValue('G'.$fila, $array[$i][6]);
                     $hoja->getStyle('G'.$fila)->applyFromArray($borderArray);
                     $hoja->getStyle('G'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-                    $hoja->setCellValue('H'.$fila, $array[$i][7]);
+                    // $hoja->setCellValue('H'.$fila, $array[$i][7]);
+                    // $hoja->getStyle('H'.$fila)->applyFromArray($borderArray);
+                    // $hoja->getStyle('H'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                    $hoja->setCellValue('H'.$fila, $array[$i][8]);
                     $hoja->getStyle('H'.$fila)->applyFromArray($borderArray);
                     $hoja->getStyle('H'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-                    $hoja->setCellValue('I'.$fila, $array[$i][8]);
+                    $hoja->setCellValue('I'.$fila, $array[$i][9]);
                     $hoja->getStyle('I'.$fila)->applyFromArray($borderArray);
                     $hoja->getStyle('I'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-                    $hoja->setCellValue('J'.$fila, $array[$i][9]);
+                    $hoja->setCellValue('J'.$fila, $grup);
                     $hoja->getStyle('J'.$fila)->applyFromArray($borderArray);
                     $hoja->getStyle('J'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-                    $hoja->setCellValue('K'.$fila, $grup);
-                    $hoja->getStyle('K'.$fila)->applyFromArray($borderArray);
-                    $hoja->getStyle('K'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
                     // se les asigna grupo a cada alumno para despues guardarse en un array para formatearlos 
                     $solicitud = $array[$i][0];
                     $nombre = $array[$i][1];
@@ -375,15 +424,15 @@
             $hoja2->setCellValue('G'.$fila, $listaRechazados[$i][6]);
             $hoja2->getStyle('G'.$fila)->applyFromArray($borderArray);
             $hoja2->getStyle('G'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-            $hoja2->setCellValue('H'.$fila, $listaRechazados[$i][7]);
+            // $hoja2->setCellValue('H'.$fila, $listaRechazados[$i][7]);
+            // $hoja2->getStyle('H'.$fila)->applyFromArray($borderArray);
+            // $hoja2->getStyle('H'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+            $hoja2->setCellValue('H'.$fila, $listaRechazados[$i][8]);
             $hoja2->getStyle('H'.$fila)->applyFromArray($borderArray);
             $hoja2->getStyle('H'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-            $hoja2->setCellValue('I'.$fila, $listaRechazados[$i][8]);
+            $hoja2->setCellValue('I'.$fila, $listaRechazados[$i][9]);
             $hoja2->getStyle('I'.$fila)->applyFromArray($borderArray);
-            $hoja2->getStyle('I'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-            $hoja2->setCellValue('J'.$fila, $listaRechazados[$i][9]);
-            $hoja2->getStyle('J'.$fila)->applyFromArray($borderArray);
-            $hoja2->getStyle('J'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);            
+            $hoja2->getStyle('I'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);            
             $fila++;
         }
         if ($grupEsp!=null) {
@@ -417,8 +466,9 @@
             $grupo->getStyle("B3")->applyFromArray($borderArray);
             $grupo->getStyle("C3")->applyFromArray($borderArray);
             $grupo->getStyle("D3")->applyFromArray($borderArray);
-            $grupo->getStyle("A3:D3")->getFont()->setBold(true);
-            $grupo->getStyle("A3:D3")->getFont()->setSize(12);
+            $grupo->getStyle("E3")->applyFromArray($borderArray);
+            $grupo->getStyle("A3:E3")->getFont()->setBold(true);
+            $grupo->getStyle("A3:E3")->getFont()->setSize(12);
 
             $grupo->getColumnDimension('A')->setWidth(15);
             $grupo->setCellValue('A3', "Ficha");
@@ -428,6 +478,8 @@
             $grupo->setCellValue('C3', "Apellido Paterno");
             $grupo->getColumnDimension('D')->setWidth(20);
             $grupo->setCellValue('D3', "Apellido Materno");
+            $grupo->getColumnDimension('E')->setWidth(20);
+            $grupo->setCellValue('E3', "Prom Final");
             $fila=4;
             for ($j=0; $j <count($lista); $j++) { 
                 if ($lista[$j][10] === $letraGrupo) {
@@ -443,6 +495,9 @@
                     $grupo->setCellValue('D'.$fila, $lista[$j][3]);
                     $grupo->getStyle("D".$fila)->applyFromArray($borderArray);
                     $grupo->getStyle('D'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                    $grupo->setCellValue('E'.$fila, $lista[$j][9]);
+                    $grupo->getStyle("E".$fila)->applyFromArray($borderArray);
+                    $grupo->getStyle('E'.$fila)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
                     $fila++;
                 }
             }
@@ -552,10 +607,10 @@
                     <option value="<?php echo $carrera['idCarrera']?>"><?php echo $carrera['nomCarrera']?></option>    
                 <?php endwhile;?>
             </select>
-            <div class="check">
+            <!-- <div class="check">
                 <input type="checkbox" name="lista_especial" id="lista_especial">
                 <label for="lista_especial">Primeros 40</label>
-            </div>
+            </div> -->
             <input type="submit" value="Generar Lista">
         </div>
     </form>

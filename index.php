@@ -1,5 +1,7 @@
 <?php
+
 require 'includes/config/database.php';
+
 $db = conectarDB();
 
 $errores=[];
@@ -25,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD']=== 'POST') {
             //var_dump($usuario); 
             //verificar si el password es correcto o no 
                 
-                echo $usuario['email']." ".$email . "<br> ";
+                #echo $usuario['email']." ".$email . "<br> ";
                 if ($email==$usuario['email']) {
                     # code...
                     $auth = password_verify($password, $usuario['password']);

@@ -54,4 +54,48 @@ function getNomCarrera(int $idcar){
             $nomCarr = 'MAESTRÍA EN CIENCIAS DE LA COMPUTACIÓN';
             break;
     }
+    return $nomCarr;
+}
+
+function getIdCarr(string $nomCarr){
+    $id = 0;
+    switch ($nomCarr) {
+        case 'INGENIERÍA ELECTRÓNICA':
+            $id = 4;
+            break;
+        case 'INGENIERÍA MECÁNICA':
+            $id = 5;
+            break;
+        case 'INGENIERÍA ELÉCTRICA':
+            $id = 6;
+            break;
+        case 'INGENIERÍA EN SISTEMAS COMPUTACIONALES':
+            $id = 15;
+            break;
+        case 'INGENIERÍA INDUSTRIAL':
+            $id = 16;
+            break;
+        case 'MAESTRÍA EN INGENIERÍA ELECTRÓNICA':
+            $id = 18;
+            break;
+        case'INGENIERÍA AMBIENTAL':
+            $id = 20;
+            break;
+        case 'ARQUITECTURA':
+            $id = 21;
+            break;
+        case 'CONTADOR PÚBLICO':
+            $id = 23;
+            break;
+        case 'INGENIERÍA EN GESTIÓN EMPRESARIAL':
+            $id = 23;
+            break;
+        case 'INGENIERÍA INFORMÁTICA':
+            $id = 24;
+            break;
+        case 'MAESTRÍA EN CIENCIAS DE LA COMPUTACIÓN':
+            $id = 25;
+            break;
+    }
+    return $id;
 }

@@ -1,9 +1,11 @@
 <?php //Metódo de header  
-    require "../../includes/funciones.php";  $auth = estaAutenticado();
+    require "../../includes/funciones.php";  
+	$auth = estaAutenticado();
 	require "../../vendor/autoload.php";
 	require "../../includes/config/database.php";
 	use PhpOffice\PhpSpreadsheet\{Spreadsheet, IOFactory, Style\Alignment};
 
+use function PHPSTORM_META\map;
 use function PHPSTORM_META\type;
 
     if (!$auth) {
@@ -40,9 +42,14 @@ use function PHPSTORM_META\type;
 				$valorF = $valorF->getValue()*10;
 			}
 			
-			$query ="SELECT idCarrera FROM carreras WHERE nomCarrera LIKE '$valorE';";
+
+			$query ="SELECT idCarrera FROM carreras WHERE nomCarrera = '$valorE';";
 			$resultado = mysqli_query($db, $query);
-			$valorE = mysqli_fetch_assoc($resultado)['idCarrera'];
+			$carrera = mysqli_fetch_assoc($resultado);
+			// echo "<pre>";
+			// var_dump($carrera);
+			// echo "</pre>";
+			$valorE = $carrera['idCarrera'];
 			$query ="INSERT INTO alumnos(solicitud, alu_nombre, alu_prom, alu_apeP, alu_apeM, idCarrera) VALUES ('{$valorA}','{$valorB}',{$valorF},'{$valorC}','{$valorD}',{$valorE});";
 			//echo $query . "<br>";
 			$resultado =mysqli_query($db,$query);

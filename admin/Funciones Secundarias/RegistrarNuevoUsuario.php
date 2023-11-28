@@ -41,7 +41,7 @@
                 $resultadoMaes = mysqli_query($db, $query);
             }
             $password = password_hash($password, PASSWORD_DEFAULT);
-            $query ="INSERT INTO users(`email`, `password`, `create`, `role`, 'rfc') VALUES ('{$email}','{$password}','{$fecha}','$tipoUser', '{$rfc}')";
+            $query ="INSERT INTO users(`email`, `password`, `create`, `role`,`rfc`) VALUES ('{$email}','{$password}','{$fecha}','$tipoUser', '{$rfc}')";
             $resultado = mysqli_query($db, $query);
         }else{
             $ban = false;
